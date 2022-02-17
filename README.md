@@ -1,4 +1,4 @@
-# simpletwitter
+# SimpleTwitter
 
 ## Project setup
 ```
