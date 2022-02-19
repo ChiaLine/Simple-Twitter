@@ -1,0 +1,41 @@
+/* text and cursor class setting */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+// font-family
+// 目前整個專案都是統一字型
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap');
+$body-font: "Noto Sans TC";
+
+/* 使用@each 產出font weight設定 */
+// fw-(4~9)
+$weights: (
+  1: 100,
+  3: 300,
+  4: 400,
+  5: 500,
+  7: 700,
+  9: 900
+);
+
+@each $property, $abbreviation in (font-weight: fw) {
+  @each $number, $value in $weights {
+    .#{$abbreviation}-#{$number} {
+      #{$property}: $value;
+    }
+  }
+}
+
+// 還想不到要放哪，就先放這了XD
+.cursor-pointer {
+  cursor: pointer;
+}
