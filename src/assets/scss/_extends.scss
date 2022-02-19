@@ -8,6 +8,7 @@
   font-weight: 900;
   font-size: 19px;
   line-height: 28px;
+  color: $text-primary;
 }
 
 // 推文名字文字樣式
@@ -16,6 +17,7 @@
   font-weight: bold;
   font-size: 15px;
   line-height: 22px;
+  color: $text-primary
 }
 
 // 推文內容文字樣式
@@ -24,6 +26,7 @@
   font-weight: 500;
   font-size: 15px;
   line-height: 22px;
+  color: $text-primary;
 }
 
 // tag文字樣式
@@ -32,5 +35,5 @@
   font-weight: 500;
   font-size: 15px;
   line-height: 22px;
-  color: #657786;
+  color: $text-gray;
 }
