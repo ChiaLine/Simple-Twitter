@@ -1,0 +1,159 @@
+/* basic class */
+.d-none {
+  display: none;
+}
+
+.d-inline {
+  display: inline;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.d-block {
+  display: block;
+}
+
+.d-flex {
+  display: flex;
+}
+
+/* flex class setting */
+.flex-column {
+  flex-direction: column;
+}
+
+.justify-content-start {
+  justify-content: flex-start;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-around {
+  justify-content: space-around;
+}
+
+.align-content-start {
+  align-content: flex-start;
+}
+
+.align-content-end {
+  align-content: flex-end;
+}
+
+.align-content-center {
+  align-content: center;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+
+.align-items-end {
+  align-items: flex-end;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+// flex grow, shrink
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-shrink {
+  flex-shrink: 1;
+}
+
+// grid & RWD
+// 設定較複雜，非必要可避免使用
+// 參考自：https://awdr74100.github.io/2020-06-24-scss-gridsystem-spacing/
+$gutter-width: 30px;
+$grid-sum: 12;
+$grid-breakpoints: (
+  "": false,
+  xs: 375px
+);
+
+.container {
+  // max-width: 1214px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $gutter-width / 2;
+  padding-right: $gutter-width / 2;
+}
+
+.container-fluid {
+  width: 100%;
+  // 因為 row 當中左右兩邊的負值margin，有可能會溢出，因此似乎需要padding做調整(會變成每個在container中，有grid、沒有grid的元素都能有相同的左右間距排版
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: calc($gutter-width / 2);
+  padding-right: calc($gutter-width / 2);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  // 原本是用於抵銷掉左右兩側的gap，但容易造成溢出，在此直接使用gap作為整體的15px內縮效果
+  margin-left: -calc($gutter-width / 2);
+  margin-right: -calc($gutter-width / 2);
+}
+
+%col {
+  // position: relative;
+  width: 100%;
+  // 製造 grid-gap
+  padding-left: calc($gutter-width / 2);
+  padding-right: calc($gutter-width / 2);
+}
+
+// 處理各個RWD中，每種col都共用的樣式(內容不需要用到var變數)
+@each $key, $value in $grid-breakpoints {
+  @for $var from 1 through $grid-sum {
+    @if not $value {
+      .col-#{$var} {
+        @extend %col;
+      }
+    } @else {
+      .col-#{$key}-#{$var} {
+        @extend %col;
+      }
+    }
+  }
+}
+
+// 處理各個col，占比不同的部分
+@each $key, $value in $grid-breakpoints {
+  // col-var 最小手機版，小於375px的情形
+  @if not $value {
+    @for $var from 1 to $grid-sum {
+      .col-#{$var} {
+        max-width: calc(100% * calc($var / $grid-sum));
+        flex: 0 0 calc(100% * calc($var / $grid-sum));
+      }
+    }
+    // 大於375px的版面
+  } @else {
+    @media screen and (min-width: $value) {
+      @for $var from 1 to $grid-sum {
+        .col-#{$key}-#{$var} {
+          max-width: calc(100% * calc($var / $grid-sum));
+          flex: 0 0 calc(100% * calc($var / $grid-sum));
+        }
+      }
+    }
+  }
+}

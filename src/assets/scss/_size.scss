@@ -1,0 +1,19 @@
+// w-25, w-50, w-75, w-100
+// h-25, h-50, h-75, h-100
+
+$sizes: (
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%
+);
+
+/* 使用@each 產出css size設定 */
+@each $property, $abbreviation in (width: w, height: h) {
+  /*   sizes 的結構也是(a:b, c:d...)，因此可以直接在其中找到對應的值 */
+  @each $number, $value in $sizes {
+    .#{$abbreviation}-#{$number} {
+      #{$property}: $value;
+    }
+  }
+}

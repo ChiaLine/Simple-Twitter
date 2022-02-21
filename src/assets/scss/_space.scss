@@ -1,0 +1,60 @@
+// margin, padding
+// m-(0~8), mt, mr, mb, ml, mx, my
+// p-(0~8), pt, pr, pb, pl, px, py
+
+// 設計稿上間距變化較多，目前先以常見的16px作為基礎值
+$spacer: 16px;
+$spacers: (
+  0: 0,
+  1: calc(
+    $spacer * 0.25
+  ),
+  2: calc(
+    $spacer * 0.5
+  ),
+  3: calc(
+    $spacer * 0.75
+  ),
+  4: $spacer,
+  5: calc(
+    $spacer * 1.25
+  ),
+  6: calc(
+    $spacer * 1.5
+  ),
+  7: calc(
+    $spacer * 1.75
+  ),
+  8: calc(
+    $spacer * 2
+  )
+);
+
+/* 使用@each 產出css spacer設定 */
+@each $prop, $abbrev in (margin: m, padding: p) {
+  @each $num, $val in $spacers {
+    .#{$abbrev}-#{$num} {
+      #{$prop}: $val;
+    }
+    .#{$abbrev}t-#{$num} {
+      #{$prop}-top: $val;
+    }
+    .#{$abbrev}r-#{$num} {
+      #{$prop}-right: $val;
+    }
+    .#{$abbrev}b-#{$num} {
+      #{$prop}-bottom: $val;
+    }
+    .#{$abbrev}l-#{$num} {
+      #{$prop}-left: $val;
+    }
+    .#{$abbrev}x-#{$num} {
+      #{$prop}-right: $val;
+      #{$prop}-left: $val;
+    }
+    .#{$abbrev}y-#{$num} {
+      #{$prop}-top: $val;
+      #{$prop}-bottom: $val;
+    }
+  }
+}
