@@ -1,0 +1,66 @@
+@import './color';
+
+.popular {
+  height: 756px;
+  width: 360px;
+  margin: 15px;
+  border-radius: 14px;
+  background-color: $popular-background;
+  line-height: 1;
+}
+
+.title{
+  padding: 20px 15px 5px 15px;
+}
+
+.popular-card {
+  margin: 10px;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 10px 10px 10px;
+  border-top: 1px solid $modal-outline;
+}
+
+.card-left {
+  display: flex;
+  align-items: center;
+}
+
+.card-img {
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+}
+
+img {
+  border-radius: 50%;
+}
+
+.text-bottom{
+  color: #657786;
+  // font-size: 1rem;
+}
+
+.button-is-follow {
+  height: 35px;
+  width: 90px; 
+  border-radius: 100px;
+  background-color: #FF6600;
+  padding: 10px, 15px, 10px, 15px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button-no-follow {
+  height: 35px;
+  width: 66px; 
+  border-radius: 100px;
+  border: 1px solid #FF6600;
+  padding: 10px, 15px, 10px, 15px;
+  color: #FF6600;
+  cursor: pointer;
+}
