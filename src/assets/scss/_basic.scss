@@ -2,3 +2,7 @@ body {
   font-family: $body-font;
   background-color: $background;
 }
+
+html, body, #app{
+  height: 100%;
+}
