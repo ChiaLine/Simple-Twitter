@@ -30,13 +30,9 @@ const routes = [
   {
     path: '/User',
     name: 'User',
+    redirect: '/User/Main',
     component: User,
     children: [
-      {
-        path: '/',
-        name: 'UserMain',
-        redirect: '/User/Main'
-      },
       {
         path: 'Main',
         name: 'Main',
@@ -72,13 +68,9 @@ const routes = [
   {
     path: '/Admin',
     name: 'Admin',
+    redirect: '/Admin/MainList',
     component: () => import('../views/Admin.vue'),
     children: [
-      {
-        path: '/',
-        name: 'AdminMain',
-        redirect: '/Admin/MainList'
-      },
       {
         path: 'MainList',
         name: 'MainList',
