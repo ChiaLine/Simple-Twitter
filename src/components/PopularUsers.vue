@@ -1,8 +1,13 @@
 <template>
-  <div class="popular">
-    <h6 class="title">Popular</h6>
+  <div class="popular" :class="{ active: isActive }">
+    <h6 class="popular-title">Popular</h6>
     <div class="popular-card">
-      <div class="card-body" v-for="(user, index) in users" :key="user.id">
+      <div
+        class="card-body"
+        v-for="(user) in showCardUsers"
+        :key="user.id"
+        :class="{ active: isActive }"
+      >
         <div class="card-left">
           <div class="card-img">
             <img :src="user.img" />
@@ -15,19 +20,26 @@
         <button
           class="button-is-follow"
           v-if="user.isFollow"
-          @click.stop.prevent="deleteIsFollow(index)"
+          @click.stop.prevent="deleteIsFollow(user.id)"
         >
           正在跟隨
         </button>
         <button
           class="button-no-follow"
           v-else
-          @click.stop.prevent="addIsFollow(index)"
+          @click.stop.prevent="addIsFollow(user.id)"
         >
           跟隨
         </button>
       </div>
     </div>
+    <button
+      class="card-button"
+      v-show="!isActive"
+      @click.stop.prevent="addCaers"
+    >
+      顯示更多
+    </button>
   </div>
 </template>
 
@@ -112,23 +124,60 @@ export default {
   data() {
     return {
       users: [],
+      sixUser: [],
+      showCardUsers: [],
+      isActive: false,
     };
   },
   created() {
     this.fetchUsers();
   },
+  // computed: {
+  //   showCardUsers(){
+  //     return this.isActive ? this.users : this.sixUser
+  //   }
+  // },
   methods: {
     fetchUsers() {
-      const { users } = dummyData
-      this.users = users
+      const { users } = dummyData;
+      this.users = users;
+      this.sixUser = users.slice(0, 6);
+      this.showCardUsers = this.isActive ? this.users : this.sixUser;
     },
-    addIsFollow(index) {
-      console.log("addIsFollow", index);
-      this.users[index].isFollow = true;
+    addIsFollow(userId) {
+      console.log("addIsFollow", userId);
+      this.showCardUsers = this.showCardUsers.map(user => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            isFollow: true
+          }
+        } else {
+          return {
+            ...user
+          }
+        }
+      })
     },
-    deleteIsFollow(index) {
-      console.log("deleteIsFollow", index);
-      this.users[index].isFollow = false;
+    deleteIsFollow(userId) {
+      console.log("deleteIsFollow", userId);
+      this.showCardUsers = this.showCardUsers.map(user => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            isFollow: false
+          }
+        } else {
+          return {
+            ...user
+          }
+        }
+      })
+    },
+    addCaers() {
+      console.log("addCaers");
+      this.isActive = true;
+      this.showCardUsers = this.isActive ? this.users : this.sixUser;
     },
   },
 };
