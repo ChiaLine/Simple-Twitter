@@ -1,20 +1,31 @@
 @import './color';
 
 .popular {
-  height: 756px;
   width: 360px;
+  height: 520px;
   margin: 15px;
   border-radius: 14px;
   background-color: $popular-background;
   line-height: 1;
 }
 
-.title{
+.popular.active {
+  height: 756px;
+}
+
+.popular-title{
   padding: 20px 15px 5px 15px;
 }
 
 .popular-card {
   margin: 10px;
+}
+
+.card-body:last-child {
+  border-bottom: 1px solid $modal-outline;
+}
+.card-body:last-child.active {
+  border-bottom: none;
 }
 
 .card-body {
@@ -42,16 +53,21 @@ img {
 
 .text-bottom{
   color: #657786;
-  // font-size: 1rem;
+}
+
+.card-button {
+  padding: 5px 15px 5px 15px;
+  font-weight: 300;
+  color: $button-orange;
 }
 
 .button-is-follow {
   height: 35px;
   width: 90px; 
   border-radius: 100px;
-  background-color: #FF6600;
+  background-color: $button-orange;
   padding: 10px, 15px, 10px, 15px;
-  color: #fff;
+  color: $background;
   cursor: pointer;
 }
 
@@ -59,8 +75,8 @@ img {
   height: 35px;
   width: 66px; 
   border-radius: 100px;
-  border: 1px solid #FF6600;
+  border: 1px solid $button-orange;
   padding: 10px, 15px, 10px, 15px;
-  color: #FF6600;
+  color: $button-orange;
   cursor: pointer;
 }
