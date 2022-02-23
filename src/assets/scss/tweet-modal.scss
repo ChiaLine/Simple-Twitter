@@ -49,8 +49,12 @@
       padding: 10px, 15px, 10px, 15px;
       color: $background;
     }
+
+    .warning {
+      margin: 20px;
+      color: $warning-red;
+    }
   }
 }
 
-// 可優化：
-// 行數過多時的卷軸，目前是隱藏
+// 待優化：行數過多時的卷軸，目前是隱藏
