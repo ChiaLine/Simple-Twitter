@@ -1,0 +1,10 @@
+@import './color';
+
+.navbar {
+  width: 300px;
+  padding-left: 50px;
+  margin-left: 40px;
+  background-color: $background;
+  font-weight: 700;
+  font-size: 18px;
+}
