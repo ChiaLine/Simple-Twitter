@@ -7,12 +7,15 @@
       :key="form.id"
       class="position-relative w-100 my-3 form-group"
     >
-      <label class="position-absolute label" :for="form.category">{{
-        form.label
-      }}</label>
+      <label class="position-absolute label" :for="form.category">
+        {{ form.label }}
+      </label>
       <input :id="form.category" class="w-100 input" type="text" />
     </div>
-    <button class="btn login-btn w-100">註冊</button>
+    <button v-if="isRegistered()" class="btn save-btn align-self-end mx-0">
+      儲存
+    </button>
+    <button v-else class="btn login-btn w-100">註冊</button>
   </form>
 </template>
 
@@ -48,6 +51,15 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    isRegistered() {
+      if (this.$route.name === "Regist") {
+        return false;
+      } else if (this.$route.name === "Setting") {
+        return true;
+      }
+    },
   },
 };
 </script>
