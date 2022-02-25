@@ -1,5 +1,5 @@
 <template>
-  <div class="user w-100 h-100 d-flex justify-content-center ">
+  <div class="user w-100 h-100 d-flex justify-content-center">
     <NavBar />
     <router-view />
     <PopularUsers />
@@ -21,6 +21,7 @@ export default {
 
 <style scoped>
   .user {
+    /* 確認寬度是否有滿版 */
     /* background-color: rgb(238, 236, 234); */
   }
 </style>

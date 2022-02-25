@@ -15,6 +15,7 @@
   margin-bottom: 30px;
 }
 
+// icon設定
 .nav-link {
   display: flex;
   justify-content: start;
@@ -30,12 +31,14 @@
   }
 }
 
-.sign-out-bottom {
+// icon定位
+.nav-item:last-child {
   position: absolute;
   bottom: 0;
   width: 100%;
 }
 
+// 按鈕設定
 .navbar-button {
   width: 210px;
   height: 38px;
@@ -44,4 +47,9 @@
   margin-top: 10px;
   color: $background;
   cursor: pointer;
+}
+
+// 點擊後 橘色
+.nav-link.active span{
+  color: $button-orange;
 }

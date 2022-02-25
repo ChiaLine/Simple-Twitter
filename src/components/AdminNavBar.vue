@@ -24,7 +24,6 @@
         </router-link>
       </li>
     </ul>
-    <button class="navbar-button">推文</button>
   </nav>
 </template>
 
@@ -33,33 +32,25 @@ const dummyData = {
   navItems: [
     {
       id: 1,
-      title: "首頁",
+      title: "推文清單",
       icon: 'https://i.imgur.com/fBVbYGb.png',
       iconActive: 'https://i.imgur.com/YpAk1au.png',
-      to: 'Main',
+      to: 'MainList',
       active: false,
     },
     {
       id: 2,
-      title: "個人資料",
+      title: "使用者列表",
       icon: 'https://i.imgur.com/feES0o7.png',
       iconActive: 'https://i.imgur.com/rGhaeOT.png',
-      to: 'UserSelf',
-      active: false,
-    },
-    {
-      id: 3,
-      title: "設定",
-      icon: 'https://i.imgur.com/rottgfT.png',
-      iconActive: 'https://i.imgur.com/WMyBdJ2.png',
-      to: 'Setting',
+      to: 'UserList',
       active: false,
     },
     {
       id: 4,
       title: "登出",
       icon: 'https://i.imgur.com/trtoBHw.png',
-      to: 'Login',
+      to: 'AdminLogin',
       active: false,
     },
   ],
@@ -112,5 +103,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/navbar.scss";
+@import "../assets/scss/admin-navbar.scss";
 </style>
