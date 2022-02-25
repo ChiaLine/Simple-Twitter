@@ -1,16 +1,19 @@
 <template>
   <div class="main">
     <UserCreateTweet />
+    <TweetCards />
   </div>
 </template>
 
 <script>
 import UserCreateTweet from '../components/UserCreateTweet.vue'
+import TweetCards from '../components/TweetCards.vue'
 
 export default {
   name: 'UserMain',
   components: {
     UserCreateTweet,
+    TweetCards,
   },
   data() {
     return {
