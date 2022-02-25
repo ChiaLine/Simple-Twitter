@@ -4,22 +4,45 @@
       <div class="modal-header">
         <button @click.stop.prevent="hideModal">&#215;</button>
       </div>
-      <div class="modal-body">
-        <!-- 新增被回覆留言區塊 -->
-        <div class="d-flex">
+      <div class="modal-body d-flex flex-column">
+        <!-- 被回覆留言區塊 -->
+        <div class="replied-tweet d-flex">
+          <div class="mr-3 d-flex flex-column align-items-center">
+            <img :src="tweet.tweetedUser.avatar" alt="tweetedUserAvatar" />
+            <div class="flex-grow-1 my-2 decorated-line"></div>
+          </div>
+          <div>
+            <div class="mb-1">
+              <span class="name mr-1">{{ tweet.tweetedUser.name }}</span>
+              <span class="tag-group">
+                <span>@{{ tweet.tweetedUser.name }}</span>
+                <span class="mx-1">&#8901;</span>
+                <span>{{ tweet.createdAt }}</span>
+              </span>
+            </div>
+            <p class="description">{{ tweet.description }}</p>
+            <p class="reply-target my-3">
+              回覆給<span class="orange-name ml-1"
+                >@{{ tweet.tweetedUser.name }}</span
+              >
+            </p>
+          </div>
+        </div>
+        <!-- 新增留言區塊 -->
+        <div class="writing-tweet flex-grow-1 d-flex">
           <div class="mr-3">
             <img :src="avatar" alt="user image" />
           </div>
           <div class="flex-grow-1 d-flex flex-column align-items-end">
             <textarea
               type="text"
-              class="flex-grow-1 w-100"
+              class="flex-grow-1 pt-2 w-100"
               v-model="tweetContent"
-              placeholder="有什麼新鮮事？"
+              placeholder="推你的回覆"
             ></textarea>
             <div>
               <span class="warning">{{ warningContent }}</span>
-              <button @click.stop.prevent="handleSubmit">推文</button>
+              <button @click.stop.prevent="handleSubmit">回覆</button>
             </div>
           </div>
         </div>
@@ -29,6 +52,33 @@
 </template>
 
 <script>
+// TODO: 用props傳入被回覆的tweet資料
+const dummyTweet = {
+  id: 0,
+  description:
+    "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
+  totalLikes: 0,
+  totalReplies: 0,
+  UserId: 0,
+  isLiked: true,
+  updatedAt: "3小時",
+  createdAt: "3小時",
+  tweetedUser: {
+    id: 0,
+    avatar: "https://randomuser.me/api/portraits/women/90.jpg",
+    account: "string",
+    name: "Apple",
+    email: "string",
+    cover: "string",
+    introduction: "string",
+    role: "string",
+    totalTweets: 0,
+    totalFollowings: 0,
+    totalFollowers: 0,
+    totalLiked: 0,
+  },
+};
+
 // TODO: 到Vuex拿取拿取當前使用者資料
 const dummyUser = {
   id: 0,
@@ -50,6 +100,7 @@ const dummyUser = {
 export default {
   data() {
     return {
+      tweet: dummyTweet,
       avatar: dummyUser.avatar,
       tweetContent: "",
       warningContent: "",

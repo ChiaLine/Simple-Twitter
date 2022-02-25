@@ -1,4 +1,5 @@
 @import "_color.scss";
+@import "_extends.scss";
 
 .modal-container {
   position: absolute;
@@ -16,7 +17,7 @@
   left: 50%;
   transform: translate(-50%, 0%);
   width: 600px;
-  height: 300px;
+  min-height: 450px;
   z-index: 3;
   border-radius: 14px;
   background-color: $background;
@@ -36,23 +37,66 @@
       border-radius: 50%;
     }
 
-    textarea {
-      resize: none;
-      border: none;
-    }
+    // 被回覆推文區域
+    .replied-tweet {
+      @extend %content-text;
+      font-weight: 400;
 
-    button {
-      height: 38px;
-      width: 66px; 
-      border-radius: 100px;
-      background-color: $button-orange;
-      padding: 10px, 15px, 10px, 15px;
-      color: $background;
-    }
+      .decorated-line {
+        width: 2px;
+        background-color: #CCD6DD;
+;
+      }
 
-    .warning {
-      margin: 20px;
-      color: $warning-red;
+      .name {
+        font-weight: 700;
+      }
+
+      .tag-group {
+        @extend %tag-text;
+        font-weight: 500;
+      }
+
+      .description {
+        // 內容溢出目前設定為滾動條（隱藏）
+        max-height: 70px;
+        overflow-y: scroll;
+      }
+
+      .reply-target {
+        font-size: 13px;
+        color: $text-gray;
+        .orange-name {
+          color: $text-orange;
+        }
+      }
+    }
+    
+    // 推文輸入區域
+    .writing-tweet {
+      min-height: 250px;
+      font-size: 18px;
+      font-weight: 500;
+
+      textarea {
+        resize: none;
+        border: none;
+      }
+
+      button {
+        height: 38px;
+        width: 66px; 
+        border-radius: 100px;
+        background-color: $button-orange;
+        padding: 10px, 15px, 10px, 15px;
+        color: $background;
+      }
+
+      .warning {
+        margin: 20px;
+        color: $warning-red;
+        font-size: 15px;
+      }
     }
   }
 }
