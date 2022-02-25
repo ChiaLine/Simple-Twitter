@@ -24,7 +24,7 @@
         </router-link>
       </li>
     </ul>
-    <button class="navbar-button">推文</button>
+    <button class="navbar-button" @click.stop.prevent="handleNavBarTweetButton">推文</button>
   </nav>
 </template>
 
@@ -66,6 +66,7 @@ const dummyData = {
 };
 
 export default {
+  name: 'NavBar',
   data() {
     return {
       navItems: [],
@@ -107,6 +108,10 @@ export default {
         }
       })
     },
+    handleNavBarTweetButton() {
+      console.log("NavBar show modal");
+      this.$emit("after-show-modal");
+    }
   }
 }
 </script>

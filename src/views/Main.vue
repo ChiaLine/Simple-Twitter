@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <UserCreateTweet />
+    <UserCreateTweet @after-show-modal="afterShowModal"/>
     <TweetCards />
   </div>
 </template>
@@ -17,9 +17,15 @@ export default {
   },
   data() {
     return {
-
+      showModal: false
     }
-  }
+  },
+  methods: {
+    afterShowModal() {
+      console.log("afterShowModal----main");
+      this.$emit("after-show-modal");
+    },
+  },
 }
 </script>
 
