@@ -1,7 +1,10 @@
 // src/components/LoginForm.vue
 // 給Login.vue、AdminLogin.vue使用
 <template>
-  <form class="d-flex flex-column align-items-center w-100">
+  <form
+    @submit.prevent="submit"
+    class="d-flex flex-column align-items-center w-100"
+  >
     <div
       v-for="form in forms"
       :key="form.id"
@@ -10,7 +13,13 @@
       <label class="position-absolute label" :for="form.category">{{
         form.label
       }}</label>
-      <input :id="form.category" class="w-100 input" type="text" />
+      <input
+        v-model="form.data"
+        :id="form.category"
+        class="w-100 input"
+        type="text"
+        required
+      />
     </div>
     <button class="btn login-btn w-100">登入</button>
   </form>
@@ -24,15 +33,24 @@ export default {
         {
           label: "帳號",
           category: "account",
+          data: "",
           id: 1,
         },
         {
           label: "密碼",
           category: "password",
+          data: "",
           id: 2,
         },
       ],
     };
+  },
+  methods: {
+    submit() {
+      const account = this.forms[0].data;
+      const password = this.forms[1].data;
+      this.$emit("handleSubmit", account, password);
+    },
   },
 };
 </script>
