@@ -20,6 +20,8 @@
   z-index: 3;
   border-radius: 14px;
   background-color: $background;
+  font-size: 18px;
+  font-weight: 500;
 
   .modal-header {
     button {
@@ -53,6 +55,7 @@
     .warning {
       margin: 20px;
       color: $warning-red;
+      font-size: 15px;
     }
   }
 }
