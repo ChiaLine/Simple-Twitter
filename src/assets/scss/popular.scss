@@ -1,0 +1,82 @@
+@import './color';
+
+.popular {
+  width: 360px;
+  height: 520px;
+  margin: 15px;
+  border-radius: 14px;
+  background-color: $popular-background;
+  line-height: 1;
+}
+
+.popular.active {
+  height: 756px;
+}
+
+.popular-title{
+  padding: 20px 15px 5px 15px;
+}
+
+.popular-card {
+  margin: 10px;
+}
+
+.card-body:last-child {
+  border-bottom: 1px solid $modal-outline;
+}
+.card-body:last-child.active {
+  border-bottom: none;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 10px 10px 10px;
+  border-top: 1px solid $modal-outline;
+}
+
+.card-left {
+  display: flex;
+  align-items: center;
+}
+
+.card-img {
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+}
+
+img {
+  border-radius: 50%;
+}
+
+.text-bottom{
+  color: #657786;
+}
+
+.card-button {
+  padding: 5px 15px 5px 15px;
+  font-weight: 300;
+  color: $button-orange;
+}
+
+.button-is-follow {
+  height: 35px;
+  width: 90px; 
+  border-radius: 100px;
+  background-color: $button-orange;
+  padding: 10px, 15px, 10px, 15px;
+  color: $background;
+  cursor: pointer;
+}
+
+.button-no-follow {
+  height: 35px;
+  width: 66px; 
+  border-radius: 100px;
+  border: 1px solid $button-orange;
+  padding: 10px, 15px, 10px, 15px;
+  color: $button-orange;
+  cursor: pointer;
+}

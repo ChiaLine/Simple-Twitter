@@ -1,0 +1,55 @@
+@import './color';
+
+.navbar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
+  background-color: $background;
+}
+
+.navbar-logo {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 30px;
+}
+
+// icon設定
+.nav-link {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 10px;
+  .navbar-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  }
+  span {
+    color: $title-black;
+  }
+}
+
+// icon定位
+.nav-item:last-child {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+// 按鈕設定
+.navbar-button {
+  width: 210px;
+  height: 38px;
+  border-radius: 50px;
+  background-color: $button-orange;
+  margin-top: 10px;
+  color: $background;
+  cursor: pointer;
+}
+
+// 點擊後 橘色
+.nav-link.active span{
+  color: $button-orange;
+}

@@ -1,0 +1,68 @@
+@import "_color.scss";
+@import "_extends.scss";
+
+// 給view使用的樣式: 商標、標題、對外連結
+// 會使用到此文件的view: Login.vue、AdminLogin.vue、Regist.vue
+
+.container {
+  max-width: 540px;
+  margin-top: 4rem;
+}
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1.25rem;
+}
+.title {
+  margin-bottom: 1.5rem;
+  font-family: Noto Sans TC;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 33px;
+  color: $text-primary;
+}
+.link {
+  margin: 0 5px;
+  font-family: Noto Sans TC;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  color: $link-blue;
+  text-decoration-line: underline;
+}
+
+// 給component使用的樣式: form、label、input、button
+// 會使用到此文件的component: LoginForm.vue、SetProfile.vue
+.form-group {
+  margin: 1rem;
+}
+.label {
+  top: 5px;
+  left: 10px;
+  @extend %tag-text;
+  line-height: 15px;
+}
+.input {
+  width: 540px;
+  height: 52px;
+  padding: 1rem 0 0.25rem 0.625rem;
+
+  border-width: 0 0 3px 0;
+  border-color: $input-gray;
+  border-radius: 0px 0px 4px 4px;
+  background-color: $input-background;
+  font-size: 19px;
+  font-weight: 500;
+}
+.btn {
+  height: 46px;
+  margin: 1.25rem;
+  background-color: $button-orange;
+  color: $text-white;
+  border-radius: 50px;
+}
+.save-btn {
+  width: 116px;
+}
