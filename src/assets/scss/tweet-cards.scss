@@ -1,0 +1,59 @@
+@import './color';
+.tweet-cards {
+  width: 600px;
+}
+
+.tweet-card {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10px 0;
+  // height: 145px;
+  border-bottom: 1px solid $modal-outline;
+}
+
+.tweet-card-avatar {
+  width: 60px;
+  height: 50px;
+  margin-left: 15px;
+}
+
+.tweet-card-img {
+  border-radius: 50%;
+}
+
+.tweet-card-content {
+  width: 100%;
+  margin-left: 10px;
+}
+
+.tweet-card-name {
+  font-weight: 700;
+}
+
+.tweet-card-account {
+  margin-left: 5px;
+  color: $text-gray;
+}
+
+.tweet-card-description {
+  margin: 5px 0;
+}
+
+.tweet-card-icons {
+  display: flex;
+  align-items: center;
+}
+
+.tweet-card-icon {
+  width: 100px;
+}
+
+.icon-reply, .icon-like {
+  display: inline;
+  border-radius: 0;
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+}
