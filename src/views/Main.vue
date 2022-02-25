@@ -1,15 +1,28 @@
 <template>
   <div class="main">
-    <h1>Main</h1>
+    <UserCreateTweet />
   </div>
 </template>
 
+<script>
+import UserCreateTweet from '../components/UserCreateTweet.vue'
+
+export default {
+  name: 'UserMain',
+  components: {
+    UserCreateTweet,
+  },
+  data() {
+    return {
+
+    }
+  }
+}
+</script>
+
 <style scoped>
   .main {
-    height: 1202px;
-    width: 600px;
-    border-radius: 5px;
-    border: 1px solid #E6ECF0;
-    /* background-color: rgb(238, 236, 234); */
+    border-left: 1px solid #E6ECF0;
+    border-right: 1px solid #E6ECF0;
   }
 </style>

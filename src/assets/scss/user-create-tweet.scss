@@ -1,0 +1,52 @@
+@import "./color";
+
+.tweet-title {
+  height: 50px;
+  line-height: 50px;
+  margin-left: 15px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.create-tweet-card {
+  position: relative;
+  width: 600px;
+  height: 120px;
+  border-top: 1px solid $modal-outline;
+  border-bottom: 10px solid $modal-outline;
+  cursor: text;
+}
+
+.tweet-card-title {
+  position: absolute;
+  top: 20px;
+  left: 75px;
+  color: $modal-title; 
+  font-size: 18px;
+}
+
+.tweet-card-img-container {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 50px;
+  height: 50px;
+}
+
+.tweet-card-img {
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+// 按鈕設定
+.tweet-card-button {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  width: 66px;
+  height: 38px;
+  border-radius: 50px;
+  background-color: $button-orange;
+  font-size: 18px;
+  color: $background;
+}
