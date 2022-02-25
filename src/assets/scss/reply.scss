@@ -1,0 +1,62 @@
+// 給component使用的樣式
+// 會使用到此文件的component: ReplyListCards.vue、ReplyListTweet.vue
+@import "_color.scss";
+@import "_extends.scss";
+
+$border-style: 1px solid #e6ecf0;
+
+.wrapper {
+  border-bottom: $border-style;
+}
+.arrow {
+  width: 17px;
+  height: 14px;
+  margin: 1.25rem;
+}
+.returnTweet {
+  margin: 1rem;
+  @extend %second-title-text;
+  font-size: 18px;
+  line-height: 26px;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  margin: 0.94rem 0.63rem 0.94rem 0.94rem;
+}
+.account {
+  @extend %second-title-text;
+}
+.grey-font {
+  @extend %tag-text;
+}
+.orange-font {
+  @extend %tag-text;
+  color: $text-orange;
+}
+.tweetContent {
+  margin: 0 5rem 0.94rem 0.94rem;
+  @extend %content-text;
+  font-size: 23px;
+  line-height: 34px;
+}
+.replyContent {
+  @extend %content-text;
+}
+.record {
+  margin: 1.25rem 0 1.25rem 1.25rem;
+  @extend %title-text;
+  .number {
+    font-weight: 700;
+  }
+  .text {
+    font-weight: 400;
+    margin-left: 0.2rem;
+    color: $text-gray;
+  }
+}
+.icon {
+  width: 25px;
+  height: 25px;
+  border-radius: 0%;
+}
