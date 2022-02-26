@@ -9,6 +9,7 @@
         </div>
         <div class="modal-body flex-grow-1 d-flex flex-column">
           <div class="photo-area">
+            <!-- cover 區塊 -->
             <div class="cover-form-group">
               <label for="cover" class="d-none"></label>
               <img :src="currentUser.cover" class="cover" alt="user cover" />
@@ -21,6 +22,7 @@
                 @change="handleCoverFileChange"
               />
             </div>
+            <!-- avatar 區塊 -->
             <div class="avatar-form-group">
               <label for="avatar" class="d-none"></label>
               <img :src="currentUser.avatar" class="avatar" alt="user avatar" />
@@ -35,19 +37,47 @@
             </div>
           </div>
           <div class="text-area flex-grow-1 d-flex flex-column">
+            <!-- 名稱區塊 -->
             <div class="mb-4 d-flex flex-column">
-              <div class="input-container d-flex flex-column">
+              <div
+                class="input-container d-flex flex-column"
+                :class="{ 'warning-border': nameWarningOn }"
+              >
                 <label for="name">名稱</label>
-                <textarea name="name" id="name" rows="1"></textarea>
+                <textarea
+                  v-model="currentUser.name"
+                  name="name"
+                  id="name"
+                  rows="1"
+                ></textarea>
               </div>
-              <p class="word-limit">/50</p>
+              <div class="d-flex justify-content-between">
+                <p class="warning-text">{{ getNameWarning }}</p>
+                <p class="word-limit">
+                  {{ getNameLength }}/ {{ nameLengthLimit }}
+                </p>
+              </div>
             </div>
+            <!-- 自我介紹區塊 -->
             <div class="flex-grow-1 d-flex flex-column">
-              <div class="input-container flex-grow-1 d-flex flex-column">
+              <div
+                class="input-container flex-grow-1 d-flex flex-column"
+                :class="{ 'warning-border': introWarningOn }"
+              >
                 <label for="introduction">自我介紹</label>
-                <textarea name="introduction" id="introduction" cols="30" class="flex-grow-1" ></textarea>
+                <textarea
+                  v-model="currentUser.introduction"
+                  name="introduction"
+                  id="introduction"
+                  class="flex-grow-1"
+                ></textarea>
               </div>
-              <p class="word-limit">/160</p>
+              <div class="d-flex justify-content-between">
+                <p class="warning-text">{{ getIntroWarning }}</p>
+                <p class="word-limit">
+                  {{ getIntroLength }}/{{ introLengthLimit }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -65,7 +95,7 @@ const dummyUser = {
   createdAt: "2022-02-24T09:22:31.000Z",
   email: "root@example.com",
   id: 4,
-  introduction: null,
+  introduction: "Hello! I am Root. Nice to meet you!",
   name: "root",
   role: "admin",
   totalFollowers: 0,
@@ -79,6 +109,8 @@ export default {
   data() {
     return {
       currentUser: dummyUser,
+      nameLengthLimit: 50,
+      introLengthLimit: 160,
     };
   },
   methods: {
@@ -90,12 +122,61 @@ export default {
       // 字數驗證
       this.hideModal();
     },
+    handleCoverFileChange() {
+      console.log("cover change");
+    },
+    handleAvatarFileChange() {
+      console.log("avatar change");
+    },
+    createWarningText(inputLength, limit) {
+      if (inputLength <= 0) {
+        return "內容不可空白！";
+      } else if (inputLength > limit) {
+        return "字數超出上限！";
+      } else {
+        return "";
+      }
+    },
   },
-  // 待優化: 即時回饋使用者名字是否超過50字，自介超過160字
+  // 待優化: 字數計算會加入換行符號，因此換行後有誤差
+  computed: {
+    // 取得即時字數
+    getNameLength() {
+      return this.currentUser.name.length;
+    },
+    getIntroLength() {
+      return this.currentUser.introduction.length;
+    },
+    // 取得即時警告狀態
+    nameWarningOn() {
+      const length = this.currentUser.name.length;
+      return length <= 0 || length > this.nameLengthLimit;
+    },
+    introWarningOn() {
+      const length = this.currentUser.introduction.length;
+      return length <= 0 || length > this.introLengthLimit;
+    },
+    // 取得即時警告內容
+    getNameWarning() {
+      return this.createWarningText(
+        this.currentUser.name.length,
+        this.nameLengthLimit
+      );
+    },
+    getIntroWarning() {
+      return this.createWarningText(
+        this.currentUser.introduction.length,
+        this.introLengthLimit
+      );
+    },
+  },
 };
+
+// 待優化：關閉modal再打開，是否要回到未修改的使用者資料內容？（重新拉資料）
 </script>
 
 <style lang="scss" scoped>
 @import "../assets/scss/user-edit-modal.scss";
 </style>
+
 

@@ -120,6 +120,20 @@
         @extend %tag-text;
         text-align: right;
       }
+
+      // warning style
+      .warning-text {
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 15px;
+        color: $warning-red;
+      }
+
+      .warning-border {
+        border-bottom: 2px solid $warning-red;
+      }
     }
   }
 }
+
+// 待優化：行數過多時的卷軸，目前是隱藏
