@@ -47,6 +47,8 @@
   width: 100%;
   height: 100%;
   background-color: hsla(0, 0%, 60%, 0.6);
+  // modal高超過瀏覽器的調整
+  overflow-y: scroll;
 }
 
 // modal共用樣式
