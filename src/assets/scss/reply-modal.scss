@@ -2,31 +2,17 @@
 @import "_extends.scss";
 
 .modal-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  background-color: hsla(0, 0%, 60%, 0.6);
+  @extend %modal-container;
 }
 
 .reply-modal {
-  position: absolute;
-  top: 54px;
-  left: 50%;
-  transform: translate(-50%, 0%);
+  @extend %modal;
   width: 600px;
   min-height: 450px;
-  z-index: 3;
-  border-radius: 14px;
-  background-color: $background;
 
   .modal-header {
     button {
-      font-size: 20px;
-      font-weight: 700;
-      color: $button-orange;
+      @extend %modal-header-button;
     }
   }
 
