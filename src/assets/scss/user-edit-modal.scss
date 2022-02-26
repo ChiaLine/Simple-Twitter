@@ -36,6 +36,7 @@
   .modal-body {
     padding: 0px;
 
+    // 上半部cover和avatar區塊
     .photo-area {
       height: 260px;
       position: relative;
@@ -88,6 +89,36 @@
           height: 100%;
           object-fit: cover;
         }
+      }
+    }
+
+    // 下半部名稱和自我介紹區塊
+    .text-area {
+      padding: 20px 15px 60px 15px;
+
+      .input-container {
+        padding: 5px 15px; 
+        background-color: $input-background;
+        border-bottom: 2px solid $input-gray;
+        border-radius: 4px;
+        @extend %tag-text;
+
+        label {
+          margin: 0px;
+        }
+
+        textarea {
+          resize: none;
+          border: none;
+          background-color: transparent;
+          font-weight: 500;
+          font-size: 19px;
+        }
+      }
+
+      .word-limit {
+        @extend %tag-text;
+        text-align: right;
       }
     }
   }

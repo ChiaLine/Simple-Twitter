@@ -1,13 +1,13 @@
 <template>
   <div class="modal-container">
-    <div class="user-edit-modal d-flex flex-column">
-      <form>
+    <div class="user-edit-modal">
+      <form class="h-100 d-flex flex-column">
         <div class="modal-header align-items-center">
           <button @click.stop.prevent="hideModal">&#215;</button>
           <p class="flex-grow-1">編輯個人資料</p>
           <button class="save-button">儲存</button>
         </div>
-        <div class="modal-body d-flex">
+        <div class="modal-body flex-grow-1 d-flex flex-column">
           <div class="photo-area">
             <div class="cover-form-group">
               <label for="cover" class="d-none"></label>
@@ -34,7 +34,22 @@
               />
             </div>
           </div>
-          <div class="text-area"></div>
+          <div class="text-area flex-grow-1 d-flex flex-column">
+            <div class="mb-4 d-flex flex-column">
+              <div class="input-container d-flex flex-column">
+                <label for="name">名稱</label>
+                <textarea name="name" id="name" rows="1"></textarea>
+              </div>
+              <p class="word-limit">/50</p>
+            </div>
+            <div class="flex-grow-1 d-flex flex-column">
+              <div class="input-container flex-grow-1 d-flex flex-column">
+                <label for="introduction">自我介紹</label>
+                <textarea name="introduction" id="introduction" cols="30" class="flex-grow-1" ></textarea>
+              </div>
+              <p class="word-limit">/160</p>
+            </div>
+          </div>
         </div>
       </form>
     </div>
