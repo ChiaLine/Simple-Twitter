@@ -19,7 +19,7 @@
                 name="cover"
                 accept="image/*"
                 class="input-image"
-                @change="handleCoverFileChange"
+                @change="changeCover"
               />
             </div>
             <!-- avatar 區塊 -->
@@ -32,7 +32,7 @@
                 name="avatar"
                 accept="image/*"
                 class="input-image"
-                @change="handleAvatarFileChange"
+                @change="changeAvatar"
               />
             </div>
           </div>
@@ -122,12 +122,28 @@ export default {
       // 字數驗證
       this.hideModal();
     },
-    handleCoverFileChange() {
-      console.log("cover change");
+    // 圖片上傳相關功能
+    changeCover(e) {
+      const { files } = e.target;
+      if (files.length === 0) {
+        // 使用者沒有選擇上傳的檔案
+        return;
+      } else {
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.currentUser.cover = imageURL;
+      }
     },
-    handleAvatarFileChange() {
-      console.log("avatar change");
+    changeAvatar(e) {
+      const { files } = e.target;
+      if (files.length === 0) {
+        // 使用者沒有選擇上傳的檔案
+        return;
+      } else {
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.currentUser.avatar = imageURL;
+      }
     },
+    // input warning 判別功能
     createWarningText(inputLength, limit) {
       if (inputLength <= 0) {
         return "內容不可空白！";
