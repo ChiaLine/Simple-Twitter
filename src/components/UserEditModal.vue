@@ -1,11 +1,14 @@
 <template>
   <div class="modal-container">
     <div class="user-edit-modal">
-      <form class="h-100 d-flex flex-column">
+      <form
+        @submit.stop.prevent="handleSubmit"
+        class="h-100 d-flex flex-column"
+      >
         <div class="modal-header align-items-center">
           <button @click.stop.prevent="hideModal">&#215;</button>
           <p class="flex-grow-1">編輯個人資料</p>
-          <button class="save-button">儲存</button>
+          <button type="submit" class="save-button">儲存</button>
         </div>
         <div class="modal-body flex-grow-1 d-flex flex-column">
           <div class="photo-area">
@@ -87,7 +90,9 @@
 </template>
 
 <script>
-// TODO: 到Vuex拿取拿取當前使用者資料
+import { Toast } from "./../utils/helpers";
+
+// TODO: 從Vuex或props(userSelf頁面)拿取當前使用者資料
 const dummyUser = {
   account: "root",
   avatar: "https://randomuser.me/api/portraits/men/51.jpg",
@@ -118,9 +123,29 @@ export default {
       // 待優化: 可在關掉時，警告使用者未儲存修改會消失
       this.$emit("after-hide-user-edit-modal");
     },
-    handleSubmit() {
+    handleSubmit(e) {
       // 字數驗證
+      if (this.nameWarningOn || this.introWarningOn) {
+        Toast.fire({
+          icon: "warning",
+          title: "字數不符合規定",
+        });
+        return;
+      }
+      // 拿取表單資料
+      const form = e.target;
+      const formData = new FormData(form);
+      for (let [name, value] of formData.entries()) {
+        console.log(name + ": " + value);
+      }
+      // TODO: 串接API送出表單資料
+
+      // 關閉modal並發送成功通知
       this.hideModal();
+      Toast.fire({
+        icon: "success",
+        title: "成功修改個人資料！",
+      });
     },
     // 圖片上傳相關功能
     changeCover(e) {
@@ -158,30 +183,30 @@ export default {
   computed: {
     // 取得即時字數
     getNameLength() {
-      return this.currentUser.name.length;
+      return this.currentUser.name.trim().length;
     },
     getIntroLength() {
-      return this.currentUser.introduction.length;
+      return this.currentUser.introduction.trim().length;
     },
     // 取得即時警告狀態
     nameWarningOn() {
-      const length = this.currentUser.name.length;
+      const length = this.currentUser.name.trim().length;
       return length <= 0 || length > this.nameLengthLimit;
     },
     introWarningOn() {
-      const length = this.currentUser.introduction.length;
+      const length = this.currentUser.introduction.trim().length;
       return length <= 0 || length > this.introLengthLimit;
     },
     // 取得即時警告內容
     getNameWarning() {
       return this.createWarningText(
-        this.currentUser.name.length,
+        this.currentUser.name.trim().length,
         this.nameLengthLimit
       );
     },
     getIntroWarning() {
       return this.createWarningText(
-        this.currentUser.introduction.length,
+        this.currentUser.introduction.trim().length,
         this.introLengthLimit
       );
     },
