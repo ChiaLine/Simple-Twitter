@@ -1,8 +1,10 @@
 <template>
   <div class="modal-container">
     <div class="user-edit-modal d-flex flex-column">
-      <div class="modal-header">
+      <div class="modal-header align-items-center">
         <button @click.stop.prevent="hideModal">&#215;</button>
+        <p class="flex-grow-1">編輯個人資料</p>
+        <button class="save-button">儲存</button>
       </div>
       <div class="modal-body d-flex"></div>
     </div>

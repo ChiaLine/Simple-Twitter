@@ -16,6 +16,22 @@
     button {
       @extend %modal-header-button;
     }
+
+    p {
+      margin-left: 45px;
+      font-weight: 700;
+      font-size: 19px;
+    }
+
+    .save-button {
+      height: 28px;
+      width: 66px; 
+      border-radius: 100px;
+      background-color: $button-orange;
+      color: $background;
+      font-weight: 500;
+      font-size: 18px;
+    }
   }
 
   .modal-body {
