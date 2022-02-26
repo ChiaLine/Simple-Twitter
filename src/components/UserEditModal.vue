@@ -6,7 +6,13 @@
         <p class="flex-grow-1">編輯個人資料</p>
         <button class="save-button">儲存</button>
       </div>
-      <div class="modal-body d-flex"></div>
+      <div class="modal-body d-flex">
+        <div class="photo-area">
+          <button><img :src="currentUser.cover" class="cover" alt="user cover" /></button>
+          <button><img :src="currentUser.avatar" class="avatar" alt="user avatar" /></button>
+        </div>
+        <div class="text-area"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -14,20 +20,20 @@
 <script>
 // TODO: 到Vuex拿取拿取當前使用者資料
 const dummyUser = {
-  id: 0,
+  account: "root",
   avatar: "https://randomuser.me/api/portraits/men/51.jpg",
-  account: "string",
-  name: "string",
-  email: "string",
-  cover: "string",
-  introduction: "string",
-  role: "string",
-  totalTweets: 0,
-  totalFollowings: 0,
+  cover: "https://i.imgur.com/QR8rP9R.jpg",
+  createdAt: "2022-02-24T09:22:31.000Z",
+  email: "root@example.com",
+  id: 4,
+  introduction: null,
+  name: "root",
+  role: "admin",
   totalFollowers: 0,
+  totalFollowings: 0,
   totalLiked: 0,
-  updatedAt: "string",
-  createdAt: "string",
+  totalTweets: 0,
+  updatedAt: "2022-02-24T09:22:31.000Z",
 };
 
 export default {
