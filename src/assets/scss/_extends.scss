@@ -68,3 +68,10 @@
   font-weight: 700;
   color: $button-orange;
 }
+
+// modal橘色按鈕共用樣式
+%modal-orange-button {
+  border-radius: 100px;
+  background-color: $button-orange;
+  color: $background;
+}

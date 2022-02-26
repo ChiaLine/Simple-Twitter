@@ -31,12 +31,10 @@
     }
 
     button {
+      @extend %modal-orange-button;
       height: 38px;
       width: 66px; 
-      border-radius: 100px;
-      background-color: $button-orange;
       padding: 10px, 15px, 10px, 15px;
-      color: $background;
     }
 
     .warning {

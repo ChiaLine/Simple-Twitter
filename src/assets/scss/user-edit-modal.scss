@@ -24,11 +24,9 @@
     }
 
     .save-button {
+      @extend %modal-orange-button;
       height: 28px;
       width: 66px; 
-      border-radius: 100px;
-      background-color: $button-orange;
-      color: $background;
       font-weight: 500;
       font-size: 18px;
     }
