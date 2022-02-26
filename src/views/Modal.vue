@@ -5,21 +5,26 @@
     <TweetModal v-show="showModal" @after-hide-modal="modalOff" />
     <button @click.stop.prevent="replyModalOn">ReplyModal</button>
     <ReplyModal v-show="showReplyModal" @after-hide-reply-modal="replyModalOff" />
+    <button @click.stop.prevent="userEditModalOn">UserEditModal</button>
+    <UserEditModal v-show="showUserEditModal" @after-hide-user-edit-modal="userEditModalOff" />
   </div>
 </template>
 
 <script>
 import TweetModal from "../components/TweetModal.vue";
-import ReplyModal from "../components/ReplyModal.vue"
+import ReplyModal from "../components/ReplyModal.vue";
+import UserEditModal from "../components/UserEditModal.vue";
 export default {
   components: {
     TweetModal,
-    ReplyModal
+    ReplyModal,
+    UserEditModal
   },
   data() {
     return {
       showModal: false,
       showReplyModal: false,
+      showUserEditModal: false,
     };
   },
   methods: {
@@ -37,7 +42,14 @@ export default {
     replyModalOff() {
       this.showReplyModal = false;
     },
-  },
+    // UserEditModal
+    userEditModalOn() {
+      this.showUserEditModal = true;
+    },
+    userEditModalOff() {
+      this.showUserEditModal = false;
+    }
+  }, 
 };
 </script>
 
