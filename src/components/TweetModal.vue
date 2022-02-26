@@ -11,7 +11,7 @@
         <div class="flex-grow-1 d-flex flex-column align-items-end">
           <textarea
             type="text"
-            class="flex-grow-1 w-100"
+            class="flex-grow-1 w-100 py-2"
             v-model="tweetContent"
             placeholder="有什麼新鮮事？"
           ></textarea>
