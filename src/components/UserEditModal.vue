@@ -1,18 +1,42 @@
 <template>
   <div class="modal-container">
     <div class="user-edit-modal d-flex flex-column">
-      <div class="modal-header align-items-center">
-        <button @click.stop.prevent="hideModal">&#215;</button>
-        <p class="flex-grow-1">編輯個人資料</p>
-        <button class="save-button">儲存</button>
-      </div>
-      <div class="modal-body d-flex">
-        <div class="photo-area">
-          <button><img :src="currentUser.cover" class="cover" alt="user cover" /></button>
-          <button><img :src="currentUser.avatar" class="avatar" alt="user avatar" /></button>
+      <form>
+        <div class="modal-header align-items-center">
+          <button @click.stop.prevent="hideModal">&#215;</button>
+          <p class="flex-grow-1">編輯個人資料</p>
+          <button class="save-button">儲存</button>
         </div>
-        <div class="text-area"></div>
-      </div>
+        <div class="modal-body d-flex">
+          <div class="photo-area">
+            <div class="cover-form-group">
+              <label for="cover" class="d-none"></label>
+              <img :src="currentUser.cover" class="cover" alt="user cover" />
+              <input
+                id="cover"
+                type="file"
+                name="cover"
+                accept="image/*"
+                class="input-image"
+                @change="handleCoverFileChange"
+              />
+            </div>
+            <div class="avatar-form-group">
+              <label for="avatar" class="d-none"></label>
+              <img :src="currentUser.avatar" class="avatar" alt="user avatar" />
+              <input
+                id="avatar"
+                type="file"
+                name="avatar"
+                accept="image/*"
+                class="input-image"
+                @change="handleAvatarFileChange"
+              />
+            </div>
+          </div>
+          <div class="text-area"></div>
+        </div>
+      </form>
     </div>
   </div>
 </template>

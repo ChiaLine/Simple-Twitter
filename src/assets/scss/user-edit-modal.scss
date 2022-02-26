@@ -39,28 +39,55 @@
     .photo-area {
       height: 260px;
       position: relative;
-      
-      button {
-        padding: 0;
+
+      // 兩種image區域的共用樣式
+      .input-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
       }
       
-      .cover {
+      // cover上傳區域樣式
+      .cover-form-group {
+        margin: 0;
         width: 600px;
         height: 200px;
-        object-fit: cover;
-        border-radius: 0px;
+        position: relative;
         &:hover {
           opacity: 0.6;
         }
+        
+        .cover {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 0px;
+        }
       }
 
-      .avatar {
+      // avatar上傳區域樣式
+      .avatar-form-group {
         width: 120px;
         height: 120px;
         position: absolute;
         left: 15px;
         bottom: 0px;
         border: 4px solid $background;
+        border-radius: 50%;
+
+        &:hover {
+          @extend %standard-boxshadow;
+        }
+        
+        .avatar {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }
