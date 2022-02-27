@@ -72,6 +72,8 @@ export default {
 <style scoped>
 .AdminUserList {
   width: 65%;
+  height: 100%;
+  overflow-y: scroll;
   border-left: 1px solid #e6ecf0;
   border-right: 1px solid #e6ecf0;
   margin-right: 10px;
@@ -79,6 +81,7 @@ export default {
 }
 h6 {
   font-weight: 700;
+  font-size: 18px;
 }
 .cards {
   position: relative;
