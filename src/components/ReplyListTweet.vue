@@ -2,35 +2,34 @@
 // ReplyList.vue使用
 <template>
   <div class="w-100">
-    <div class="wrapper d-flex">
+    <router-link to="/User" class="wrapper d-flex">
       <img class="arrow" src="https://i.imgur.com/3y7W3fG.png" alt="" />
       <h5 class="returnTweet">推文</h5>
-    </div>
+    </router-link>
     <div class="wrapper">
       <div class="user d-flex">
-        <img class="avatar" src="https://i.imgur.com/suYPL6j.png" alt="" />
+        <img class="avatar" :src="tweet.tweetedUser.avatar" alt="" />
         <div class="info py-3">
-          <h5 class="account">Apple</h5>
-          <h5 class="grey-font">@apple</h5>
+          <h5 class="account">{{ tweet.tweetedUser.name }}</h5>
+          <h5 class="grey-font">@{{ tweet.tweetedUser.account }}</h5>
         </div>
       </div>
       <p class="tweetContent">
-        Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
-        cillum dolor. Voluptate exercitation incididunt aliquip deserunt
-        reprehenderit elit laborum.
+        {{ tweet.description }}
       </p>
       <div class="datetime d-flex">
-        <p class="grey-font mb-3 ml-3">上午04:00</p>
-        <p class="grey-font mb-3 ml-3">2015年3月16日</p>
+        <p class="grey-font mb-3 ml-3">
+          {{ tweet.updatedAt | formatDate }}
+        </p>
       </div>
     </div>
     <div class="wrapper d-flex">
       <span class="record d-flex">
-        <p class="number">34</p>
+        <p class="number">{{ tweet.totalReplies }}</p>
         <p class="text">回覆</p>
       </span>
       <span class="record d-flex">
-        <p class="number">218</p>
+        <p class="number">{{ tweet.totalLikes }}</p>
         <p class="text">喜歡次數</p>
       </span>
     </div>
@@ -42,6 +41,36 @@
     </div>
   </div>
 </template>
+
+<script>
+import { formatDateFilter } from "./../utils/mixins";
+import replyListAPI from "./../apis/replyList";
+import { Toast } from "./../utils/helpers";
+
+export default {
+  mixins: [formatDateFilter],
+  props: {
+    tweet: {
+      type: Object,
+      require: true,
+    },
+  },
+  methods: {
+    async addLike(tweetId) {
+      try {
+        let { data } = await replyListAPI.addLike(tweetId);
+        console.log(data);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      }
+    },
+  },
+};
+</script>
+
 
 <style scoped lang="scss">
 @import "../assets/scss/reply.scss";

@@ -1,6 +1,6 @@
 <template>
   <div class="self">
-    <h1>UserSelf.vue 放卡片區</h1>
+    <UserProfileCard />
     <div class="self-buttons">
       <a href="" class="self-button">
         <span>推文</span>
@@ -18,11 +18,13 @@
 
 <script>
 import TweetCards from '../components/TweetCards.vue'
+import UserProfileCard from '../components/UserProfileCard.vue'
 
 export default {
   name: 'UserSelf',
   components: {
     TweetCards,
+    UserProfileCard,
   }
 }
 </script>
