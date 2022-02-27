@@ -8,7 +8,10 @@
         </div>
         <div class="card-content">
           <p>
-            {{card.tweetedUser.name}} <a href=""><span>@{{card.tweetedUser.account}}・{{card.tweetedUser.createdAt}}</span></a>
+            {{card.tweetedUser.name}} 
+            <a class="card-account" href="">
+              <span>@{{card.tweetedUser.account}}・{{card.tweetedUser.createdAt | formatDate}}</span>
+            </a>
           </p>
           <p>{{card.description}}</p>
         </div>
@@ -24,10 +27,11 @@
 import adminAPI from "../apis/admin";
 import { Toast } from "../utils/helpers";
 import { emptyImageFilter } from '../utils/mixins'
+import { formatDateFilter } from "./../utils/mixins";
 
 export default {
   name: 'AdminMainList',
-  mixins: [ emptyImageFilter ],
+  mixins: [ emptyImageFilter, formatDateFilter ],
   data() {
     return {
       adminMainList: [],
@@ -66,9 +70,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import '../assets/scss/_color.scss';
   .AdminMainList {
     width: 65%;
+    height: 100%;
+    overflow-y: scroll;
     border-left: 1px solid #E6ECF0;
     border-right: 1px solid #E6ECF0;
     margin-right: 10px;
@@ -76,6 +83,7 @@ export default {
   }
   h6 {
     font-weight: 700;
+    font-size: 18px;
   }
   .cards {
     position: relative;
@@ -83,7 +91,6 @@ export default {
     justify-content: start;
     align-items: center;
     width: 100%;
-    /* height: 80px; */
     border-top: 1px solid #E6ECF0;
   }
   .avatar {
@@ -96,6 +103,9 @@ export default {
     width: 90%;
     margin-left: 10px;
     padding: 10px;
+  }
+  .card-account{
+    color: $text-gray;
   }
   .card-button {
     position: absolute;

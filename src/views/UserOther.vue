@@ -1,6 +1,6 @@
 <template>
   <div class="other"> 
-    <h1>UserOther.vue 放卡片區</h1>
+    <UserProfileCard />
     <div class="other-buttons">
       <a href="" class="other-button">
         <span>推文</span>
@@ -18,24 +18,22 @@
 
 <script>
 import TweetCards from '../components/TweetCards.vue'
+import UserProfileCard from '../components/UserProfileCard.vue'
 
 export default {
   name: 'UserOther',
   components: {
     TweetCards,
+    UserProfileCard,
   }
 }
 </script>
 
 <style scoped>
-  .other {
+  .other-buttons {
+    padding-bottom: 10px;
     border-left: 1px solid #E6ECF0;
     border-right: 1px solid #E6ECF0;
-  }
-
-  .other-buttons {
-    margin: 50px 0 10px 0;
-    padding-bottom: 10px;
     border-bottom: 1px solid #E6ECF0;
     
   }

@@ -1,6 +1,8 @@
 @import './color';
 .tweet-cards {
   width: 600px;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .tweet-card {
@@ -9,8 +11,9 @@
   align-items: flex-start;
   width: 100%;
   padding: 10px 0;
-  // height: 145px;
   border-bottom: 1px solid $modal-outline;
+  border-left: 1px solid $modal-outline;
+  border-right: 1px solid $modal-outline; 
 }
 
 .tweet-card-avatar {

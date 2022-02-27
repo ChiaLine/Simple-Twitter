@@ -1,11 +1,14 @@
 @import "./color";
 
 .tweet-title {
+  width: 600px;
   height: 50px;
   line-height: 50px;
-  margin-left: 15px;
+  padding-left: 15px;
   font-size: 18px;
   font-weight: 700;
+  border-left: 1px solid $modal-outline;
+  border-right: 1px solid $modal-outline; 
 }
 
 .create-tweet-card {
@@ -13,6 +16,8 @@
   width: 600px;
   height: 120px;
   border-top: 1px solid $modal-outline;
+  border-left: 1px solid $modal-outline;
+  border-right: 1px solid $modal-outline; 
   border-bottom: 10px solid $modal-outline;
   cursor: text;
 }
