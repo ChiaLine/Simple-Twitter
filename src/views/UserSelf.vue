@@ -31,15 +31,15 @@ export default {
 
 <style scoped>
   .self {
-    border-left: 1px solid #E6ECF0;
-    border-right: 1px solid #E6ECF0;
+    /* height: 100%; */
+    /* overflow-y: scroll; */
   }
 
   .self-buttons {
-    margin: 50px 0 10px 0;
     padding-bottom: 10px;
+    border-right: 1px solid #E6ECF0;
+    border-left: 1px solid #E6ECF0;
     border-bottom: 1px solid #E6ECF0;
-    
   }
 
   .self-button {
