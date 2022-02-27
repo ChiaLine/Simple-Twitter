@@ -28,12 +28,19 @@
 // 卡片切換導覽列設定
 .card-buttons {
   margin-top: 10px;
-  padding-bottom: 10px;
   border-bottom: 1px solid $modal-outline;
 }
 
 .card-button {
-  margin-left: 55px;
+  width: 130px;
   font-weight: 500;
+}
+
+.normal {
   color: $text-gray;
+}
+
+.chosen {
+  color: $text-orange;
+  border-bottom: 2px solid $text-orange;
 }

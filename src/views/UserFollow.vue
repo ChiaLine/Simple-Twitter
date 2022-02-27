@@ -11,26 +11,49 @@
         </div>
       </router-link>
       <!-- 卡片切換導覽列 -->
-      <div class="card-buttons">
-        <button class="card-button">
-          <span>跟隨者</span>
-        </button>
-        <button class="card-button">
-          <span>正在跟隨</span>
-        </button>
+      <div class="card-buttons d-flex">
+        <div v-for="type in dataType" :key="type.id">
+          <button v-if="type.id === dataId" @click.stop.prevent="setDataId(type.id)" class="card-button chosen">
+            {{ type.buttonName }}
+          </button>
+          <button v-else @click.stop.prevent="setDataId(type.id)" class="card-button normal">
+            {{ type.buttonName }}
+          </button>
+        </div>
       </div>
     </nav>
     <!-- FollowCards 列表 -->
-    <FollowCards />
+    <FollowCards :data-id="dataId" />
   </div>
 </template>
 
 <script>
 import FollowCards from "../components/FollowCards.vue";
+
 export default {
   name: "UserFollow",
   components: {
     FollowCards,
+  },
+  data() {
+    return {
+      dataId: 1,
+      dataType: [
+        {
+          id: 1,
+          buttonName: "跟隨者",
+        },
+        {
+          id: 2,
+          buttonName: "正在跟隨",
+        },
+      ],
+    };
+  },
+  methods: {
+    setDataId(id) {
+      this.dataId = id;
+    },
   },
 };
 </script>
