@@ -20,8 +20,20 @@
         </button>
       </div>
     </nav>
+    <!-- FollowCards 列表 -->
+    <FollowCards />
   </div>
 </template>
+
+<script>
+import FollowCards from "../components/FollowCards.vue"
+export default {
+  name: "UserFollow",
+  components: {
+    FollowCards,
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @import "../assets/scss/user-follow.scss";
