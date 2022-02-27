@@ -21,7 +21,7 @@
         required
       />
     </div>
-    <button class="btn login-btn w-100">登入</button>
+    <button class="btn login-btn w-100" @click="adminsSubmit">登入</button>
   </form>
 </template>
 
@@ -50,6 +50,11 @@ export default {
       const account = this.forms[0].data;
       const password = this.forms[1].data;
       this.$emit("handleSubmit", account, password);
+    },
+    adminsSubmit() {
+      const account = this.forms[0].data;
+      const password = this.forms[1].data;
+      this.$emit("handle-admin-submit", account, password);
     },
   },
 };
