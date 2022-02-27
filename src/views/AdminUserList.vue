@@ -5,10 +5,10 @@
       <div class="cards">
         <div class="card" v-for="user in users" :key="user.id">
           <div class="card-img-top">
-            <img class="background-img" :src="user.cover" alt="">
+            <img class="background-img" :src="user.cover | emptyImage" alt="">
           </div>
           <div class="user-img-container">
-            <img class="user-img" :src="user.avatar" alt="">
+            <img class="user-img" :src="user.avatar | emptyImage" alt="">
           </div>
           <div class="card-body">
             <h5>{{ user.name }}</h5>
@@ -28,97 +28,50 @@
 </template>
 
 <script>
+import adminAPI from "../apis/admin";
+import { Toast } from "../utils/helpers";
+import { emptyImageFilter } from '../utils/mixins'
+
+
 export default {
   name: 'AdminUserList',
+  mixins: [ emptyImageFilter ],
   data() {
     return {
-      users: [
-        {
-          id: 1,
-          avatar: "https://i.imgur.com/Lp0dzmV.png",
-          account: "string",
-          name: "string",
-          // email: "string",
-          cover: "https://fakeimg.pl/300/",
-          // introduction: "string",
-          role: "string",
-          totalTweets: 1.5,
-          totalFollowings: 34,
-          totalFollowers: 59,
-          totalLiked: 20,
-          // updatedAt: "string",
-          // createdAt: "string"
-        },
-        {
-          id: 2,
-          avatar: "https://i.imgur.com/Lp0dzmV.png",
-          account: "string",
-          name: "string",
-          cover: "https://fakeimg.pl/300/",
-          role: "string",
-          totalTweets: 1.5,
-          totalFollowings: 34,
-          totalFollowers: 59,
-          totalLiked: 20,
-        },
-        {
-          id: 3,
-          avatar: "https://i.imgur.com/Lp0dzmV.png",
-          account: "string",
-          name: "string",
-          cover: "https://fakeimg.pl/300/",
-          role: "string",
-          totalTweets: 1.5,
-          totalFollowings: 34,
-          totalFollowers: 59,
-          totalLiked: 20,
-        },
-        {
-          id: 4,
-          avatar: "https://i.imgur.com/Lp0dzmV.png",
-          account: "string",
-          name: "string",
-          cover: "https://fakeimg.pl/300/",
-          role: "string",
-          totalTweets: 1.5,
-          totalFollowings: 34,
-          totalFollowers: 59,
-          totalLiked: 20,
-        },
-        {
-          id: 5,
-          avatar: "https://i.imgur.com/Lp0dzmV.png",
-          account: "string",
-          name: "string",
-          cover: "https://fakeimg.pl/300/",
-          role: "string",
-          totalTweets: 1.5,
-          totalFollowings: 34,
-          totalFollowers: 59,
-          totalLiked: 20,
-        },
-        {
-          id: 6,
-          avatar: "https://i.imgur.com/Lp0dzmV.png",
-          account: "string",
-          name: "string",
-          cover: "https://fakeimg.pl/300/",
-          role: "string",
-          totalTweets: 1.5,
-          totalFollowings: 34,
-          totalFollowers: 59,
-          totalLiked: 20,
-        },
-      ]
+      users: [],
     }
-  }
+  },
+  created() {
+    this.fetchUsers()
+  },
+  methods: {
+    async fetchUsers() {
+       try {
+        const response = await adminAPI.getUsersList()
+        const { data } = response
+        console.log(data)
+
+        // 若請求過程有錯，則進到錯誤處理
+        // if (response.status !== 200) {
+        //   throw new Error(data.methods)
+        // }
+
+        this.users = data
+      } catch (error) {
+        // console.error(error.response)
+        Toast.fire({
+          icon: 'error',
+          title: error.response.data.message
+        })
+      }
+    },
+  },
 }
 </script>
 
 <style scoped>
 .AdminUserList {
   width: 65%;
-  /* width: 1062px; */
   border-left: 1px solid #e6ecf0;
   border-right: 1px solid #e6ecf0;
   margin-right: 10px;
@@ -136,13 +89,11 @@ h6 {
 .card {
   margin: 15px 0 0 15px;
   width: 250px;
-  /* height: 300px; */
   border-radius: 10px;
 }
 .card-img-top {
   width: 250px;
   height: 140px;
-  /* background-color: rgb(136, 136, 136); */
 }
 .background-img {
   border-radius: 0;

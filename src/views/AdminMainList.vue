@@ -4,11 +4,11 @@
       <h6 class="m-3">推文清單</h6>
       <div class="cards" v-for="card in adminMainList" :key="card.id">
         <div class="avatar">
-          <img :src="card.avatar" alt="">
+          <img :src="card.tweetedUser.avatar | emptyImage" alt="">
         </div>
         <div class="card-content">
           <p>
-            {{card.name}} <a href=""><span>@{{card.account}}・{{card.createdAt}}</span></a>
+            {{card.tweetedUser.name}} <a href=""><span>@{{card.tweetedUser.account}}・{{card.tweetedUser.createdAt}}</span></a>
           </p>
           <p>{{card.description}}</p>
         </div>
@@ -21,45 +21,48 @@
 </template>
 
 <script>
+import adminAPI from "../apis/admin";
+import { Toast } from "../utils/helpers";
+import { emptyImageFilter } from '../utils/mixins'
+
 export default {
   name: 'AdminMainList',
+  mixins: [ emptyImageFilter ],
   data() {
     return {
-      adminMainList: [
-        {
-          id: 1,
-          avatar: 'https://fakeimg.pl/300/',
-          account: 'apple',
-          name: 'Apple',
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing ...",
-          UserId: 1,
-          updatedAt: "3小時",
-          createdAt: "3小時"
-        },
-        {
-          id: 2,
-          avatar: 'https://fakeimg.pl/300/',
-          account: 'apple',
-          name: 'Apple',
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing ...",
-          UserId: 2,
-          updatedAt: "3小時",
-          createdAt: "3小時"
-        },
-        {
-          id: 3,
-          avatar: 'https://fakeimg.pl/300/',
-          account: 'apple',
-          name: 'Apple',
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing ...",
-          UserId: 3,
-          updatedAt: "3小時",
-          createdAt: "3小時"
-        }
-      ],
-      icom: 'https://i.imgur.com/WilghMR.png'
+      adminMainList: [],
+      icom: 'https://i.imgur.com/WilghMR.png',
+      admin: {
+        account: 'root',
+        password: '12345678'
+      }
     }
-  }
+  },
+  created() {
+    this.fetchTweets()
+  },
+  methods: {
+    async fetchTweets() {
+       try {
+        const response = await adminAPI.getTweetsList()
+        const { data } = response
+        // console.log(data)
+
+        // 若請求過程有錯，則進到錯誤處理
+        // if (response.status !== 200) {
+        //   throw new Error(data.methods)
+        // }
+
+        this.adminMainList = data
+      } catch (error) {
+        // console.error(error.response)
+        Toast.fire({
+          icon: 'error',
+          title: error.response.data.message
+        })
+      }
+    },
+  },
 }
 </script>
 
@@ -69,7 +72,6 @@ export default {
     border-left: 1px solid #E6ECF0;
     border-right: 1px solid #E6ECF0;
     margin-right: 10px;
-    /* background-color: rgb(238, 236, 234); */
     flex-grow: 1;
   }
   h6 {
@@ -81,17 +83,19 @@ export default {
     justify-content: start;
     align-items: center;
     width: 100%;
-    height: 80px;
+    /* height: 80px; */
     border-top: 1px solid #E6ECF0;
   }
   .avatar {
     width: 50px;
     height: 50px;
-    margin: 10px;
+    margin-left: 10px;
     border-radius: 50%;
   }
   .card-content {
+    width: 90%;
     margin-left: 10px;
+    padding: 10px;
   }
   .card-button {
     position: absolute;
