@@ -1,5 +1,5 @@
 <template>
-  <div class="admin w-100 h-100 d-flex justify-content-center">
+  <div class="admin w-100 d-flex justify-content-center">
     <AdminNavBar />
     <router-view />
   </div>
