@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import FollowCards from "../components/FollowCards.vue"
+import FollowCards from "../components/FollowCards.vue";
 export default {
   name: "UserFollow",
   components: {
     FollowCards,
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
