@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
   .admin {
-    /* width: 40%; */
+    height: 100%;
     border-radius: 5px;
     border: 1px solid #E6ECF0;
     /* background-color: rgb(238, 236, 234); */
