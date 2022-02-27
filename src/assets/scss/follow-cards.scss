@@ -1,6 +1,11 @@
 @import "_color.scss";
 @import "_extends.scss";
 
+.follow-cards {
+  height: 100%;
+  overflow-y: scroll;
+}
+
 .follow-card {
   width: 100%;
   height: 104px;

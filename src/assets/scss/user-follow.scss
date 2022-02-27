@@ -3,9 +3,7 @@
 
 // 整體user-follow區塊設定
 .user-follow {
-  width: 600px;
-  height: 100%;
-  overflow-y: scroll;
+  min-width: 600px;
   border-left: 1px solid #E6ECF0;
   border-right: 1px solid #E6ECF0;
 }
