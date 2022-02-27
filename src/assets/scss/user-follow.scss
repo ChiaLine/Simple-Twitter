@@ -1,0 +1,39 @@
+@import "_color.scss";
+@import "_extends.scss";
+
+// 整體user-follow區塊設定
+.user-follow {
+  width: 600px;
+  border-left: 1px solid #E6ECF0;
+  border-right: 1px solid #E6ECF0;
+}
+
+// 最上方箭頭區塊設定
+.arrow {
+  width: 17px;
+  height: 14px;
+  margin: 1.25rem;
+}
+
+.userName {
+  @extend %title-text;
+}
+
+.tweetNumber {
+  @extend %tag-text;
+  font-size: 13px;
+  line-height: 19px;
+}
+
+// 卡片切換導覽列設定
+.card-buttons {
+  margin: 10px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $modal-outline;
+}
+
+.card-button {
+  margin-left: 55px;
+  font-weight: 500;
+  color: $text-gray;
+}
