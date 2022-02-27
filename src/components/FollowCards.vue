@@ -1,19 +1,33 @@
 <template>
   <div class="follow-cards">
-    <div v-for="card in currentCards" :key="card.id" class="follow-card d-flex">
-      <img :src="card.avatar" alt="avatar" />
+    <div
+      v-for="user in currentCardUsers"
+      :key="user.id"
+      class="follow-card d-flex"
+    >
+      <img :src="user.avatar" alt="avatar" />
       <div class="text-area flex-grow-1 d-flex flex-column">
         <div class="d-flex justify-content-between">
           <div class="d-flex flex-column">
-            <p class="name">{{ card.name }}</p>
-            <p class="account">@{{ card.account }}</p>
+            <p class="name">{{ user.name }}</p>
+            <p class="account">@{{ user.account }}</p>
           </div>
-          <button v-if="card.isFollowed" class="btn following-btn">
+          <button
+            v-if="user.isFollowed"
+            @click.stop.prevent="deleteIsFollow(user.id)"
+            class="btn following-btn"
+          >
             正在跟隨
           </button>
-          <button v-else class="btn follow-btn">跟隨</button>
+          <button
+            v-else
+            @click.stop.prevent="addIsFollow(user.id)"
+            class="btn follow-btn"
+          >
+            跟隨
+          </button>
         </div>
-        <p class="introduction">{{ card.introduction }}</p>
+        <p class="introduction">{{ user.introduction }}</p>
       </div>
     </div>
   </div>
@@ -162,23 +176,57 @@ export default {
   props: {
     dataId: {
       type: Number,
-      required: true,
+      default: 1,
     },
   },
   data() {
     return {
-      currentCards: dummyFollowers,
+      currentCardUsers: dummyFollowers,
     };
+  },
+  created() {
+    this.fetchCardsData();
   },
   methods: {
     fetchCardsData() {
       if (this.dataId === 1) {
         // TODO: 串接跟隨者
-        this.currentCards = dummyFollowers;
+        this.currentCardUsers = dummyFollowers;
       } else {
         // TODO: 串接正在跟隨的使用者
-        this.currentCards = dummyFollowings;
+        this.currentCardUsers = dummyFollowings;
       }
+      console.log("fetch");
+    },
+    addIsFollow(userId) {
+      console.log("addIsFollow", userId);
+      this.currentCardUsers = this.currentCardUsers.map((user) => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            isFollowed: true,
+          };
+        } else {
+          return {
+            ...user,
+          };
+        }
+      });
+    },
+    deleteIsFollow(userId) {
+      console.log("deleteIsFollow", userId);
+      this.currentCardUsers = this.currentCardUsers.map((user) => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            isFollowed: false,
+          };
+        } else {
+          return {
+            ...user,
+          };
+        }
+      });
     },
   },
   watch: {
