@@ -77,8 +77,8 @@ export default {
 <style scoped>
 .replyList {
   width: 600px;
-  border-radius: 5px;
-  border: 1px solid #e6ecf0;
+  /* border-radius: 5px; */
+  /* border: 1px solid #e6ecf0; */
   /* background-color: rgb(238, 236, 234); */
 }
 </style>
