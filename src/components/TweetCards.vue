@@ -2,22 +2,22 @@
   <div class="tweet-cards">
     <div class="tweet-card" v-for="card in tweetCards" :key="card.id">
       <div class="tweet-card-avatar">
-        <img class="tweet-card-img" :src="card.avatar | emptyImage"/>
+        <img class="tweet-card-img" :src="card.tweetedUser.avatar | emptyImage"/>
       </div>
       <div class="tweet-card-content">
-        <span class="tweet-card-name">{{ card.name }}</span>
+        <span class="tweet-card-name">{{ card.tweetedUser.name }}</span>
         <a href="" class="tweet-card-account">
-          <span>@{{ card.account }}・{{ card.createdAt }}</span>
+          <span>@{{ card.tweetedUser.account }}・{{ card.tweetedUser.createdAt | formatDate }}</span>
         </a>
         <p class="tweet-card-description">{{ card.description }}</p>
         <div class="tweet-card-icons">
           <div class="tweet-card-icon">
-            <img class="icon-reply" :src="icomReply" alt="">
-            <span>30</span>
+            <img class="icon-reply" :src="iconReply" alt="">
+            <span>{{card.tweetedUser.totalTweets}}</span>
           </div>
           <div class="tweet-card-icon">
-            <img class="icon-like" :src="icomLike" alt="">
-            <span>45</span>
+            <img class="icon-like" :src="iconLike" alt="">
+            <span>{{card.tweetedUser.totalLiked}}</span>
           </div>
         </div>
       </div>
@@ -27,58 +27,43 @@
 
 <script>
 import { emptyImageFilter } from '../utils/mixins'
-
-const dummyData = {
-  tweetCards: [
-        {
-          id: 1,
-          avatar: null,
-          account: "apple",
-          name: "Apple",
-          description: "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum. ",
-          UserId: 1,
-          updatedAt: "3小時",
-          createdAt: "3小時",
-        },
-        {
-          id: 2,
-          avatar: null,
-          account: "apple",
-          name: "Apple",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing ...",
-          UserId: 2,
-          updatedAt: "3小時",
-          createdAt: "3小時",
-        },
-        {
-          id: 3,
-          avatar: null,
-          account: "apple",
-          name: "Apple",
-          description: "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum. ",
-          UserId: 3,
-          updatedAt: "3小時",
-          createdAt: "3小時",
-        },
-  ],
-}
+import { formatDateFilter } from "./../utils/mixins";
+import tweetAPI from "../apis/tweetCards";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "TweetCards",
   data() {
     return {
       tweetCards: [],
-      icomLike: "https://i.imgur.com/wp77Lzc.png",
-      icomReply: "https://i.imgur.com/GW72xOA.png",
+      iconLike: "https://i.imgur.com/wp77Lzc.png",
+      iconReply: "https://i.imgur.com/GW72xOA.png",
     };
   },
-  mixins: [ emptyImageFilter ],
+  mixins: [ emptyImageFilter, formatDateFilter ],
   created() {
     this.fetchTweetCards()
   },
   methods: {
-    fetchTweetCards() {
-      this.tweetCards = dummyData.tweetCards
+    async fetchTweetCards() {
+      try {
+        const response = await tweetAPI.getTweetCards()
+        const { data } = response
+        // console.log(data)
+
+        // 若請求過程有錯，則進到錯誤處理
+        // if (response.status !== 200) {
+        //   throw new Error(data.methods)
+        // }
+        
+        this.tweetCards = data
+      } catch (error) {
+        console.error(error)
+        Toast.fire({
+          icon: 'error',
+          title: error.response.data.message
+        })
+      }
     }
   }
 };
