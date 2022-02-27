@@ -1,19 +1,20 @@
 <template>
   <div class="follow-cards">
-    <div class="follow-card d-flex">
+    <div v-for="card in currentCards" :key="card.id" class="follow-card d-flex">
       <img
-        src="https://randomuser.me/api/portraits/women/90.jpg"
+        :src="card.avatar"
         alt="avatar"
       />
       <div class="text-area flex-grow-1 d-flex flex-column">
         <div class="d-flex justify-content-between">
           <div class="d-flex flex-column">
-            <p class="name">Name</p>
-            <p class="account">@account</p>
+            <p class="name">{{card.name}}</p>
+            <p class="account">@{{card.account}}</p>
           </div>
-          <button class="btn follow-btn">正在跟隨</button>
+          <button v-if="card.isFollowed" class="btn following-btn">正在跟隨</button>
+          <button v-else class="btn follow-btn">跟隨</button>
         </div>
-        <p class="introduction">introduction introduction introduction introduction introduction introduction introduction introduction</p>
+        <p class="introduction">{{card.introduction}}</p>
       </div>
     </div>
   </div>
@@ -32,6 +33,7 @@ const dummyFollowers = [
     followingId: 0,
     updatedAt: "2022-02-27T12:44:39.000Z",
     createdAt: "2022-02-27T12:44:39.000Z",
+    isFollowed: true,
   },
   {
     id: 1,
@@ -43,6 +45,79 @@ const dummyFollowers = [
     followingId: 0,
     updatedAt: "2022-02-27T10:44:39.000Z",
     createdAt: "2022-02-27T10:44:39.000Z",
+    isFollowed: false,
+  },
+  {
+    id: 0,
+    avatar: "https://randomuser.me/api/portraits/women/90.jpg",
+    account: "string",
+    name: "followers",
+    introduction: "I am a follower 1. introduction introduction introduction introduction introduction introduction introduction introduction",
+    followerId: 0,
+    followingId: 0,
+    updatedAt: "2022-02-27T12:44:39.000Z",
+    createdAt: "2022-02-27T12:44:39.000Z",
+    isFollowed: true,
+  },
+  {
+    id: 0,
+    avatar: "https://randomuser.me/api/portraits/women/90.jpg",
+    account: "string",
+    name: "followers",
+    introduction: "I am a follower 1. introduction introduction introduction introduction introduction introduction introduction introduction",
+    followerId: 0,
+    followingId: 0,
+    updatedAt: "2022-02-27T12:44:39.000Z",
+    createdAt: "2022-02-27T12:44:39.000Z",
+    isFollowed: true,
+  },
+  {
+    id: 0,
+    avatar: "https://randomuser.me/api/portraits/women/90.jpg",
+    account: "string",
+    name: "followers",
+    introduction: "I am a follower 1. introduction introduction introduction introduction introduction introduction introduction introduction",
+    followerId: 0,
+    followingId: 0,
+    updatedAt: "2022-02-27T12:44:39.000Z",
+    createdAt: "2022-02-27T12:44:39.000Z",
+    isFollowed: true,
+  },
+  {
+    id: 0,
+    avatar: "https://randomuser.me/api/portraits/women/90.jpg",
+    account: "string",
+    name: "followers",
+    introduction: "I am a follower 1. introduction introduction introduction introduction introduction introduction introduction introduction",
+    followerId: 0,
+    followingId: 0,
+    updatedAt: "2022-02-27T12:44:39.000Z",
+    createdAt: "2022-02-27T12:44:39.000Z",
+    isFollowed: true,
+  },
+  {
+    id: 0,
+    avatar: "https://randomuser.me/api/portraits/women/90.jpg",
+    account: "string",
+    name: "followers",
+    introduction: "I am a follower 1. introduction introduction introduction introduction introduction introduction introduction introduction",
+    followerId: 0,
+    followingId: 0,
+    updatedAt: "2022-02-27T12:44:39.000Z",
+    createdAt: "2022-02-27T12:44:39.000Z",
+    isFollowed: true,
+  },
+  {
+    id: 0,
+    avatar: "https://randomuser.me/api/portraits/women/90.jpg",
+    account: "string",
+    name: "followers",
+    introduction: "I am a follower 1. introduction introduction introduction introduction introduction introduction introduction introduction",
+    followerId: 0,
+    followingId: 0,
+    updatedAt: "2022-02-27T12:44:39.000Z",
+    createdAt: "2022-02-27T12:44:39.000Z",
+    isFollowed: true,
   },
 ];
 
@@ -57,6 +132,7 @@ const dummyFollowings = [
     followingId: 0,
     updatedAt: "2022-02-27T12:44:39.000Z",
     createdAt: "2022-02-27T12:44:39.000Z",
+    isFollowed: true,
   },
   {
     id: 1,
@@ -68,6 +144,7 @@ const dummyFollowings = [
     followingId: 0,
     updatedAt: "2022-02-27T10:44:39.000Z",
     createdAt: "2022-02-27T10:44:39.000Z",
+    isFollowed: true,
   },
 ];
 
@@ -75,7 +152,7 @@ export default {
   name: "FollowCards",
   data() {
     return {
-      currentData: dummyFollowers,
+      currentCards: dummyFollowers,
     };
   },
 };
