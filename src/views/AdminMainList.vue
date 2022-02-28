@@ -9,15 +9,16 @@
         <div class="card-content">
           <p>
             {{card.tweetedUser.name}} 
-            <a class="card-account" href="">
-              <span>@{{card.tweetedUser.account}}・{{card.tweetedUser.createdAt | formatDate}}</span>
-            </a>
+            <span class="card-account">
+              @{{card.tweetedUser.account}}・{{card.tweetedUser.createdAt | formatDate}}
+            </span>
           </p>
-          <p>{{card.description}}</p>
+          <p class="card-description">{{card.description | descriptionText}}</p>
         </div>
-        <button class="card-button">
-          <img :src="icom">
-        </button>
+        <button class="card-button" 
+        @click.stop.prevent="deleteTweetButton(card.id)"
+        :disabled="isProcessing"
+        >&#215;</button>
       </div>
     </div>
   </div>
@@ -35,34 +36,44 @@ export default {
   data() {
     return {
       adminMainList: [],
-      icom: 'https://i.imgur.com/WilghMR.png',
-      admin: {
-        account: 'root',
-        password: '12345678'
-      }
+      isProcessing: false
     }
   },
   created() {
     this.fetchTweets()
   },
+  filters: {
+    descriptionText(description) {
+      if (description.length > 50) {
+        return description.substr(0, 50) + '...'
+      } else {
+        return description
+      }    
+    }
+  },
   methods: {
     async fetchTweets() {
        try {
-        const response = await adminAPI.getTweetsList()
-        const { data } = response
-        // console.log(data)
-
-        // 若請求過程有錯，則進到錯誤處理
-        // if (response.status !== 200) {
-        //   throw new Error(data.methods)
-        // }
-
+        const { data } = await adminAPI.getTweetsList()
         this.adminMainList = data
       } catch (error) {
-        // console.error(error.response)
         Toast.fire({
           icon: 'error',
-          title: error.response.data.message
+          title: '無法取得推文資料，請稍後再試..'
+        })
+      }
+    },
+    async deleteTweetButton(tweetId) {
+      try {
+        this.isProcessing = true
+        await adminAPI.deleteTweet(tweetId)
+        await this.fetchTweets()
+        this.isProcessing = false
+      } catch (error) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: '無法刪除推文資料，請稍後再試..'
         })
       }
     },
@@ -76,9 +87,7 @@ export default {
     width: 65%;
     height: 100%;
     overflow-y: scroll;
-    border-left: 1px solid #E6ECF0;
-    border-right: 1px solid #E6ECF0;
-    margin-right: 10px;
+    border-left: 1px solid $modal-outline;
     flex-grow: 1;
   }
   h6 {
@@ -91,7 +100,7 @@ export default {
     justify-content: start;
     align-items: center;
     width: 100%;
-    border-top: 1px solid #E6ECF0;
+    border-top: 1px solid $modal-outline;
   }
   .avatar {
     width: 50px;
@@ -107,10 +116,19 @@ export default {
   .card-account{
     color: $text-gray;
   }
+  .card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
   .card-button {
     position: absolute;
-    top: 10px;
-    right: 5px;
+    top: 0;
+    right: 0;
     width: 50px;
+    font-weight: 700;
+    font-size: 18px;
+    color: $text-gray;
   }
 </style>
