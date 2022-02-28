@@ -64,11 +64,10 @@ export default {
       }
     },
     async deleteTweetButton(tweetId) {
-      console.log('222',tweetId)
-       try {
+      try {
         this.isProcessing = true
         await adminAPI.deleteTweet(tweetId)
-        this.fetchTweets()
+        await this.fetchTweets()
         this.isProcessing = false
       } catch (error) {
         this.isProcessing = false
@@ -89,8 +88,6 @@ export default {
     height: 100%;
     overflow-y: scroll;
     border-left: 1px solid $modal-outline;
-    border-right: 1px solid $modal-outline;
-    margin-right: 10px;
     flex-grow: 1;
   }
   h6 {
