@@ -19,15 +19,15 @@
         </div>
         <button
           class="button-is-follow"
-          v-if="user.isFollow"
-          @click.stop.prevent="deleteIsFollow(user.id)"
+          v-if="user.isFollowed"
+          @click.stop.prevent="deleteIsFollowed(user.id)"
         >
           正在跟隨
         </button>
         <button
           class="button-no-follow"
           v-else
-          @click.stop.prevent="addIsFollow(user.id)"
+          @click.stop.prevent="addIsFollowed(user.id)"
         >
           跟隨
         </button>
@@ -62,66 +62,69 @@ export default {
   created() {
     this.fetchUsers();
   },
-  // computed: {
-  //   showCardUsers(){
-  //     return this.isActive ? this.users : this.sixUser
-  //   }
-  // },
   methods: {
     async fetchUsers() {
-
       try {
-        const response = await popularListAPI.getPopularList()
-        const { data } = response
-        console.log(response)
-        console.log(data)
-        // 若請求過程有錯，則進到錯誤處理
-        // if (response.status !== 200) {
-        //   throw new Error(data.methods)
-        // }
-
+        const { data } = await popularListAPI.getPopularList()
+        console.log('fetchUsers')
         this.users = data;
         this.sixUser = data.slice(0, 6);
         this.showCardUsers = this.isActive ? this.users : this.sixUser;
-
       } catch (error) {
         console.error(error.response)
         Toast.fire({
           icon: 'error',
           title: '無法取得熱門用戶資料，請稍後再試..'
-          // title: error.response.data.message
         })
       }
     },
-    addIsFollow(userId) {
-      console.log("addIsFollow", userId);
-      this.showCardUsers = this.showCardUsers.map(user => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollow: true
+    async addIsFollowed(userId) {
+      try {
+        console.log("addIsFollow", userId);
+        await popularListAPI.addFollowed({id: userId})
+        this.showCardUsers = this.showCardUsers.map(user => {
+          if (user.id === userId) {
+            return {
+              ...user,
+              isFollowed: true
+            }
+          } else {
+            return {
+              ...user
+            }
           }
-        } else {
-          return {
-            ...user
-          }
-        }
-      })
+        })
+        this.fetchUsers()
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法加入追蹤，請稍後再試..'
+        })
+      }
     },
-    deleteIsFollow(userId) {
-      console.log("deleteIsFollow", userId);
-      this.showCardUsers = this.showCardUsers.map(user => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollow: false
+    async deleteIsFollowed(userId) {
+      try {
+        console.log("deleteIsFollowed", userId);
+        await popularListAPI.DeleteFollowed(userId)
+        this.showCardUsers = this.showCardUsers.map(user => {
+          if (user.id === userId) {
+            return {
+              ...user,
+              isFollowed: false
+            }
+          } else {
+            return {
+              ...user
+            }
           }
-        } else {
-          return {
-            ...user
-          }
-        }
-      })
+        })
+        this.fetchUsers()
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取消追蹤，請稍後再試..'
+        })
+      }
     },
     addCards() {
       console.log("addCards");
