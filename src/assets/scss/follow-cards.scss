@@ -1,0 +1,60 @@
+@import "_color.scss";
+@import "_extends.scss";
+
+.follow-cards {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.follow-card {
+  width: 100%;
+  height: 104px;
+  overflow-y: hidden;
+  border-bottom: 1px solid $modal-outline;
+
+  img {
+    width: 50px;
+    height: 50px;
+    margin: 13px 10px 41px 15px;
+    border-radius: 50%;
+  }
+
+  .text-area {
+    margin: 10px 15px 0 0;
+  }
+
+  .name {
+    @extend %second-title-text;
+  }
+
+  .account {
+    @extend %tag-text;
+  }
+
+  .introduction {
+    @extend %content-text;
+  }
+
+  .btn {
+    width: 90px;
+    height: 25px;
+    padding: 0;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .following-btn {
+    background: #FF6600;
+    border: 1px solid #FF6600;
+    color: #FFFFFF;
+  }
+
+  .follow-btn {
+    background: #FFFFFF;
+    border: 1px solid #FF6600;
+    color: #FF6600;
+  }
+
+}
+
