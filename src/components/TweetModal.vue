@@ -26,6 +26,9 @@
 </template>
 
 <script>
+import tweetAPI from "./../apis/tweetModal";
+import { Toast } from "./../utils/helpers";
+
 // TODO: 到Vuex拿取拿取當前使用者資料
 const dummyUser = {
   id: 0,
@@ -59,21 +62,40 @@ export default {
       this.warningContent = "";
       this.$emit("after-hide-modal");
     },
-    handleSubmit() {
-      // 字數驗證
-      if (this.tweetContent.trim().length === 0) {
-        this.warningContent = "內容不可空白";
-        return;
-      } else if (this.tweetContent.length > 140) {
-        // TODO: 目前的字數計算方式，會在135字左右就被擋
-        this.warningContent = "字數不可超過140字";
-        return;
+    async handleSubmit() {
+      try {
+        const description = this.tweetContent;
+        // 字數驗證
+        if (description.trim().length === 0) {
+          this.warningContent = "內容不可空白";
+          return;
+        } else if (description.length > 140) {
+          // TODO: 目前的字數計算方式，會在135字左右就被擋，因為換行符號會被算入
+          this.warningContent = "字數不可超過140字";
+          return;
+        }
+        this.warningContent = "";
+        // TODO: 發送推文內容至後端伺服器
+        let response = await tweetAPI.postTweet({ description });
+        const { data } = response;
+
+        if (data.status === "error") {
+          throw new Error(data.message);
+        }
+
+        // TODO: 發送成功提示
+        console.log(this.tweetContent);
+        Toast.fire({
+          icon: "success",
+          title: "成功發送推文！",
+        });
+        this.hideModal();
+      } catch (e) {
+        Toast.fire({
+          icon: "warning",
+          title: e.response.data.message,
+        });
       }
-      this.warningContent = "";
-      // TODO: 發送推文內容至後端伺服器，
-      // TODO: 發送成功提示
-      console.log(this.tweetContent);
-      this.hideModal();
     },
   },
   // 待優化: 即時回饋使用者是否超過140字
