@@ -17,7 +17,9 @@
           ></textarea>
           <div>
             <span class="warning">{{ warningContent }}</span>
-            <button @click.stop.prevent="handleSubmit">推文</button>
+            <button @click.stop.prevent="handleSubmit" :disabled="isProcessing">
+              推文
+            </button>
           </div>
         </div>
       </div>
@@ -53,6 +55,7 @@ export default {
       avatar: dummyUser.avatar,
       tweetContent: "",
       warningContent: "",
+      isProcessing: false,
     };
   },
   methods: {
@@ -75,7 +78,8 @@ export default {
           return;
         }
         this.warningContent = "";
-        // TODO: 發送推文內容至後端伺服器
+        this.isProcessing = true;
+        // 發送推文內容至後端伺服器
         let response = await tweetAPI.postTweet({ description });
         const { data } = response;
 
@@ -83,18 +87,20 @@ export default {
           throw new Error(data.message);
         }
 
-        // TODO: 發送成功提示
+        // 發送成功提示
         console.log(this.tweetContent);
         Toast.fire({
           icon: "success",
           title: "成功發送推文！",
         });
+        this.isProcessing = false;
         this.hideModal();
       } catch (e) {
         Toast.fire({
           icon: "warning",
           title: e.response.data.message,
         });
+        this.isProcessing = false;
       }
     },
   },
@@ -104,5 +110,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/scss/tweet-modal.scss";
+// TODO: 讓isProcessing按鈕樣式更明顯
 </style>
 
