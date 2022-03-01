@@ -21,6 +21,7 @@
           class="button-is-follow"
           v-if="user.isFollowed"
           @click.stop.prevent="deleteIsFollowed(user.id)"
+          :disabled="isProcessing"
         >
           正在跟隨
         </button>
@@ -28,6 +29,7 @@
           class="button-no-follow"
           v-else
           @click.stop.prevent="addIsFollowed(user.id)"
+          :disabled="isProcessing"
         >
           跟隨
         </button>
@@ -57,6 +59,7 @@ export default {
       sixUser: [],
       showCardUsers: [],
       isActive: false,
+      isProcessing: false
     };
   },
   created() {
@@ -80,22 +83,13 @@ export default {
     },
     async addIsFollowed(userId) {
       try {
+        this.isProcessing = true
         console.log("addIsFollow", userId);
         await popularListAPI.addFollowed({id: userId})
-        this.showCardUsers = this.showCardUsers.map(user => {
-          if (user.id === userId) {
-            return {
-              ...user,
-              isFollowed: true
-            }
-          } else {
-            return {
-              ...user
-            }
-          }
-        })
-        this.fetchUsers()
+        await this.fetchUsers()
+        this.isProcessing = false
       } catch (error) {
+        this.isProcessing = false
         Toast.fire({
           icon: 'error',
           title: '無法加入追蹤，請稍後再試..'
@@ -104,22 +98,13 @@ export default {
     },
     async deleteIsFollowed(userId) {
       try {
+        this.isProcessing = true
         console.log("deleteIsFollowed", userId);
         await popularListAPI.DeleteFollowed(userId)
-        this.showCardUsers = this.showCardUsers.map(user => {
-          if (user.id === userId) {
-            return {
-              ...user,
-              isFollowed: false
-            }
-          } else {
-            return {
-              ...user
-            }
-          }
-        })
-        this.fetchUsers()
+        await this.fetchUsers()
+        this.isProcessing = false
       } catch (error) {
+        this.isProcessing = false
         Toast.fire({
           icon: 'error',
           title: '無法取消追蹤，請稍後再試..'
