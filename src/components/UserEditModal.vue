@@ -15,7 +15,7 @@
             <!-- cover 區塊 -->
             <div class="cover-form-group">
               <label for="cover" class="d-none"></label>
-              <img :src="currentUser.cover" class="cover" alt="user cover" />
+              <img :src="currentUser.cover | emptyImage" class="cover" alt="user cover" />
               <input
                 id="cover"
                 type="file"
@@ -28,7 +28,7 @@
             <!-- avatar 區塊 -->
             <div class="avatar-form-group">
               <label for="avatar" class="d-none"></label>
-              <img :src="currentUser.avatar" class="avatar" alt="user avatar" />
+              <img :src="currentUser.avatar | emptyImage" class="avatar" alt="user avatar" />
               <input
                 id="avatar"
                 type="file"
@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import { emptyImageFilter } from "../utils/mixins";
 import { Toast } from "./../utils/helpers";
 
 // TODO: 從Vuex或props(userSelf頁面)拿取當前使用者資料
@@ -111,6 +112,7 @@ const dummyUser = {
 };
 
 export default {
+  name: "UserEditModal",
   data() {
     return {
       currentUser: dummyUser,
@@ -118,6 +120,7 @@ export default {
       introLengthLimit: 160,
     };
   },
+  mixins: [emptyImageFilter],
   methods: {
     hideModal() {
       // 待優化: 可在關掉時，警告使用者未儲存修改會消失
