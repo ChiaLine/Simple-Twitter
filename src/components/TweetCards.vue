@@ -29,12 +29,12 @@
           <img class="icon-reply" :src="iconReply">
           <span>{{card.totalReplies}}</span>
         </div>
-        <div class="tweet-like-icon" @click.stop.prevent="deleteTweetLike(card.UserId)" v-if="card.isLiked">
+        <div class="tweet-like-icon" @click.stop.prevent="deleteTweetLike(card.id)" v-if="card.isLiked">
           <img class="icon-like" :src="iconIsLike">
           <!-- <img class="icon-like" :src="iconUnLike"> -->
           <span>{{card.totalLikes}}</span>
         </div>
-        <div class="tweet-like-icon" @click.stop.prevent="addTweetCardLike(card.UserId)" v-else>
+        <div class="tweet-like-icon" @click.stop.prevent="addTweetCardLike(card.id)" v-else>
           <!-- <img class="icon-like" :src="iconIsLike"> -->
           <img class="icon-like" :src="iconUnLike">
           <span>{{card.totalLikes}}</span>
@@ -84,51 +84,65 @@ export default {
       console.log('show reply nodal', replyUserId);
       this.$emit("after-show-reply-modal", replyUserId);
     },
-    async addTweetCardLike(UserId) {
-      console.log(UserId)
-      this.tweetCards = this.tweetCards.map(tweet => {
-        if (tweet.UserId === UserId) {
-          return {
-            ...tweet,
-            isLiked: true,
-            totalLikes: tweet.totalLikes + 1
-          }
-        } else {
-          return {
-            ...tweet
-          }
-        }
-      })
+    async addTweetCardLike(UserId) {      
+      try {
+        console.log(UserId)
+        console.log("addTweetCardLike");
+        const response = await tweetAPI.addTweetLike(UserId)
+        console.log(response)
 
-      // try {
-      //   console.log("addTweetCardLike");
-      //   const response = await tweetAPI.addTweetLike(UserId)
-      //   console.log(response)
+         this.tweetCards = this.tweetCards.map(tweet => {
+          if (tweet.id === UserId) {
+            return {
+              ...tweet,
+              isLiked: true,
+              totalLikes: tweet.totalLikes + 1
+            }
+          } else {
+            return {
+              ...tweet
+            }
+          }
+        })
 
-      //   await this.fetchTweetCards()
-      // } catch (error) {
-      //   console.error(error)
-      //   Toast.fire({
-      //     icon: 'error',
-      //     title: error.response.data.message
-      //   })
-      // }
+        await this.fetchTweetCards()
+      } catch (error) {
+        console.error(error)
+        Toast.fire({
+          icon: 'error',
+          title: error.response.data.message
+        })
+      }
     },
-    deleteTweetLike(UserId) {
-      console.log(UserId)
-      this.tweetCards = this.tweetCards.map(tweet => {
-        if (tweet.UserId === UserId) {
-          return {
-            ...tweet,
-            isLiked: false,
-            totalLikes: tweet.totalLikes - 1
+    async deleteTweetLike(UserId) {
+
+      try {
+        console.log(UserId)
+        console.log("addTweetCardLike");
+        const response = await tweetAPI.deleteTweetLike(UserId)
+        console.log(response)
+        this.tweetCards = this.tweetCards.map(tweet => {
+          if (tweet.id === UserId) {
+            return {
+              ...tweet,
+              isLiked: false,
+              totalLikes: tweet.totalLikes - 1
+            }
+          } else {
+            return {
+              ...tweet
+            }
           }
-        } else {
-          return {
-            ...tweet
-          }
-        }
-      })
+        })
+      
+        await this.fetchTweetCards()
+      } catch (error) {
+        console.error(error)
+        Toast.fire({
+          icon: 'error',
+          title: error.response.data.message
+        })
+      }
     },
     toReplyList(){
       console.log('toReplyList')
