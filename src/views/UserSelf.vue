@@ -1,31 +1,27 @@
 <template>
-  <div class="self">
+  <div class="user-self">
     <UserProfileCard :initialUser="currentUser" />
-    <div class="self-buttons">
-      <a href="" class="self-button">
-        <span>推文</span>
-      </a>
-      <a href="" class="self-button">
-        <span>推文與回覆</span>
-      </a>
-      <a href="" class="self-button">
-        <span>喜歡的內容</span>
-      </a>
-    </div>
-    <TweetCards />
+    <UserTweetListCard @after-show-reply-modal="afterShowReplyModal"/>
+    <ReplyModal 
+    v-if="showReplyModal" 
+    @after-hide-reply-modal="afterHideReplyModal"
+    :reply-user-id="replyUserId"
+    />
   </div>
 </template>
 
 <script>
-import TweetCards from "../components/TweetCards.vue";
+import UserTweetListCard from "../components/UserTweetListCard.vue";
 import UserProfileCard from "../components/UserProfileCard.vue";
+import ReplyModal from '../components/ReplyModal.vue'
 import { mapState } from "vuex";
 
 export default {
   name: "UserSelf",
   components: {
-    TweetCards,
     UserProfileCard,
+    UserTweetListCard,
+    ReplyModal
   },
   data() {
     return {
@@ -46,30 +42,22 @@ export default {
         updatedAt: "",
       },
       userId: -1,
+      showReplyModal: false,
     };
   },
   computed: {
     ...mapState(["currentUser"]),
   },
+  methods: {
+    afterShowReplyModal(replyUserId) {
+      console.log("Reply--user", replyUserId);
+      this.showReplyModal = true
+      this.replyUserId = replyUserId
+    },
+    afterHideReplyModal() {
+      console.log("hide--user");
+      this.showReplyModal = false
+    }
+  },
 };
 </script>
-
-<style scoped>
-.self {
-  /* height: 100%; */
-  /* overflow-y: scroll; */
-}
-
-.self-buttons {
-  padding-bottom: 10px;
-  border-right: 1px solid #e6ecf0;
-  border-left: 1px solid #e6ecf0;
-  border-bottom: 1px solid #e6ecf0;
-}
-
-.self-button {
-  margin-left: 55px;
-  font-weight: 500;
-  color: #657786;
-}
-</style>
