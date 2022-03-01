@@ -116,20 +116,22 @@ export default {
           return;
         }
         this.warningContent = "";
-        // TODO: 發送推文內容至後端伺服器
+        // 發送推文內容至後端伺服器
         let response = await replyModalAPI.postTweetReply({ tweetId, comment });
         const { data } = response;
 
         if (data.status === "error") {
           throw new Error(data.message);
         }
-        // TODO: 發送成功提示
+        // 發送成功提示
         console.log(this.tweetContent);
         Toast.fire({
           icon: "success",
           title: "成功發送回覆！",
         });
         this.hideModal();
+        // TODO: 強制重整畫面顯示新推文，未來可再優化。
+        this.$router.go(0);
       } catch (e) {
         Toast.fire({
           icon: "warning",
