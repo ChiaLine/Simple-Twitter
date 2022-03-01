@@ -92,30 +92,12 @@
 <script>
 import { emptyImageFilter } from "../utils/mixins";
 import { Toast } from "./../utils/helpers";
-
-// TODO: 從Vuex或props(userSelf頁面)拿取當前使用者資料
-const dummyUser = {
-  account: "root",
-  avatar: "https://randomuser.me/api/portraits/men/51.jpg",
-  cover: "https://i.imgur.com/QR8rP9R.jpg",
-  createdAt: "2022-02-24T09:22:31.000Z",
-  email: "root@example.com",
-  id: 4,
-  introduction: "Hello! I am Root. Nice to meet you!",
-  name: "root",
-  role: "admin",
-  totalFollowers: 0,
-  totalFollowings: 0,
-  totalLiked: 0,
-  totalTweets: 0,
-  updatedAt: "2022-02-24T09:22:31.000Z",
-};
+import { mapState } from "vuex";
 
 export default {
   name: "UserEditModal",
   data() {
     return {
-      currentUser: dummyUser,
       nameLengthLimit: 50,
       introLengthLimit: 160,
     };
@@ -123,7 +105,7 @@ export default {
   mixins: [emptyImageFilter],
   methods: {
     hideModal() {
-      // 待優化: 可在關掉時，警告使用者未儲存修改會消失
+      // TODO:待優化: 可在關掉時，警告使用者未儲存修改會消失
       this.$emit("after-hide-user-edit-modal");
     },
     handleSubmit(e) {
@@ -182,8 +164,10 @@ export default {
       }
     },
   },
-  // 待優化: 字數計算會加入換行符號，因此換行後有誤差
+  // TODO:待優化: 字數計算會加入換行符號，因此換行後有誤差
   computed: {
+    // 到Vuex拿取拿取當前使用者資料
+    ...mapState(["currentUser"]),
     // 取得即時字數
     getNameLength() {
       return this.currentUser.name.trim().length;
@@ -216,7 +200,7 @@ export default {
   },
 };
 
-// 待優化：關閉modal再打開，是否要回到未修改的使用者資料內容？（重新拉資料）
+// TODO:待優化：關閉modal再打開，是否要回到未修改的使用者資料內容？（重新拉資料）
 </script>
 
 <style lang="scss" scoped>
