@@ -6,7 +6,7 @@
       </div>
       <div class="modal-body d-flex">
         <div class="mr-3">
-          <img :src="avatar" alt="user image" />
+          <img :src="this.currentUser.avatar" alt="user image" />
         </div>
         <div class="flex-grow-1 d-flex flex-column align-items-end">
           <textarea
@@ -30,33 +30,19 @@
 <script>
 import tweetAPI from "./../apis/tweetModal";
 import { Toast } from "./../utils/helpers";
-
-// TODO: 到Vuex拿取拿取當前使用者資料
-const dummyUser = {
-  id: 0,
-  avatar: "https://randomuser.me/api/portraits/men/51.jpg",
-  account: "string",
-  name: "string",
-  email: "string",
-  cover: "string",
-  introduction: "string",
-  role: "string",
-  totalTweets: 0,
-  totalFollowings: 0,
-  totalFollowers: 0,
-  totalLiked: 0,
-  updatedAt: "string",
-  createdAt: "string",
-};
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
-      avatar: dummyUser.avatar,
       tweetContent: "",
       warningContent: "",
       isProcessing: false,
     };
+  },
+  computed: {
+    // 到Vuex拿取拿取當前使用者資料
+    ...mapState(["currentUser"]),
   },
   methods: {
     hideModal() {
@@ -88,13 +74,15 @@ export default {
         }
 
         // 發送成功提示
-        console.log(this.tweetContent);
+        this.$emit("after-tweet");
         Toast.fire({
           icon: "success",
           title: "成功發送推文！",
         });
         this.isProcessing = false;
         this.hideModal();
+        // TODO: 強制重整畫面顯示新推文，未來可再優化。
+        this.$router.go(0);
       } catch (e) {
         Toast.fire({
           icon: "warning",
