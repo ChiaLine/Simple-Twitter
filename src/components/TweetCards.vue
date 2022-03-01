@@ -25,20 +25,26 @@
       </div>
     </div>
       <div class="tweet-card-icons">
-        <div class="tweet-reply-icon" @click.stop.prevent="handleTweetCardReplyButton(card.UserId)">
+        <button class="tweet-reply-icon" @click.stop.prevent="handleTweetCardReplyButton(card.UserId)">
           <img class="icon-reply" :src="iconReply">
           <span>{{card.totalReplies}}</span>
-        </div>
-        <div class="tweet-like-icon" @click.stop.prevent="deleteTweetLike(card.id)" v-if="card.isLiked">
+        </button>
+        <button class="tweet-like-icon" 
+        @click.stop.prevent="deleteTweetLike(card.id)" 
+        v-if="card.isLiked" 
+        :disabled="isProcessing"
+        >
           <img class="icon-like" :src="iconIsLike">
-          <!-- <img class="icon-like" :src="iconUnLike"> -->
           <span>{{card.totalLikes}}</span>
-        </div>
-        <div class="tweet-like-icon" @click.stop.prevent="addTweetCardLike(card.id)" v-else>
-          <!-- <img class="icon-like" :src="iconIsLike"> -->
+        </button>
+        <button class="tweet-like-icon" 
+        @click.stop.prevent="addTweetCardLike(card.id)" 
+        v-else
+        :disabled="isProcessing"
+        >
           <img class="icon-like" :src="iconUnLike">
           <span>{{card.totalLikes}}</span>
-        </div>
+        </button>
       </div>
     </div>
   </div>
@@ -55,10 +61,10 @@ export default {
   data() {
     return {
       tweetCards: [],
-      // iconLike: false,
       iconUnLike: "https://i.imgur.com/fWY8yOj.png",
       iconIsLike: "https://i.imgur.com/LQTMNI0.png",
       iconReply: "https://i.imgur.com/EwJRYkP.png",
+      isProcessing: false
     };
   },
   mixins: [ emptyImageFilter, formatDateFilter ],
@@ -70,7 +76,6 @@ export default {
       try {
         const response = await tweetAPI.getTweetCards()
         const { data } = response
-        // console.log(data)
         this.tweetCards = data
       } catch (error) {
         console.error(error)
@@ -84,60 +89,29 @@ export default {
       console.log('show reply nodal', replyUserId);
       this.$emit("after-show-reply-modal", replyUserId);
     },
-    async addTweetCardLike(UserId) {      
+    async addTweetCardLike(id) {      
       try {
-        console.log(UserId)
-        console.log("addTweetCardLike");
-        const response = await tweetAPI.addTweetLike(UserId)
-        console.log(response)
-
-         this.tweetCards = this.tweetCards.map(tweet => {
-          if (tweet.id === UserId) {
-            return {
-              ...tweet,
-              isLiked: true,
-              totalLikes: tweet.totalLikes + 1
-            }
-          } else {
-            return {
-              ...tweet
-            }
-          }
-        })
-
+        this.isProcessing = true
+        console.log(id)
+        await tweetAPI.addTweetLike(id)
         await this.fetchTweetCards()
+        this.isProcessing = false
       } catch (error) {
-        console.error(error)
+        this.isProcessing = false
         Toast.fire({
           icon: 'error',
           title: error.response.data.message
         })
       }
     },
-    async deleteTweetLike(UserId) {
-
+    async deleteTweetLike(id) {
       try {
-        console.log(UserId)
-        console.log("addTweetCardLike");
-        const response = await tweetAPI.deleteTweetLike(UserId)
-        console.log(response)
-        this.tweetCards = this.tweetCards.map(tweet => {
-          if (tweet.id === UserId) {
-            return {
-              ...tweet,
-              isLiked: false,
-              totalLikes: tweet.totalLikes - 1
-            }
-          } else {
-            return {
-              ...tweet
-            }
-          }
-        })
-      
+        console.log(id)
+        await tweetAPI.deleteTweetLike(id)
         await this.fetchTweetCards()
+        this.isProcessing = false
       } catch (error) {
-        console.error(error)
+        this.isProcessing = false
         Toast.fire({
           icon: 'error',
           title: error.response.data.message

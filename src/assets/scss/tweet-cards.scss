@@ -20,8 +20,6 @@
 }
 
 .tweet-card-avatar {
-  // width: 50px;
-  // height: 50px;
   margin: 0 0 0 15px;
 }
 
@@ -54,10 +52,6 @@
 .tweet-card-icons {
   display: flex;
   padding-left: 75px;
-}
-
-.tweet-like-icon, .tweet-reply-icon {
-  cursor: pointer;
 }
 
 .tweet-reply-icon {
