@@ -1,6 +1,6 @@
 <template>
   <div class="self">
-    <UserProfileCard v-show="!userIsLoading" :initialUser="user" />
+    <UserProfileCard :initialUser="currentUser" />
     <div class="self-buttons">
       <a href="" class="self-button">
         <span>推文</span>
@@ -9,7 +9,7 @@
         <span>推文與回覆</span>
       </a>
       <a href="" class="self-button">
-        <span>喜歡的內容{{ currentUser.id }}</span>
+        <span>喜歡的內容</span>
       </a>
     </div>
     <TweetCards />
@@ -19,8 +19,6 @@
 <script>
 import TweetCards from "../components/TweetCards.vue";
 import UserProfileCard from "../components/UserProfileCard.vue";
-import getUserDataAPI from "./../apis/getUserData";
-import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
@@ -48,39 +46,11 @@ export default {
         updatedAt: "",
       },
       userIsLoading: true,
-      // currentUser: {},
+      userId: -1,
     };
   },
   computed: {
     ...mapState(["currentUser"]),
-  },
-  beforeRouteUpdate() {
-    console.log("beforeRouteUpdate");
-    this.fetchData(14);
-  },
-  created() {
-    this.fetchData(this.currentUser.id);
-  },
-  methods: {
-    async fetchData(userId) {
-      try {
-        // let { id } = await this.currentUser;
-        let { data } = await getUserDataAPI.getUserProfile(userId);
-        let response = await getUserDataAPI.getUserProfile(userId);
-        this.user = data;
-        console.log(response);
-        console.log("self-currentUser", this.currentUser.id);
-        console.log("self-data", data);
-        console.log("self-user", this.user);
-        this.userIsLoading = false;
-      } catch (error) {
-        this.userIsLoading = false;
-        Toast.fire({
-          icon: "error",
-          title: error,
-        });
-      }
-    },
   },
 };
 </script>

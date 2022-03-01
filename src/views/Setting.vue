@@ -40,7 +40,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["currentUser", "isAuthenticated"]),
+    ...mapState(["currentUser"]),
   },
 };
 </script>

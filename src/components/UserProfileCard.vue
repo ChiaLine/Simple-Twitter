@@ -39,7 +39,6 @@
 
 <script>
 import { emptyImageFilter } from "../utils/mixins";
-// import { mapState } from "vuex";
 
 export default {
   mixins: [emptyImageFilter],
@@ -68,19 +67,6 @@ export default {
         updatedAt: "",
       },
     };
-  },
-  // computed: {
-  //   ...mapState(["currentUser"]),
-  // },
-  created() {
-    this.a();
-  },
-  methods: {
-    a() {
-      console.log("card-user", this.user);
-      console.log("card-initialUser", this.initialUser);
-      // console.log("card-currentUser", this.currentUser.id);
-    },
   },
   watch: {
     initialUser(newValue) {

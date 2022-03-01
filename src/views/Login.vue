@@ -63,6 +63,7 @@ export default {
           throw new Error(data.message);
         }
         localStorage.setItem("token", data.token);
+        localStorage.setItem("currentUserId", data.user.id);
         this.$store.commit("setCurrentUser", data.user);
         this.$router.push("./User");
       } catch (e) {
