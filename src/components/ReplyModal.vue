@@ -8,7 +8,10 @@
         <!-- 被回覆留言區塊 -->
         <div v-if="!isLoading" class="replied-tweet d-flex">
           <div class="mr-3 d-flex flex-column align-items-center">
-            <img :src="tweet.tweetedUser.avatar" alt="tweetedUserAvatar" />
+            <img
+              :src="tweet.tweetedUser.avatar | emptyImage"
+              alt="tweetedUserAvatar"
+            />
             <div class="flex-grow-1 my-2 decorated-line"></div>
           </div>
           <div>
@@ -17,7 +20,7 @@
               <span class="tag-group">
                 <span>@{{ tweet.tweetedUser.name }}</span>
                 <span class="mx-1">&#8901;</span>
-                <span>{{ tweet.createdAt }}</span>
+                <span>{{ tweet.createdAt | fromNow }}</span>
               </span>
             </div>
             <p class="description">{{ tweet.description }}</p>
@@ -31,7 +34,7 @@
         <!-- 新增留言區塊 -->
         <div class="writing-tweet flex-grow-1 d-flex">
           <div class="mr-3">
-            <img :src="currentUser.avatar" alt="user image" />
+            <img :src="currentUser.avatar | emptyImage" alt="user image" />
           </div>
           <div class="flex-grow-1 d-flex flex-column align-items-end">
             <textarea
@@ -52,17 +55,21 @@
 </template>
 
 <script>
+import { emptyImageFilter } from "../utils/mixins";
+import { fromNowFilter } from "./../utils/mixins";
 import replyModalAPI from "./../apis/replyModal";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
+  name: "ReplyModal",
   props: {
     replyTweetId: {
       type: Number,
       required: true,
     },
   },
+  mixins: [emptyImageFilter, fromNowFilter],
   data() {
     return {
       tweet: "",

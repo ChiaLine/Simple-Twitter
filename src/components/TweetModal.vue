@@ -6,7 +6,7 @@
       </div>
       <div class="modal-body d-flex">
         <div class="mr-3">
-          <img :src="this.currentUser.avatar" alt="user image" />
+          <img :src="this.currentUser.avatar | emptyImage" alt="user image" />
         </div>
         <div class="flex-grow-1 d-flex flex-column align-items-end">
           <textarea
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { emptyImageFilter } from "../utils/mixins";
 import tweetAPI from "./../apis/tweetModal";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
@@ -40,6 +41,7 @@ export default {
       isProcessing: false,
     };
   },
+  mixins: [emptyImageFilter],
   computed: {
     // 到Vuex拿取拿取當前使用者資料
     ...mapState(["currentUser"]),
