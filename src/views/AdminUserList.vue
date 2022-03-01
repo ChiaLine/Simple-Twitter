@@ -5,19 +5,19 @@
       <div class="cards">
         <div class="card" v-for="user in users" :key="user.id">
           <div class="card-img-top">
-            <img class="background-img" :src="user.cover | emptyImage" alt="">
+            <img class="background-img" :src="user.cover | emptyImage" >
           </div>
           <div class="user-img-container">
-            <img class="user-img" :src="user.avatar | emptyImage" alt="">
+            <img class="user-img" :src="user.avatar | emptyImage">
           </div>
           <div class="card-body">
             <h5>{{ user.name }}</h5>
             <p>@{{ user.account }}</p>
             <div class="card-body-bottom">
-                <img class="card-body-icon" src="https://i.imgur.com/EwJRYkP.png" alt="">
-                <p>{{user.totalTweets}}k</p>
-                <img class="card-body-icon" src="https://i.imgur.com/fWY8yOj.png" alt="">
-                <p>{{user.totalLiked}}k</p>
+                <img class="card-body-icon" src="https://i.imgur.com/EwJRYkP.png">
+                <p>{{user.totalTweets}}</p>
+                <img class="card-body-icon" src="https://i.imgur.com/fWY8yOj.png">
+                <p>{{user.totalLiked}}</p>
             </div>
             <p><span>{{user.totalFollowings}}個跟隨中</span><span>{{user.totalFollowers}}位跟隨者</span></p>
           </div>       
