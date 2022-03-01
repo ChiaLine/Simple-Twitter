@@ -30,12 +30,9 @@
         </div>
       </div>
       <div class="tweet-card-icons">
-        <button
-          class="tweet-reply-icon"
-          @click.stop.prevent="handleTweetCardReplyButton(card.UserId)"
-        >
-          <img class="icon-reply" :src="iconReply" />
-          <span>{{ card.totalReplies }}</span>
+        <button class="tweet-reply-icon" @click.stop.prevent="handleTweetCardReplyButton(card.id)">
+          <img class="icon-reply" :src="iconReply">
+          <span>{{card.totalReplies}}</span>
         </button>
         <button
           class="tweet-like-icon"
@@ -99,9 +96,9 @@ export default {
         });
       }
     },
-    handleTweetCardReplyButton(replyUserId) {
-      console.log("show reply nodal", replyUserId);
-      this.$emit("after-show-reply-modal", replyUserId);
+    handleTweetCardReplyButton(replyTweetId) {
+      console.log('show reply nodal', replyTweetId);
+      this.$emit("after-show-reply-modal", replyTweetId);
     },
     async addTweetCardLike(id) {
       try {

@@ -6,7 +6,7 @@
       </div>
       <div class="modal-body d-flex flex-column">
         <!-- 被回覆留言區塊 -->
-        <div class="replied-tweet d-flex">
+        <div v-if="!isLoading" class="replied-tweet d-flex">
           <div class="mr-3 d-flex flex-column align-items-center">
             <img :src="tweet.tweetedUser.avatar" alt="tweetedUserAvatar" />
             <div class="flex-grow-1 my-2 decorated-line"></div>
@@ -31,7 +31,7 @@
         <!-- 新增留言區塊 -->
         <div class="writing-tweet flex-grow-1 d-flex">
           <div class="mr-3">
-            <img :src="avatar" alt="user image" />
+            <img :src="currentUser.avatar" alt="user image" />
           </div>
           <div class="flex-grow-1 d-flex flex-column align-items-end">
             <textarea
@@ -52,65 +52,32 @@
 </template>
 
 <script>
-// TODO: 用props傳入被回覆的tweet資料
-const dummyTweet = {
-  id: 0,
-  description:
-    "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
-  totalLikes: 0,
-  totalReplies: 0,
-  UserId: 0,
-  isLiked: true,
-  updatedAt: "3小時",
-  createdAt: "3小時",
-  tweetedUser: {
-    id: 0,
-    avatar: "https://randomuser.me/api/portraits/women/90.jpg",
-    account: "string",
-    name: "Apple",
-    email: "string",
-    cover: "string",
-    introduction: "string",
-    role: "string",
-    totalTweets: 0,
-    totalFollowings: 0,
-    totalFollowers: 0,
-    totalLiked: 0,
-  },
-};
-
-// TODO: 到Vuex拿取拿取當前使用者資料
-const dummyUser = {
-  id: 0,
-  avatar: "https://randomuser.me/api/portraits/men/51.jpg",
-  account: "string",
-  name: "string",
-  email: "string",
-  cover: "string",
-  introduction: "string",
-  role: "string",
-  totalTweets: 0,
-  totalFollowings: 0,
-  totalFollowers: 0,
-  totalLiked: 0,
-  updatedAt: "string",
-  createdAt: "string",
-};
+import replyListAPI from "./../apis/replyList";
+import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   props: {
-    replyUserId: {
+    replyTweetId: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      tweet: dummyTweet,
-      avatar: dummyUser.avatar,
+      tweet: "",
       tweetContent: "",
       warningContent: "",
+      // render和請求被回覆的tweet有秒差，加入isLoading
+      isLoading: true,
     };
+  },
+  computed: {
+    // 到Vuex拿取拿取當前使用者資料
+    ...mapState(["currentUser"]),
+  },
+  created() {
+    this.fetchReplyTweet();
   },
   methods: {
     hideModal() {
@@ -120,6 +87,7 @@ export default {
       this.$emit("after-hide-reply-modal");
     },
     handleSubmit() {
+      // 待優化: 即時回饋使用者是否超過140字
       // 字數驗證
       if (this.tweetContent.trim().length === 0) {
         this.warningContent = "內容不可空白";
@@ -135,8 +103,23 @@ export default {
       console.log(this.tweetContent);
       this.hideModal();
     },
+    // 請求回傳被回覆的tweet資料
+    async fetchReplyTweet() {
+      try {
+        const id = this.replyTweetId;
+        let response = await replyListAPI.getReplyListTweet(id);
+        const { data } = response;
+        console.log(data);
+        this.tweet = data;
+        this.isLoading = false;
+      } catch (e) {
+        Toast.fire({
+          icon: "warning",
+          title: e.response.data.message,
+        });
+      }
+    },
   },
-  // 待優化: 即時回饋使用者是否超過140字
 };
 </script>
 
