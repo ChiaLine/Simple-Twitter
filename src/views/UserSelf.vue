@@ -45,7 +45,6 @@ export default {
         createdAt: "",
         updatedAt: "",
       },
-      userIsLoading: true,
       userId: -1,
     };
   },
