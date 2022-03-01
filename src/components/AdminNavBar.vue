@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar">
     <div class="navbar-logo">
-      <a class="navbar-link" href="#/User">
+      <router-link class="navbar-link" to="/Admin">
         <img src="https://i.imgur.com/WwFWS1D.png" />
-      </a>
+      </router-link>
     </div>
     <ul class="navbar-nav">
       <li class="nav-item" 
