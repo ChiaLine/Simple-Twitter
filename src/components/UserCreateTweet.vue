@@ -6,7 +6,7 @@
       @click.stop.prevent="handleTweetButtonCard()"
     >
       <div class="tweet-card-img-container">
-        <img class="tweet-card-img" src="https://i.imgur.com/1VXOEcB.png" />
+        <img class="tweet-card-img" :src="currentUser.avatar | emptyImage" />
       </div>
       <span class="tweet-card-title">有什麼新鮮事?</span>
       <button class="tweet-card-button" @click.stop.prevent="handleTweetButtonCard()">
@@ -17,10 +17,17 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { emptyImageFilter } from '../utils/mixins'
+
 export default {
   name: "userCreateTweet",
+  mixins: [ emptyImageFilter ],
   data() {
     return {};
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
   methods: {
     handleTweetButtonCard() {
