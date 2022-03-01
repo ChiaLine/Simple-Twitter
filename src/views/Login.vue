@@ -62,8 +62,8 @@ export default {
         if (data.status === "error") {
           throw new Error(data.message);
         }
-
         localStorage.setItem("token", data.token);
+        this.$store.commit("setCurrentUser", data.user);
         this.$router.push("./User");
       } catch (e) {
         this.isProcessing = false;

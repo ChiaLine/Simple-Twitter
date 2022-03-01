@@ -1,21 +1,21 @@
 <template>
   <div class="h-100 d-flex justify-content-end">
-    <NavBar @after-show-modal="afterShowModal"/>
+    <NavBar @after-show-modal="afterShowModal" />
     <div class="right">
       <h5 class="title p-3">帳戶設定</h5>
       <div class="setProfile">
         <SetProfile class="p-3" />
       </div>
     </div>
-    <TweetModal v-if="showModal" @after-hide-modal="afterHideModal"/>
+    <TweetModal v-if="showModal" @after-hide-modal="afterHideModal" />
   </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar.vue";
 import SetProfile from "../components/SetProfile.vue";
-import TweetModal from '../components/TweetModal.vue'
-
+import TweetModal from "../components/TweetModal.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "Setting",
@@ -26,18 +26,21 @@ export default {
   },
   data() {
     return {
-      showModal: false
-    }
+      showModal: false,
+    };
   },
   methods: {
     afterShowModal() {
       console.log("afterShowModal--Setting");
-      this.showModal = true
+      this.showModal = true;
     },
     afterHideModal() {
       console.log("afterHideModal--Setting");
-      this.showModal = false
-    }
+      this.showModal = false;
+    },
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
   },
 };
 </script>

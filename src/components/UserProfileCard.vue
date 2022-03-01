@@ -1,36 +1,35 @@
 <template>
-  <div>
+  <div class="wrapper">
     <!-- 要再將連結修改成上一頁 -->
-    <router-link to="/User" class="wrapper d-flex">
+    <router-link to="/User" class="d-flex">
       <img class="arrow" src="https://i.imgur.com/3y7W3fG.png" alt="" />
       <div class="m-2">
-        <h5 class="returnTweet">John Doe</h5>
-        <h5 class="tweetNumber">25貼文</h5>
+        <h5 class="returnTweet">{{ user.name }}</h5>
+        <h5 class="tweetNumber">{{ user.totalTweets }}貼文</h5>
       </div>
     </router-link>
     <div class="position-relative">
-      <img src="https://imgur.com/ZUPNMlW.png" alt="" class="cover w-100" />
+      <img :src="user.cover | emptyImage" alt="" class="cover w-100" />
       <img
-        src="https://imgur.com/suYPL6j.png"
+        :src="user.avatar | emptyImage"
         alt=""
         class="avatar ml-3 position-absolute"
       />
     </div>
     <div class="profile position-relative ml-3">
       <button class="editProfile btn position-absolute">編輯個人資料</button>
-      <h2 class="name">John Doe</h2>
-      <h5 class="account">@hetjohn</h5>
+      <h2 class="name">{{ user.name }}</h2>
+      <h5 class="account">@{{ user.account }}</h5>
       <p class="note">
-        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-        sint.
+        {{ user.introduction }}
       </p>
       <div class="follow d-flex">
         <span class="record d-flex mr-4">
-          <p class="number">34個</p>
+          <p class="number">{{ user.totalFollowers }}個</p>
           <p class="text">跟隨中</p>
         </span>
         <span class="record d-flex">
-          <p class="number">59位</p>
+          <p class="number">{{ user.totalFollowings }}位</p>
           <p class="text">跟隨者</p>
         </span>
       </div>
@@ -38,11 +37,73 @@
   </div>
 </template>
 
+<script>
+import { emptyImageFilter } from "../utils/mixins";
+// import { mapState } from "vuex";
+
+export default {
+  mixins: [emptyImageFilter],
+  props: {
+    initialUser: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      user: {
+        id: -1,
+        account: "",
+        email: "",
+        name: "",
+        avatar: "",
+        cover: null,
+        introduction: "",
+        role: "",
+        totalTweets: 0,
+        totalFollowings: 0,
+        totalFollowers: 0,
+        totalLiked: 0,
+        createdAt: "",
+        updatedAt: "",
+      },
+    };
+  },
+  // computed: {
+  //   ...mapState(["currentUser"]),
+  // },
+  created() {
+    this.a();
+  },
+  methods: {
+    a() {
+      console.log("card-user", this.user);
+      console.log("card-initialUser", this.initialUser);
+      // console.log("card-currentUser", this.currentUser.id);
+    },
+  },
+  watch: {
+    initialUser(newValue) {
+      this.user = {
+        ...this.user,
+        ...newValue,
+      };
+    },
+  },
+};
+</script>
+
+
 <style scoped lang="scss">
 @import "../assets/scss/_color.scss";
 @import "../assets/scss/_extends.scss";
 $border-style: 1px solid #e6ecf0;
 
+.wrapper {
+  max-width: 600px;
+  border-right: $border-style;
+  border-left: $border-style;
+}
 .arrow {
   width: 17px;
   height: 14px;
@@ -58,6 +119,7 @@ $border-style: 1px solid #e6ecf0;
 }
 .cover {
   max-width: 600px;
+  max-height: 200px;
   border-radius: 0%;
 }
 .avatar {
@@ -70,7 +132,7 @@ $border-style: 1px solid #e6ecf0;
   top: 0;
   right: 0;
   transform: translate(-7%, -155%);
-  width: 120px;
+  width: 130px;
   height: 38px;
   @extend %second-title-text;
   line-height: 15px;
