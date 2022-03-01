@@ -14,9 +14,9 @@
             <h5>{{ user.name }}</h5>
             <p>@{{ user.account }}</p>
             <div class="card-body-bottom">
-                <img class="card-body-icon" src="https://i.imgur.com/GW72xOA.png" alt="">
+                <img class="card-body-icon" src="https://i.imgur.com/EwJRYkP.png" alt="">
                 <p>{{user.totalTweets}}k</p>
-                <img class="card-body-icon" src="https://i.imgur.com/wp77Lzc.png" alt="">
+                <img class="card-body-icon" src="https://i.imgur.com/fWY8yOj.png" alt="">
                 <p>{{user.totalLiked}}k</p>
             </div>
             <p><span>{{user.totalFollowings}}個跟隨中</span><span>{{user.totalFollowers}}位跟隨者</span></p>
@@ -49,16 +49,8 @@ export default {
        try {
         const response = await adminAPI.getUsersList()
         const { data } = response
-        console.log(data)
-
-        // 若請求過程有錯，則進到錯誤處理
-        // if (response.status !== 200) {
-        //   throw new Error(data.methods)
-        // }
-
         this.users = data
       } catch (error) {
-        // console.error(error.response)
         Toast.fire({
           icon: 'error',
           title: error.response.data.message
@@ -75,8 +67,6 @@ export default {
   height: 100%;
   overflow-y: scroll;
   border-left: 1px solid #e6ecf0;
-  border-right: 1px solid #e6ecf0;
-  margin-right: 10px;
   flex-grow: 1;
 }
 h6 {
@@ -90,12 +80,12 @@ h6 {
   flex-wrap: wrap;
 }
 .card {
+  width: 245px;
   margin: 15px 0 0 15px;
-  width: 250px;
   border-radius: 10px;
 }
 .card-img-top {
-  width: 250px;
+  width: 100%;
   height: 140px;
 }
 .background-img {
@@ -115,6 +105,7 @@ h6 {
 .card-body-icon {
   width: 20px;
   height: 20px;
+  border-radius: 0;
 }
 
 .user-img-container {

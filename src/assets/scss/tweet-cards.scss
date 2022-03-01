@@ -7,8 +7,7 @@
 
 .tweet-card {
   display: flex;
-  justify-content: start;
-  align-items: flex-start;
+  flex-direction: column;
   width: 100%;
   padding: 10px 0;
   border-bottom: 1px solid $modal-outline;
@@ -16,19 +15,27 @@
   border-right: 1px solid $modal-outline; 
 }
 
+.tweet-card-top {
+  display: flex;
+}
+
 .tweet-card-avatar {
-  width: 60px;
-  height: 50px;
-  margin-left: 15px;
+  // width: 50px;
+  // height: 50px;
+  margin: 0 0 0 15px;
 }
 
 .tweet-card-img {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 
 .tweet-card-content {
+  display: flex;
   width: 100%;
-  margin-left: 10px;
+  padding-left: 10px;
+  cursor: pointer;
 }
 
 .tweet-card-name {
@@ -46,17 +53,21 @@
 
 .tweet-card-icons {
   display: flex;
-  align-items: center;
+  padding-left: 75px;
 }
 
-.tweet-card-icon {
-  width: 100px;
+.tweet-like-icon, .tweet-reply-icon {
+  cursor: pointer;
+}
+
+.tweet-reply-icon {
+  margin-right: 60px;
 }
 
 .icon-reply, .icon-like {
   display: inline;
-  border-radius: 0;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   margin-right: 10px;
+  border-radius: 0;
 }
