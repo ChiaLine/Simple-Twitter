@@ -8,7 +8,10 @@
         <!-- 被回覆留言區塊 -->
         <div v-if="!isLoading" class="replied-tweet d-flex">
           <div class="mr-3 d-flex flex-column align-items-center">
-            <img :src="tweet.tweetedUser.avatar" alt="tweetedUserAvatar" />
+            <img
+              :src="tweet.tweetedUser.avatar | emptyImage"
+              alt="tweetedUserAvatar"
+            />
             <div class="flex-grow-1 my-2 decorated-line"></div>
           </div>
           <div>
@@ -17,7 +20,7 @@
               <span class="tag-group">
                 <span>@{{ tweet.tweetedUser.name }}</span>
                 <span class="mx-1">&#8901;</span>
-                <span>{{ tweet.createdAt }}</span>
+                <span>{{ tweet.createdAt | fromNow }}</span>
               </span>
             </div>
             <p class="description">{{ tweet.description }}</p>
@@ -31,7 +34,7 @@
         <!-- 新增留言區塊 -->
         <div class="writing-tweet flex-grow-1 d-flex">
           <div class="mr-3">
-            <img :src="currentUser.avatar" alt="user image" />
+            <img :src="currentUser.avatar | emptyImage" alt="user image" />
           </div>
           <div class="flex-grow-1 d-flex flex-column align-items-end">
             <textarea
@@ -52,17 +55,21 @@
 </template>
 
 <script>
-import replyListAPI from "./../apis/replyList";
+import { emptyImageFilter } from "../utils/mixins";
+import { fromNowFilter } from "./../utils/mixins";
+import replyModalAPI from "./../apis/replyModal";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
+  name: "ReplyModal",
   props: {
     replyTweetId: {
       type: Number,
       required: true,
     },
   },
+  mixins: [emptyImageFilter, fromNowFilter],
   data() {
     return {
       tweet: "",
@@ -86,32 +93,52 @@ export default {
       this.warningContent = "";
       this.$emit("after-hide-reply-modal");
     },
-    handleSubmit() {
-      // 待優化: 即時回饋使用者是否超過140字
-      // 字數驗證
-      if (this.tweetContent.trim().length === 0) {
-        this.warningContent = "內容不可空白";
-        return;
-      } else if (this.tweetContent.length > 140) {
-        // TODO: 目前的字數計算方式，會在135字左右就被擋
-        this.warningContent = "字數不可超過140字";
-        return;
-      }
-      this.warningContent = "";
-      // TODO: 發送推文內容至後端伺服器，
-      // TODO: 發送成功提示
-      console.log(this.tweetContent);
-      this.hideModal();
-    },
     // 請求回傳被回覆的tweet資料
     async fetchReplyTweet() {
       try {
         const id = this.replyTweetId;
-        let response = await replyListAPI.getReplyListTweet(id);
+        let response = await replyModalAPI.getReplyListTweet(id);
         const { data } = response;
-        console.log(data);
         this.tweet = data;
         this.isLoading = false;
+      } catch (e) {
+        Toast.fire({
+          icon: "warning",
+          title: e.response.data.message,
+        });
+      }
+    },
+    async handleSubmit() {
+      const tweetId = this.replyTweetId;
+      const comment = this.tweetContent;
+      try {
+        // 待優化: 即時回饋使用者是否超過140字
+        // 字數驗證
+        if (comment.trim().length === 0) {
+          this.warningContent = "內容不可空白";
+          return;
+        } else if (comment.length > 140) {
+          // TODO: 目前的字數計算方式，會在135字左右就被擋
+          this.warningContent = "字數不可超過140字";
+          return;
+        }
+        this.warningContent = "";
+        // 發送推文內容至後端伺服器
+        let response = await replyModalAPI.postTweetReply({ tweetId, comment });
+        const { data } = response;
+
+        if (data.status === "error") {
+          throw new Error(data.message);
+        }
+        // 發送成功提示
+        console.log(this.tweetContent);
+        Toast.fire({
+          icon: "success",
+          title: "成功發送回覆！",
+        });
+        this.hideModal();
+        // TODO: 強制重整畫面顯示新推文，未來可再優化。
+        this.$router.go(0);
       } catch (e) {
         Toast.fire({
           icon: "warning",
