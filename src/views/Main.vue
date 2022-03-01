@@ -25,9 +25,9 @@ export default {
       console.log("afterShowModal----main");
       this.$emit("after-show-tweet-modal");
     },
-    afterShowReplyModal(replyUserId) {
-      console.log("afterShowReplyModal----main", replyUserId);
-      this.$emit("after-show-reply-modal",replyUserId);
+    afterShowReplyModal(replyTweetId) {
+      console.log("afterShowReplyModal----main", replyTweetId);
+      this.$emit("after-show-reply-modal",replyTweetId);
     },
   },
 }

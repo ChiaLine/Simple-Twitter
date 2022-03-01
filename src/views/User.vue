@@ -10,7 +10,7 @@
     <ReplyModal 
     v-if="showReplyModal" 
     @after-hide-reply-modal="afterHideReplyModal"
-    :reply-user-id="replyUserId"
+    :reply-tweet-id="replyTweetId"
     />
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
     return {
       showTweetModal: false,
       showReplyModal: false,
-      replyUserId: -1,
+      replyTweetId: -1,
     }
   },
   methods: {
@@ -45,10 +45,10 @@ export default {
       console.log("afterHideModal--user");
       this.showTweetModal = false
     },
-    afterShowReplyModal(replyUserId) {
-      console.log("Reply--user", replyUserId);
+    afterShowReplyModal(replyTweetId) {
+      console.log("Reply--user", replyTweetId);
       this.showReplyModal = true
-      this.replyUserId = replyUserId
+      this.replyTweetId = replyTweetId
     },
     afterHideReplyModal() {
       console.log("hide--user");
