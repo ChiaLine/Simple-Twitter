@@ -15,7 +15,11 @@
             <!-- cover 區塊 -->
             <div class="cover-form-group">
               <label for="cover" class="d-none"></label>
-              <img :src="currentUser.cover | emptyImage" class="cover" alt="user cover" />
+              <img
+                :src="currentUser.cover | emptyImage"
+                class="cover"
+                alt="user cover"
+              />
               <input
                 id="cover"
                 type="file"
@@ -28,7 +32,11 @@
             <!-- avatar 區塊 -->
             <div class="avatar-form-group">
               <label for="avatar" class="d-none"></label>
-              <img :src="currentUser.avatar | emptyImage" class="avatar" alt="user avatar" />
+              <img
+                :src="currentUser.avatar | emptyImage"
+                class="avatar"
+                alt="user avatar"
+              />
               <input
                 id="avatar"
                 type="file"
@@ -93,6 +101,7 @@
 import { emptyImageFilter } from "../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
+import userEditModalAPI from "./../apis/userEditModal";
 
 export default {
   name: "UserEditModal",
@@ -108,29 +117,56 @@ export default {
       // TODO:待優化: 可在關掉時，警告使用者未儲存修改會消失
       this.$emit("after-hide-user-edit-modal");
     },
-    handleSubmit(e) {
-      // 字數驗證
-      if (this.nameWarningOn || this.introWarningOn) {
+    async handleSubmit(e) {
+      try {
+        // 圖片驗證
+        if (!this.currentUser.cover || !this.currentUser.avatar) {
+          Toast.fire({
+            icon: "warning",
+            title: "必須上傳大頭貼和封面照片",
+          });
+          return;
+        }
+        // 字數驗證
+        if (this.nameWarningOn || this.introWarningOn) {
+          Toast.fire({
+            icon: "warning",
+            title: "字數不符合規定",
+          });
+          return;
+        }
+        // 拿取表單資料
+        const form = e.target;
+        const formData = new FormData(form);
+        for (let [name, value] of formData.entries()) {
+          console.log(name + ": " + value);
+        }
+        // TODO: 串接API送出表單資料
+        const userId = this.currentUser.id;
+        const response = await userEditModalAPI.updateUserData({
+          userId,
+          formData,
+        });
+
+        const { data } = response;
+
+        if (data.status === "error") {
+          throw new Error(data.message);
+        }
+
+        // 關閉modal並發送成功通知
+        Toast.fire({
+          icon: "success",
+          title: "成功修改個人資料！",
+        });
+        this.hideModal();
+        // 重整畫面？
+      } catch (e) {
         Toast.fire({
           icon: "warning",
-          title: "字數不符合規定",
+          title: e.response.data.message,
         });
-        return;
       }
-      // 拿取表單資料
-      const form = e.target;
-      const formData = new FormData(form);
-      for (let [name, value] of formData.entries()) {
-        console.log(name + ": " + value);
-      }
-      // TODO: 串接API送出表單資料
-
-      // 關閉modal並發送成功通知
-      this.hideModal();
-      Toast.fire({
-        icon: "success",
-        title: "成功修改個人資料！",
-      });
     },
     // 圖片上傳相關功能
     changeCover(e) {
