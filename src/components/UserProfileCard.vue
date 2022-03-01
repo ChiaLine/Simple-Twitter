@@ -17,7 +17,26 @@
       />
     </div>
     <div class="profile position-relative ml-3">
-      <button class="editProfile btn position-absolute">編輯個人資料</button>
+      <button v-if="isCurrentUser" class="editProfile btn position-absolute">
+        編輯個人資料
+      </button>
+      <div v-else class="followOther position-absolute d-flex">
+        <button class="iconWrapper d-flex">
+          <img
+            class="iconMail m-auto"
+            src="https://imgur.com/nBCwk65.png"
+            alt=""
+          />
+        </button>
+        <button class="iconWrapper d-flex">
+          <img
+            class="iconNotify m-auto"
+            src="https://imgur.com/fCt60a2.png"
+            alt=""
+          />
+        </button>
+        <button class="editProfile btn">正在跟隨</button>
+      </div>
       <h2 class="name">{{ user.name }}</h2>
       <h5 class="account">@{{ user.account }}</h5>
       <p class="note">
@@ -66,7 +85,21 @@ export default {
         createdAt: "",
         updatedAt: "",
       },
+      isCurrentUser: "",
     };
+  },
+  created() {
+    this.checkCurrentPage();
+  },
+  methods: {
+    checkCurrentPage() {
+      const currentPage = this.$route.name;
+      if (currentPage === "UserSelf") {
+        this.isCurrentUser = true;
+      } else if (currentPage === "UserOther") {
+        this.isCurrentUser = false;
+      }
+    },
   },
   watch: {
     initialUser(newValue) {
@@ -115,20 +148,42 @@ $border-style: 1px solid #e6ecf0;
   border: 4px solid #ffffff;
 }
 .editProfile {
-  top: 0;
-  right: 0;
+  right: 0.1rem;
   transform: translate(-7%, -155%);
   width: 130px;
-  height: 38px;
+  height: 35px;
   @extend %second-title-text;
   line-height: 15px;
   color: $button-orange;
   border: 1px solid $button-orange;
   border-radius: 30px;
+  margin-left: 0.4rem;
+}
+.iconWrapper {
+  transform: translate(-7%, -155%);
+  width: 35px;
+  height: 35px;
+  color: $button-orange;
+  border: 1px solid $button-orange;
+  border-radius: 30px;
+  margin-right: 0.625rem;
+  .iconMail {
+    width: 17.5px;
+    height: 15.75px;
+    border-radius: 0px;
+  }
+  .iconNotify {
+    width: 20.92px;
+    height: 19.16px;
+    border-radius: 0px;
+  }
 }
 .profile {
   top: 4.3rem;
   margin-bottom: 7rem;
+}
+.followOther {
+  right: 0.1rem;
 }
 .name {
   @extend %title-text;

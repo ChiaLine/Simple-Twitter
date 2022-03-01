@@ -1,6 +1,6 @@
 <template>
-  <div class="other"> 
-    <UserProfileCard />
+  <div class="other">
+    <UserProfileCard :initialUser="user" />
     <div class="other-buttons">
       <a href="" class="other-button">
         <span>推文</span>
@@ -17,30 +17,77 @@
 </template>
 
 <script>
-import TweetCards from '../components/TweetCards.vue'
-import UserProfileCard from '../components/UserProfileCard.vue'
+import TweetCards from "../components/TweetCards.vue";
+import UserProfileCard from "../components/UserProfileCard.vue";
+import getUserDataAPI from "./../apis/getUserData";
+import { Toast } from "./../utils/helpers";
 
 export default {
-  name: 'UserOther',
+  name: "UserOther",
   components: {
     TweetCards,
     UserProfileCard,
-  }
-}
+  },
+  data() {
+    return {
+      user: {
+        id: -1,
+        account: "",
+        email: "",
+        name: "",
+        avatar: "",
+        cover: null,
+        introduction: "",
+        role: "",
+        totalTweets: 0,
+        totalFollowings: 0,
+        totalFollowers: 0,
+        totalLiked: 0,
+        createdAt: "",
+        updatedAt: "",
+      },
+      userIsLoading: true,
+    };
+  },
+  beforeRouteUpdate() {
+    console.log(this.$route.params.id);
+    this.fetchData(this.$route.params.id);
+  },
+  created() {
+    console.log(this.$route.params.id);
+    this.fetchData(this.$route.params.id);
+  },
+  methods: {
+    async fetchData(userId) {
+      try {
+        let { data } = await getUserDataAPI.getUserProfile(userId);
+        this.user = data;
+        console.log("data", data);
+        console.log("this.user", this.user);
+        this.userIsLoading = false;
+      } catch (error) {
+        this.userIsLoading = false;
+        Toast.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .other-buttons {
-    padding-bottom: 10px;
-    border-left: 1px solid #E6ECF0;
-    border-right: 1px solid #E6ECF0;
-    border-bottom: 1px solid #E6ECF0;
-    
-  }
+.other-buttons {
+  padding-bottom: 10px;
+  border-left: 1px solid #e6ecf0;
+  border-right: 1px solid #e6ecf0;
+  border-bottom: 1px solid #e6ecf0;
+}
 
-  .other-button {
-    margin-left: 55px;
-    font-weight: 500;
-    color: #657786;
-  }
+.other-button {
+  margin-left: 55px;
+  font-weight: 500;
+  color: #657786;
+}
 </style>
