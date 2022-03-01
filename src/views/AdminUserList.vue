@@ -14,9 +14,9 @@
             <h5>{{ user.name }}</h5>
             <p>@{{ user.account }}</p>
             <div class="card-body-bottom">
-                <img class="card-body-icon" src="https://i.imgur.com/GW72xOA.png" alt="">
+                <img class="card-body-icon" src="https://i.imgur.com/EwJRYkP.png" alt="">
                 <p>{{user.totalTweets}}k</p>
-                <img class="card-body-icon" src="https://i.imgur.com/wp77Lzc.png" alt="">
+                <img class="card-body-icon" src="https://i.imgur.com/fWY8yOj.png" alt="">
                 <p>{{user.totalLiked}}k</p>
             </div>
             <p><span>{{user.totalFollowings}}個跟隨中</span><span>{{user.totalFollowers}}位跟隨者</span></p>

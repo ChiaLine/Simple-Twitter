@@ -98,6 +98,12 @@ const dummyUser = {
 };
 
 export default {
+  props: {
+    replyUserId: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
       tweet: dummyTweet,

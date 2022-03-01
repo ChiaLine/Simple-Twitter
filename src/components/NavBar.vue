@@ -110,7 +110,7 @@ export default {
     },
     handleNavBarTweetButton() {
       console.log("NavBar show modal");
-      this.$emit("after-show-modal");
+      this.$emit("after-show-tweet-modal");
     }
   }
 }

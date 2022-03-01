@@ -1,7 +1,7 @@
 <template>
   <div class="main">
-    <UserCreateTweet @after-show-modal="afterShowModal"/>
-    <TweetCards />
+    <UserCreateTweet @after-show-tweet-modal="afterShowModal"/>
+    <TweetCards @after-show-reply-modal="afterShowReplyModal"/>
   </div>
 </template>
 
@@ -23,7 +23,11 @@ export default {
   methods: {
     afterShowModal() {
       console.log("afterShowModal----main");
-      this.$emit("after-show-modal");
+      this.$emit("after-show-tweet-modal");
+    },
+    afterShowReplyModal(replyUserId) {
+      console.log("afterShowReplyModal----main", replyUserId);
+      this.$emit("after-show-reply-modal",replyUserId);
     },
   },
 }
