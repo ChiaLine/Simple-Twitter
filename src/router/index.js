@@ -41,7 +41,7 @@ const router = new VueRouter({
           component: () => import('../views/Main.vue'),
         },
         {
-          path: 'ReplyList',
+          path: 'ReplyList/:id',
           name: 'ReplyList',
           component: () => import('../views/ReplyList.vue'),
         },
@@ -56,7 +56,7 @@ const router = new VueRouter({
           component: () => import('../views/UserFollow.vue'),
         },
         {
-          path: 'UserOther',
+          path: 'UserOther/:id',
           name: 'UserOther',
           component: () => import('../views/UserOther.vue'),
         },

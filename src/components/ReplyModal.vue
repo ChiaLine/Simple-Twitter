@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import replyListAPI from "./../apis/replyList";
+import replyModalAPI from "./../apis/replyModal";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
@@ -86,32 +86,50 @@ export default {
       this.warningContent = "";
       this.$emit("after-hide-reply-modal");
     },
-    handleSubmit() {
-      // 待優化: 即時回饋使用者是否超過140字
-      // 字數驗證
-      if (this.tweetContent.trim().length === 0) {
-        this.warningContent = "內容不可空白";
-        return;
-      } else if (this.tweetContent.length > 140) {
-        // TODO: 目前的字數計算方式，會在135字左右就被擋
-        this.warningContent = "字數不可超過140字";
-        return;
-      }
-      this.warningContent = "";
-      // TODO: 發送推文內容至後端伺服器，
-      // TODO: 發送成功提示
-      console.log(this.tweetContent);
-      this.hideModal();
-    },
     // 請求回傳被回覆的tweet資料
     async fetchReplyTweet() {
       try {
         const id = this.replyTweetId;
-        let response = await replyListAPI.getReplyListTweet(id);
+        let response = await replyModalAPI.getReplyListTweet(id);
         const { data } = response;
-        console.log(data);
         this.tweet = data;
         this.isLoading = false;
+      } catch (e) {
+        Toast.fire({
+          icon: "warning",
+          title: e.response.data.message,
+        });
+      }
+    },
+    async handleSubmit() {
+      const tweetId = this.replyTweetId;
+      const comment = this.tweetContent;
+      try {
+        // 待優化: 即時回饋使用者是否超過140字
+        // 字數驗證
+        if (comment.trim().length === 0) {
+          this.warningContent = "內容不可空白";
+          return;
+        } else if (comment.length > 140) {
+          // TODO: 目前的字數計算方式，會在135字左右就被擋
+          this.warningContent = "字數不可超過140字";
+          return;
+        }
+        this.warningContent = "";
+        // TODO: 發送推文內容至後端伺服器
+        let response = await replyModalAPI.postTweetReply({ tweetId, comment });
+        const { data } = response;
+
+        if (data.status === "error") {
+          throw new Error(data.message);
+        }
+        // TODO: 發送成功提示
+        console.log(this.tweetContent);
+        Toast.fire({
+          icon: "success",
+          title: "成功發送回覆！",
+        });
+        this.hideModal();
       } catch (e) {
         Toast.fire({
           icon: "warning",

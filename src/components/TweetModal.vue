@@ -74,7 +74,7 @@ export default {
         }
 
         // 發送成功提示
-        this.$emit("after-tweet");
+        // this.$emit("after-tweet"); ??
         Toast.fire({
           icon: "success",
           title: "成功發送推文！",

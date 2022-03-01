@@ -37,8 +37,9 @@ export default {
     };
   },
   created() {
-    this.fetchReplyListTweet(this.tweetId);
-    this.fetchReplyListCards(this.tweetId);
+    const cardId = this.$route.params.id;
+    this.fetchReplyListTweet(cardId);
+    this.fetchReplyListCards(cardId);
   },
   methods: {
     async fetchReplyListTweet(tweetId) {
