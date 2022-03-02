@@ -2,18 +2,27 @@
   <div class="h-100">
     <!-- 按鈕區 -->
     <div class="self-buttons">
-      <button class="self-button"
-      :class="{active: toggleButton === 'tweet'}"
-      @click.stop.prevent="fetchUserTweets(user.id)"
-      >推文</button>
-      <button class="self-button"
-      :class="{active: toggleButton === 'reply'}"
-      @click.stop.prevent="fetchUserReplyTweets(user.id)"
-      >推文與回覆</button>
-      <button class="self-button"
-      :class="{active: toggleButton === 'like'}"
-      @click.stop.prevent="fetchUserLikeTweets(user.id)"
-      >喜歡的內容</button>
+      <button
+        class="self-button"
+        :class="{ active: toggleButton === 'tweet' }"
+        @click.stop.prevent="fetchUserTweets(user.id)"
+      >
+        推文
+      </button>
+      <button
+        class="self-button"
+        :class="{ active: toggleButton === 'reply' }"
+        @click.stop.prevent="fetchUserReplyTweets(user.id)"
+      >
+        推文與回覆
+      </button>
+      <button
+        class="self-button"
+        :class="{ active: toggleButton === 'like' }"
+        @click.stop.prevent="fetchUserLikeTweets(user.id)"
+      >
+        喜歡的內容
+      </button>
     </div>
     <!-- 自己的推文列表 -->
     <div class="tweet-cards" v-if="toggleButton === 'tweet'">
@@ -21,22 +30,14 @@
         <div class="tweet-card-top">
           <div class="tweet-card-avatar">
             <div>
-              <img
-                class="tweet-card-img"
-                :src="user.avatar | emptyImage"
-              />
+              <img class="tweet-card-img" :src="user.avatar | emptyImage" />
             </div>
           </div>
-          <div
-            class="tweet-card-content"
-            @click.stop.prevent="toReplyList()"
-          >
-            <div >
+          <div class="tweet-card-content" @click.stop.prevent="toReplyList()">
+            <div>
               <span class="tweet-card-name">{{ user.name }}</span>
               <span class="tweet-card-account">
-                @{{ user.account }}・{{
-                  tweet.createdAt | formatDate
-                }}
+                @{{ user.account }}・{{ tweet.createdAt | formatDate }}
               </span>
               <p class="tweet-card-description">
                 {{ tweet.description }}
@@ -65,7 +66,7 @@
             class="tweet-like-icon"
             v-else
             :disabled="isProcessing"
-            @click.stop.prevent=" addTweetCardLike(tweet.id)"
+            @click.stop.prevent="addTweetCardLike(tweet.id)"
           >
             <img class="icon-like" :src="iconUnLike" />
             <span>{{ tweet.totalLikes }}</span>
@@ -75,30 +76,28 @@
     </div>
     <!-- 自己的推文回覆列表 -->
     <div class="tweet-cards" v-else-if="toggleButton === 'reply'">
-      <div class="tweet-card" v-for="tweet in userRepliedTweets" :key="tweet.id">
+      <div
+        class="tweet-card"
+        v-for="tweet in userRepliedTweets"
+        :key="tweet.id"
+      >
         <div class="tweet-card-top">
           <div class="tweet-card-avatar">
             <div>
-              <img
-                class="tweet-card-img"
-                :src="user.avatar | emptyImage"
-              />
+              <img class="tweet-card-img" :src="user.avatar | emptyImage" />
             </div>
           </div>
-          <div
-            class="tweet-card-content"
-            @click.stop.prevent="toReplyList"
-          >
-            <div >
+          <div class="tweet-card-content" @click.stop.prevent="toReplyList">
+            <div>
               <span class="tweet-card-name">{{ user.name }}</span>
               <span class="tweet-card-account">
-                @{{ user.account }}・{{
-                  tweet.createdAt | formatDate
-                }}
+                @{{ user.account }}・{{ tweet.createdAt | formatDate }}
               </span>
               <div class="tweet-card-reply">
                 <span class="card-reply-title">回覆</span>
-                <span class="card-reply-name">@{{ tweet.repliedTweet.tweetedUser.account }}</span>
+                <span class="card-reply-name"
+                  >@{{ tweet.repliedTweet.tweetedUser.account }}</span
+                >
               </div>
               <p class="tweet-card-description">
                 {{ tweet.comment }}
@@ -120,12 +119,11 @@
               />
             </div>
           </div>
-          <div
-            class="tweet-card-content"
-            @click.stop.prevent="toReplyList"
-          >
-            <div >
-              <span class="tweet-card-name">{{ tweet.likedTweet.tweetedUser.name }}</span>
+          <div class="tweet-card-content" @click.stop.prevent="toReplyList">
+            <div>
+              <span class="tweet-card-name">{{
+                tweet.likedTweet.tweetedUser.name
+              }}</span>
               <span class="tweet-card-account">
                 @{{ tweet.likedTweet.tweetedUser.account }}・{{
                   tweet.likedTweet.tweetedUser.createdAt | formatDate
@@ -140,7 +138,7 @@
         <div class="tweet-card-icons">
           <button
             class="tweet-reply-icon"
-            @click.stop.prevent="afterShowReplyModal(tweet.id)"
+            @click.stop.prevent="afterShowReplyModal(tweet.likedTweet.id)"
           >
             <img class="icon-reply" :src="iconReply" />
             <span>{{ tweet.likedTweet.totalReplies }}</span>
@@ -158,7 +156,7 @@
             class="tweet-like-icon"
             v-else
             :disabled="isProcessing"
-            @click.stop.prevent=" addTweetCardLike(tweet.likedTweet.id)"
+            @click.stop.prevent="addTweetCardLike(tweet.likedTweet.id)"
           >
             <img class="icon-like" :src="iconUnLike" />
             <span>{{ tweet.likedTweet.totalLikes }}</span>
@@ -166,7 +164,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -178,7 +175,7 @@ import tweetAPI from "../apis/tweetCards";
 import { Toast } from "../utils/helpers";
 
 export default {
-  name: 'UserTweetListCard',
+  name: "UserTweetListCard",
   props: {
     initialUser: {
       type: Object,
@@ -211,9 +208,9 @@ export default {
       iconUnLike: "https://i.imgur.com/fWY8yOj.png",
       iconIsLike: "https://i.imgur.com/LQTMNI0.png",
       iconReply: "https://i.imgur.com/EwJRYkP.png",
-      toggleButton: 'tweet',
+      toggleButton: "tweet",
       isProcessing: false,
-      currentPage: '',
+      currentPage: "",
     };
   },
   watch: {
@@ -222,7 +219,7 @@ export default {
         ...this.user,
         ...newValue,
       };
-      this.fetchUserTweets(this.user.id)
+      this.fetchUserTweets(this.user.id);
     },
   },
   created() {
@@ -239,18 +236,18 @@ export default {
     },
     async fetchUserTweets(userId) {
       try {
-        console.log('fetchUserTweets', userId)
+        console.log("fetchUserTweets", userId);
         const { data } = await userTweetsAPI.getUserTweets(userId);
         this.userTweets = data;
-        
+
         if (!this.userTweets.length) {
           Toast.fire({
             icon: "error",
-            title: '沒有推文的內容',
+            title: "沒有推文的內容",
           });
         }
 
-        this.toggleButton = 'tweet';
+        this.toggleButton = "tweet";
       } catch (error) {
         console.error(error);
         Toast.fire({
@@ -261,17 +258,17 @@ export default {
     },
     async fetchUserReplyTweets(userId) {
       try {
-        console.log('ReplyTweets', userId)
+        console.log("ReplyTweets", userId);
         const { data } = await userTweetsAPI.getUserRepliedTweets(userId);
         this.userRepliedTweets = data;
 
         if (!this.userRepliedTweets.length) {
           Toast.fire({
             icon: "error",
-            title: '沒有回覆推文的內容',
+            title: "沒有回覆推文的內容",
           });
         }
-        this.toggleButton = 'reply';
+        this.toggleButton = "reply";
       } catch (error) {
         console.error(error);
         Toast.fire({
@@ -282,18 +279,18 @@ export default {
     },
     async fetchUserLikeTweets(userId) {
       try {
-        console.log('UserLikeTweets', userId)
+        console.log("UserLikeTweets", userId);
         const { data } = await userTweetsAPI.getUserLikeTweets(userId);
         this.userLikeTweets = data;
 
         if (!this.userLikeTweets.length) {
           Toast.fire({
             icon: "error",
-            title: '沒有喜歡的內容',
+            title: "沒有喜歡的內容",
           });
         }
 
-        this.toggleButton = 'like';
+        this.toggleButton = "like";
       } catch (error) {
         console.error(error);
         Toast.fire({
@@ -315,7 +312,7 @@ export default {
 
         Toast.fire({
           icon: "success",
-          title: '成功加入喜歡的內容',
+          title: "成功加入喜歡的內容",
         });
 
         this.isProcessing = false;
@@ -331,7 +328,7 @@ export default {
       try {
         this.isProcessing = true;
         await tweetAPI.deleteTweetLike(id);
-        
+
         if (this.currentPage === "UserSelf") {
           await this.fetchUserLikeTweets(this.user.id);
         } else if (this.currentPage === "UserOther") {
@@ -344,7 +341,7 @@ export default {
 
         Toast.fire({
           icon: "success",
-          title: '成功取消喜歡的內容',
+          title: "成功取消喜歡的內容",
         });
 
         this.isProcessing = false;
@@ -358,14 +355,14 @@ export default {
     },
     afterShowReplyModal(replyTweetId) {
       console.log("ShowReplyModal----UserTweetListCard", replyTweetId);
-      this.$emit("after-show-reply-modal",replyTweetId);
+      this.$emit("after-show-reply-modal", replyTweetId);
     },
     toReplyList() {
       // 點選區塊後轉址到 未處理
-      console.log('to轉址到未處理???')
+      console.log("to轉址到未處理???");
     },
   },
-}
+};
 </script>
 
 <style scoped style lang="scss">
@@ -385,12 +382,12 @@ export default {
 .card-reply-title {
   color: #657786;
 }
-.card-reply-name{
-  color: #FF6600;
+.card-reply-name {
+  color: #ff6600;
   margin-left: 5px;
 }
-.active{
-  color: #FF6600;
-  border-bottom: 1px solid #FF6600;
+.active {
+  color: #ff6600;
+  border-bottom: 1px solid #ff6600;
 }
 </style>
