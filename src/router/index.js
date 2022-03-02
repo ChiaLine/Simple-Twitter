@@ -85,7 +85,7 @@ const router = new VueRouter({
       name: 'Admin',
       redirect: '/Admin/MainList',
       component: () => import('../views/Admin.vue'),
-      // 沒有權限的使用者來說，即使他知道網址、也應該被轉址到 404 頁面
+      // 沒有權限的管理者，即使知道網址、也應該被轉址到 404 頁面
       beforeEnter: authorizeIsAdmin,
       children: [
         {
@@ -103,12 +103,6 @@ const router = new VueRouter({
       ]
     },
     {
-      // Modal暫時用，之後再刪
-      path: '/Modal',
-      name: 'Modal',
-      component: () => import('../views/Modal.vue')
-    },
-    {
       path: '*',
       name: 'NotFound',
       component: NotFound
@@ -116,11 +110,40 @@ const router = new VueRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  // 使用 dispatch 呼叫 Vuex 內的 actions
-  store.dispatch('fetchCurrentUser')
-  // 新增後台 token 驗證
+router.beforeEach( async (to, from, next) => {
+  // 新增 後台 token 驗證
   store.commit("setAdminUser");
+
+  // 從 localStorage 取出 token
+  const tokenInLocalStorage = localStorage.getItem('token')
+
+  // 從 state 取出 token
+  const tokenInStore = store.state.token
+
+  // 預設 是未驗證
+  let isAuthenticated = store.state.isAuthenticated
+
+  // localStorage 有 token 才驗證 & 比較 store 中的 token 是否一樣
+  if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
+    // 使用 dispatch 呼叫 Vuex 內的 actions
+    isAuthenticated = await store.dispatch('fetchCurrentUser')
+  }
+  
+  // 不需要驗證 token 的頁面
+  const pathsWithoutAuthentication = ['Regist', 'Login', 'AdminLogin']
+
+  // 如果 token 無效且進入需要驗證的頁面則轉址到登入頁 & 避免出現無窮迴圈
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+    next('/Login')
+    return
+  }
+
+  // 如果 token 有效且進入不需要驗證到頁面則轉址到首頁 & 避免出現無窮迴圈
+  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+    next('/User')
+    return
+  }
+
   next()
 })
 
