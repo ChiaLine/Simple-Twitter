@@ -2,7 +2,13 @@
 // ReplyList.vue使用
 <template>
   <div class="wrapper d-flex">
-    <img :src="card.repliedUser.avatar" alt="" class="avatar mt-3" />
+    <img
+      @click.stop.prevent="toUserPage"
+      :data-userId="card.UserId"
+      :src="card.repliedUser.avatar | emptyImage"
+      alt=""
+      class="avatar mt-3"
+    />
     <div class="info py-3">
       <div class="user d-flex mb-1">
         <h5 class="account mr-1">{{ card.repliedUser.name }}</h5>
@@ -20,9 +26,11 @@
 
 <script>
 import { fromNowFilter } from "./../utils/mixins";
+import { emptyImageFilter } from "../utils/mixins";
+import { mapState } from "vuex";
 
 export default {
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
   props: {
     card: {
       type: Object,
@@ -31,6 +39,21 @@ export default {
     tweetedUser: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    ...mapState(["currentUser"]),
+  },
+  methods: {
+    toUserPage(e) {
+      console.log(e.target);
+      const avatarUserId = Number(e.target.dataset.userid);
+      const currentUserId = this.currentUser.id;
+      if (avatarUserId === currentUserId) {
+        this.$router.push({ name: "UserSelf" });
+      } else if (avatarUserId) {
+        this.$router.push({ name: "UserOther", params: { id: avatarUserId } });
+      }
     },
   },
 };

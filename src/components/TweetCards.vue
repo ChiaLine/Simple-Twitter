@@ -16,10 +16,12 @@
           @click.stop.prevent="toReplyList"
           :data-cardId="card.id"
         >
-          <div :data-cardId="card.id">
-            <span class="tweet-card-name">{{ card.tweetedUser.name }}</span>
-            <span class="tweet-card-account">
-              @{{ card.tweetedUser.account }}・{{
+          <div>
+            <span :data-cardId="card.id" class="tweet-card-name">{{
+              card.tweetedUser.name
+            }}</span>
+            <span :data-cardId="card.id" class="tweet-card-account">
+              @{{ card.tweetedUser.account }}．{{
                 card.tweetedUser.createdAt | formatDate
               }}
             </span>
@@ -30,9 +32,12 @@
         </div>
       </div>
       <div class="tweet-card-icons">
-        <button class="tweet-reply-icon" @click.stop.prevent="handleTweetCardReplyButton(card.id)">
-          <img class="icon-reply" :src="iconReply">
-          <span>{{card.totalReplies}}</span>
+        <button
+          class="tweet-reply-icon"
+          @click.stop.prevent="handleTweetCardReplyButton(card.id)"
+        >
+          <img class="icon-reply" :src="iconReply" />
+          <span>{{ card.totalReplies }}</span>
         </button>
         <button
           class="tweet-like-icon"
@@ -97,7 +102,7 @@ export default {
       }
     },
     handleTweetCardReplyButton(replyTweetId) {
-      console.log('show reply nodal', replyTweetId);
+      console.log("show reply nodal", replyTweetId);
       this.$emit("after-show-reply-modal", replyTweetId);
     },
     async addTweetCardLike(id) {
@@ -131,16 +136,20 @@ export default {
     },
     toReplyList(e) {
       // 點選區塊後轉址到
-      console.log(e.target.dataset.cardid);
       const cardId = e.target.dataset.cardid;
-      this.$router.push({ name: "ReplyList", params: { id: cardId } });
+      if (cardId) {
+        this.$router.push({
+          name: "ReplyList",
+          params: { id: cardId },
+        });
+      }
     },
     toUserPage(e) {
       const avatarUserId = Number(e.target.dataset.userid);
       const currentUserId = this.currentUser.id;
       if (avatarUserId === currentUserId) {
         this.$router.push({ name: "UserSelf" });
-      } else {
+      } else if (avatarUserId) {
         this.$router.push({ name: "UserOther", params: { id: avatarUserId } });
       }
     },
