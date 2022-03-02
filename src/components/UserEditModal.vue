@@ -8,7 +8,9 @@
         <div class="modal-header align-items-center">
           <button @click.stop.prevent="hideModal">&#215;</button>
           <p class="flex-grow-1">編輯個人資料</p>
-          <button type="submit" class="save-button">儲存</button>
+          <button type="submit" class="save-button" :disabled="isProcessing">
+            儲存
+          </button>
         </div>
         <div class="modal-body flex-grow-1 d-flex flex-column">
           <div class="photo-area">
@@ -109,6 +111,7 @@ export default {
     return {
       nameLengthLimit: 50,
       introLengthLimit: 160,
+      isProcessing: false,
     };
   },
   mixins: [emptyImageFilter],
@@ -136,6 +139,7 @@ export default {
           return;
         }
         // 拿取表單資料
+        this.isProcessing = true;
         const form = e.target;
         const formData = new FormData(form);
         for (let [name, value] of formData.entries()) {
@@ -160,12 +164,14 @@ export default {
           title: "成功修改個人資料！",
         });
         this.hideModal();
+        this.isProcessing = false;
         // 重整畫面？
       } catch (e) {
         Toast.fire({
           icon: "warning",
           title: e.response.data.message,
         });
+        this.isProcessing = false;
       }
     },
     // 圖片上傳相關功能
