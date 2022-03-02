@@ -1,7 +1,10 @@
 <template>
   <div class="user-self">
     <UserProfileCard :initialUser="currentUser" />
-    <UserTweetListCard @after-show-reply-modal="afterShowReplyModal"/>
+    <UserTweetListCard 
+    @after-show-reply-modal="afterShowReplyModal"
+    :initialUser="currentUser"
+    />
     <ReplyModal 
     v-if="showReplyModal" 
     @after-hide-reply-modal="afterHideReplyModal"
