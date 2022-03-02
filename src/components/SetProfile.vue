@@ -1,7 +1,10 @@
 // src/components/SetProfile.vue
 // 給Regist.vue使用
 <template>
-  <form class="d-flex flex-column align-items-center w-100">
+  <form
+    class="d-flex flex-column align-items-center w-100"
+    @submit.stop.prevent="afterSubmit"
+  >
     <div
       v-for="form in forms"
       :key="form.id"
@@ -10,7 +13,21 @@
       <label class="position-absolute label" :for="form.category">
         {{ form.label }}
       </label>
-      <input :id="form.category" class="w-100 input" type="text" />
+      <input
+        v-model="user[form.type]"
+        @focusout="wordLimit(user[form.type])"
+        :id="form.id"
+        class="w-100 input"
+        :type="form.category"
+        :name="form.category"
+        required
+      />
+      <span
+        class="position-absolute warning"
+        v-show="isNameWarning"
+        v-if="form.category === 'name'"
+        >{{ nameWarning }}</span
+      >
     </div>
     <button v-if="isRegistered()" class="btn save-btn align-self-end mx-0">
       儲存
@@ -20,37 +37,72 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+// import { Toast } from "./../utils/helpers";
 export default {
   data() {
     return {
+      user: {
+        account: "",
+        name: "",
+        email: "",
+        password: "",
+        checkPassword: "",
+      },
       forms: [
         {
           label: "帳號",
           category: "account",
+          type: "account",
           id: 1,
+          data: "",
         },
         {
           label: "名稱",
           category: "name",
+          type: "name",
           id: 2,
+          data: "",
         },
         {
           label: "Email",
           category: "email",
+          type: "email",
           id: 3,
+          data: "",
         },
         {
           label: "密碼",
-          category: "password",
+          category: "passwordd",
+          type: "password",
           id: 4,
+          data: "",
         },
         {
           label: "密碼確認",
-          category: "password-check",
+          category: "passwordd",
+          type: "password-check",
           id: 5,
+          data: "",
         },
       ],
+      nameWarning: "字數超出上限!",
+      isNameWarning: false,
     };
+  },
+  watch: {
+    currentUser(newValue) {
+      if (this.$route.name === "Regist") {
+        this.user = {
+          ...this.user,
+        };
+      } else if (this.$route.name === "Setting") {
+        this.user = {
+          ...this.user,
+          ...newValue,
+        };
+      }
+    },
   },
   methods: {
     isRegistered() {
@@ -60,6 +112,28 @@ export default {
         return true;
       }
     },
+    wordLimit(data) {
+      if (data.length > 50) {
+        event.target.classList.add("error");
+        console.log(event.target.classList);
+        this.isNameWarning = true;
+      } else {
+        event.target.classList.remove("error");
+        this.isNameWarning = false;
+      }
+    },
+    afterSubmit(e) {
+      const form = e.target;
+      const formData = new FormData(form);
+      const userData = [];
+      for (let value of formData.values()) {
+        userData.push(value);
+      }
+      this.$emit("after-submit", userData);
+    },
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
