@@ -1,7 +1,7 @@
 <template>
   <div class="other">
     <UserProfileCard :initialUser="user" />
-    <UserTweetListCard :initialUser="user"/>
+    <UserTweetListCard :initialUser="user" @after-show-reply-modal="afterShowReplyModal"/>
   </div>
 </template>
 
@@ -61,6 +61,9 @@ export default {
           title: error.response.data.message,
         });
       }
+    },
+    afterShowReplyModal(replyTweetId) {
+      this.$emit("after-show-reply-modal",replyTweetId)
     },
   },
 };

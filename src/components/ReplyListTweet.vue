@@ -49,7 +49,7 @@
     </div>
     <div class="wrapper">
       <div class="d-flex justify-content-between p-3 w-50">
-        <img class="icon" src="https://i.imgur.com/0KluE5j.png" alt="" />
+        <img @click.stop.prevent="afterShowReplyModal(tweet.id)" class="icon" src="https://i.imgur.com/0KluE5j.png" alt="" />
         <img class="icon" src="https://i.imgur.com/5UnPtv0.png" alt="" />
       </div>
     </div>
@@ -98,6 +98,9 @@ export default {
       } else if (avatarUserId) {
         this.$router.push({ name: "UserOther", params: { id: avatarUserId } });
       }
+    },
+    afterShowReplyModal(replyTweetId) {
+      this.$emit("after-show-reply-modal", replyTweetId);
     },
   },
 };
