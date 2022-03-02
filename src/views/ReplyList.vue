@@ -1,7 +1,7 @@
 // src/views/ReplyList.vue
 <template>
   <div class="replyList">
-    <ReplyListTweet v-show="!tweetIsLoading" :tweet="tweet" />
+    <ReplyListTweet v-show="!tweetIsLoading" :tweet="tweet" @after-show-reply-modal="afterShowReplyModal" />
     <div class="w-100">
       <ReplyListCards
         v-show="!cardsIsLoading"
@@ -67,6 +67,9 @@ export default {
           title: error.response.data.message,
         });
       }
+    },
+    afterShowReplyModal(replyTweetId) {
+      this.$emit("after-show-reply-modal",replyTweetId)
     },
   },
 };
