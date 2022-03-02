@@ -71,7 +71,7 @@ export default {
           if (data.length === 0) {
             Toast.fire({
               icon: "warning",
-              title: "沒有跟隨者from前端",
+              title: "沒有跟隨者",
             });
           }
         } else {
@@ -82,7 +82,7 @@ export default {
           if (data.length === 0) {
             Toast.fire({
               icon: "warning",
-              title: "沒有正在跟隨的使用者from前端",
+              title: "沒有正在跟隨的使用者",
             });
           }
         }
