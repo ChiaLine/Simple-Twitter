@@ -1,13 +1,18 @@
 <template>
   <div class="wrapper">
     <!-- 要再將連結修改成上一頁 -->
-    <router-link to="/User" class="d-flex">
-      <img class="arrow" src="https://i.imgur.com/3y7W3fG.png" alt="" />
+    <div class="d-flex">
+      <img
+        @click.stop.prevent="goBack"
+        class="arrow"
+        src="https://i.imgur.com/3y7W3fG.png"
+        alt=""
+      />
       <div class="m-2">
         <h5 class="returnTweet">{{ user.name }}</h5>
         <h5 class="tweetNumber">{{ user.totalTweets }}貼文</h5>
       </div>
-    </router-link>
+    </div>
     <div class="position-relative">
       <img :src="user.cover | emptyImage" alt="" class="cover w-100" />
       <img
@@ -99,6 +104,9 @@ export default {
       } else if (currentPage === "UserOther") {
         this.isCurrentUser = false;
       }
+    },
+    goBack() {
+      this.$router.back();
     },
   },
   watch: {

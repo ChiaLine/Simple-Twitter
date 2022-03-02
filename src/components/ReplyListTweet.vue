@@ -2,16 +2,30 @@
 // ReplyList.vue使用
 <template>
   <div class="w-100">
-    <router-link to="/User" class="wrapper d-flex">
-      <img class="arrow" src="https://i.imgur.com/3y7W3fG.png" alt="" />
+    <div class="wrapper d-flex">
+      <img
+        @click.stop.prevent="goBack"
+        class="arrow"
+        src="https://i.imgur.com/3y7W3fG.png"
+        alt=""
+      />
       <h5 class="returnTweet">推文</h5>
-    </router-link>
+    </div>
     <div class="wrapper">
-      <div class="user d-flex">
-        <img class="avatar" :src="tweet.tweetedUser.avatar" alt="" />
+      <div class="user d-flex" @click.stop.prevent="toUserPage">
+        <img
+          class="avatar"
+          :data-userId="tweet.UserId"
+          :src="tweet.tweetedUser.avatar | emptyImage"
+          alt=""
+        />
         <div class="info py-3">
-          <h5 class="account">{{ tweet.tweetedUser.name }}</h5>
-          <h5 class="grey-font">@{{ tweet.tweetedUser.account }}</h5>
+          <h5 class="account" :data-userId="tweet.UserId">
+            {{ tweet.tweetedUser.name }}
+          </h5>
+          <h5 class="grey-font" :data-userId="tweet.UserId">
+            @{{ tweet.tweetedUser.account }}
+          </h5>
         </div>
       </div>
       <p class="tweetContent">
@@ -44,16 +58,21 @@
 
 <script>
 import { formatDateFilter } from "./../utils/mixins";
+import { emptyImageFilter } from "../utils/mixins";
 import replyListAPI from "./../apis/replyList";
 import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
-  mixins: [formatDateFilter],
+  mixins: [formatDateFilter, emptyImageFilter],
   props: {
     tweet: {
       type: Object,
       require: true,
     },
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
   methods: {
     async addLike(tweetId) {
@@ -65,6 +84,19 @@ export default {
           icon: "error",
           title: error.response.data.message,
         });
+      }
+    },
+    goBack() {
+      this.$router.back();
+    },
+    toUserPage(e) {
+      console.log(e.target);
+      const avatarUserId = Number(e.target.dataset.userid);
+      const currentUserId = this.currentUser.id;
+      if (avatarUserId === currentUserId) {
+        this.$router.push({ name: "UserSelf" });
+      } else if (avatarUserId) {
+        this.$router.push({ name: "UserOther", params: { id: avatarUserId } });
       }
     },
   },

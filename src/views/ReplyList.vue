@@ -6,7 +6,7 @@
       <ReplyListCards
         v-show="!cardsIsLoading"
         v-for="card in replyListCards"
-        :key="card.UserId"
+        :key="card.id"
         :card="card"
         :tweetedUser="tweetedUser"
       />
@@ -27,8 +27,6 @@ export default {
   },
   data() {
     return {
-      tweetId: 4,
-      // tweetId要從user/main點擊貼文時獲取
       tweet: {},
       replyListCards: [],
       tweetedUser: "",
@@ -37,9 +35,9 @@ export default {
     };
   },
   created() {
-    const cardId = this.$route.params.id;
-    this.fetchReplyListTweet(cardId);
-    this.fetchReplyListCards(cardId);
+    const tweetCardId = this.$route.params.id;
+    this.fetchReplyListTweet(tweetCardId);
+    this.fetchReplyListCards(tweetCardId);
   },
   methods: {
     async fetchReplyListTweet(tweetId) {
