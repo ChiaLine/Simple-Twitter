@@ -220,11 +220,11 @@ export default {
     },
     // 取得即時警告狀態
     nameWarningOn() {
-      const length = this.currentUser.name.trim().length;
+      let length = this.currentUser.name.trim().length;
       return length <= 0 || length > this.nameLengthLimit;
     },
     introWarningOn() {
-      const length = this.currentUser.introduction.trim().length;
+      let length = this.currentUser.introduction.trim().length;
       return length <= 0 || length > this.introLengthLimit;
     },
     // 取得即時警告內容

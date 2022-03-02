@@ -55,7 +55,7 @@ export default {
     },
     async handleSubmit() {
       try {
-        const description = this.tweetContent;
+        let description = this.tweetContent;
         // 字數驗證
         if (description.trim().length === 0) {
           this.warningContent = "內容不可空白";

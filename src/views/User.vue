@@ -14,7 +14,7 @@
       :reply-tweet-id="replyTweetId"
     />
     <UserEditModal
-      v-show="showUserEditModal"
+      v-if="showUserEditModal"
       @after-hide-user-edit-modal="userEditModalOff"
     />
   </div>

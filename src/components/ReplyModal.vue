@@ -109,8 +109,8 @@ export default {
       }
     },
     async handleSubmit() {
-      const tweetId = this.replyTweetId;
-      const comment = this.tweetContent;
+      let tweetId = this.replyTweetId;
+      let comment = this.tweetContent;
       try {
         // 待優化: 即時回饋使用者是否超過140字
         // 字數驗證
