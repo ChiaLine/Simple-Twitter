@@ -18,7 +18,7 @@
             <div class="cover-form-group">
               <label for="cover" class="d-none"></label>
               <img
-                :src="currentUser.cover | emptyImage"
+                :src="user.cover | emptyImage"
                 class="cover"
                 alt="user cover"
               />
@@ -35,7 +35,7 @@
             <div class="avatar-form-group">
               <label for="avatar" class="d-none"></label>
               <img
-                :src="currentUser.avatar | emptyImage"
+                :src="user.avatar | emptyImage"
                 class="avatar"
                 alt="user avatar"
               />
@@ -58,7 +58,7 @@
               >
                 <label for="name">名稱</label>
                 <textarea
-                  v-model="currentUser.name"
+                  v-model="user.name"
                   name="name"
                   id="name"
                   rows="1"
@@ -79,7 +79,7 @@
               >
                 <label for="introduction">自我介紹</label>
                 <textarea
-                  v-model="currentUser.introduction"
+                  v-model="user.introduction"
                   name="introduction"
                   id="introduction"
                   class="flex-grow-1"
@@ -109,21 +109,43 @@ export default {
   name: "UserEditModal",
   data() {
     return {
+      user: {
+        id: -1,
+        cover: "",
+        avatar: "",
+        name: "",
+        introduction: "",
+      },
       nameLengthLimit: 50,
       introLengthLimit: 160,
       isProcessing: false,
     };
   },
   mixins: [emptyImageFilter],
+  created() {
+    this.fetchUser();
+  },
   methods: {
     hideModal() {
       // TODO:待優化: 可在關掉時，警告使用者未儲存修改會消失
       this.$emit("after-hide-user-edit-modal");
     },
+    fetchUser() {
+      this.user = {
+        ...this.user,
+        ...this.currentUser,
+      };
+      if (this.user.name === null) {
+        this.user.name = "";
+      }
+      if (this.user.introduction === null) {
+        this.user.introduction = "";
+      }
+    },
     async handleSubmit(e) {
       try {
         // 圖片驗證
-        if (!this.currentUser.cover || !this.currentUser.avatar) {
+        if (!this.user.cover || !this.user.avatar) {
           Toast.fire({
             icon: "warning",
             title: "必須上傳大頭貼和封面照片",
@@ -146,7 +168,7 @@ export default {
           console.log(name + ": " + value);
         }
         // 串接API送出表單資料
-        const userId = this.currentUser.id;
+        const userId = this.user.id;
         const response = await userEditModalAPI.updateUserData({
           userId,
           formData,
@@ -183,7 +205,7 @@ export default {
         return;
       } else {
         const imageURL = window.URL.createObjectURL(files[0]);
-        this.currentUser.cover = imageURL;
+        this.user.cover = imageURL;
       }
     },
     changeAvatar(e) {
@@ -193,7 +215,7 @@ export default {
         return;
       } else {
         const imageURL = window.URL.createObjectURL(files[0]);
-        this.currentUser.avatar = imageURL;
+        this.user.avatar = imageURL;
       }
     },
     // input warning 判別功能
@@ -213,30 +235,30 @@ export default {
     ...mapState(["currentUser"]),
     // 取得即時字數
     getNameLength() {
-      return this.currentUser.name.trim().length;
+      return this.user.name.trim().length;
     },
     getIntroLength() {
-      return this.currentUser.introduction.trim().length;
+      return this.user.introduction.trim().length;
     },
     // 取得即時警告狀態
     nameWarningOn() {
-      let length = this.currentUser.name.trim().length;
+      let length = this.user.name.trim().length;
       return length <= 0 || length > this.nameLengthLimit;
     },
     introWarningOn() {
-      let length = this.currentUser.introduction.trim().length;
+      let length = this.user.introduction.trim().length;
       return length <= 0 || length > this.introLengthLimit;
     },
     // 取得即時警告內容
     getNameWarning() {
       return this.createWarningText(
-        this.currentUser.name.trim().length,
+        this.user.name.trim().length,
         this.nameLengthLimit
       );
     },
     getIntroWarning() {
       return this.createWarningText(
-        this.currentUser.introduction.trim().length,
+        this.user.introduction.trim().length,
         this.introLengthLimit
       );
     },
