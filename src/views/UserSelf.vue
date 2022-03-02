@@ -1,6 +1,6 @@
 <template>
   <div class="user-self">
-    <UserProfileCard :initialUser="currentUser" />
+    <UserProfileCard :initialUser="currentUser" @after-show-user-edit-modal="afterShowUserEditModal" />
     <UserTweetListCard @after-show-reply-modal="afterShowReplyModal"/>
     <ReplyModal 
     v-if="showReplyModal" 
@@ -57,6 +57,10 @@ export default {
     afterHideReplyModal() {
       console.log("hide--user");
       this.showReplyModal = false
+    },
+    afterShowUserEditModal() {
+      console.log('UEM in UserSelf');
+      this.$emit("after-show-user-edit-modal");
     }
   },
 };
