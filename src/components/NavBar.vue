@@ -23,12 +23,12 @@
           <span>{{ item.title }}</span>
         </router-link>
       </li>
-      <li class="nav-item" @click="logut">
+      <li class="nav-item">
         <router-link
           class="nav-link"
           :to="{name: 'Login'}">
           <img class="navbar-icon home" src="https://i.imgur.com/trtoBHw.png"/>
-          <span>登出</span>
+          <span @click="logut">登出</span>
         </router-link>
       </li>
     </ul>
