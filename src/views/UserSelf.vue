@@ -1,5 +1,5 @@
 <template>
-  <div class="user-self">
+  <div class="user-self h-100">
     <UserProfileCard :initialUser="currentUser" />
     <UserTweetListCard
       @after-show-reply-modal="afterShowReplyModal"
