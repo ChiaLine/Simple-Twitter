@@ -123,6 +123,7 @@ export default {
     async deleteTweetLike(id) {
       try {
         console.log(id);
+        this.isCurrentUser = true;
         await tweetAPI.deleteTweetLike(id);
         await this.fetchTweetCards();
         this.isProcessing = false;
