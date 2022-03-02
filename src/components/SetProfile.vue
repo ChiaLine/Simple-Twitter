@@ -14,8 +14,8 @@
         {{ form.label }}
       </label>
       <input
-        v-model="form.data"
-        @focusout="wordLimit(form.data)"
+        v-model="user[form.type]"
+        @focusout="wordLimit(user[form.type])"
         :id="form.id"
         class="w-100 input"
         :type="form.category"
@@ -37,46 +37,72 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 // import { Toast } from "./../utils/helpers";
 export default {
   data() {
     return {
+      user: {
+        account: "",
+        name: "",
+        email: "",
+        password: "",
+        checkPassword: "",
+      },
       forms: [
         {
           label: "帳號",
           category: "account",
+          type: "account",
           id: 1,
           data: "",
         },
         {
           label: "名稱",
           category: "name",
+          type: "name",
           id: 2,
           data: "",
         },
         {
           label: "Email",
           category: "email",
+          type: "email",
           id: 3,
           data: "",
         },
         {
           label: "密碼",
-          category: "password",
+          category: "passwordd",
+          type: "password",
           id: 4,
           data: "",
         },
         {
           label: "密碼確認",
-          category: "password",
+          category: "passwordd",
+          type: "password-check",
           id: 5,
           data: "",
         },
       ],
-      accountWarning: "",
       nameWarning: "字數超出上限!",
       isNameWarning: false,
     };
+  },
+  watch: {
+    currentUser(newValue) {
+      if (this.$route.name === "Regist") {
+        this.user = {
+          ...this.user,
+        };
+      } else if (this.$route.name === "Setting") {
+        this.user = {
+          ...this.user,
+          ...newValue,
+        };
+      }
+    },
   },
   methods: {
     isRegistered() {
@@ -105,6 +131,9 @@ export default {
       }
       this.$emit("after-submit", userData);
     },
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
