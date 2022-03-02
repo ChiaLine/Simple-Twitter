@@ -6,8 +6,8 @@
       <button @click.stop.prevent="goPreviousPage" class="wrapper d-flex">
         <img class="arrow" src="https://i.imgur.com/3y7W3fG.png" alt="" />
         <div class="m-2">
-          <h5 class="userName">{{user.name}}</h5>
-          <h5 class="tweetNumber">{{user.totalTweets}}</h5>
+          <h5 class="userName">{{ user.name }}</h5>
+          <h5 class="tweetNumber">{{ user.totalTweets }}</h5>
         </div>
       </button>
       <!-- 卡片切換導覽列 -->
@@ -31,7 +31,7 @@
       </div>
     </nav>
     <!-- FollowCards 列表 -->
-    <FollowCards :data-id="dataId"/>
+    <FollowCards :data-id="dataId" />
   </div>
 </template>
 
@@ -67,8 +67,11 @@ export default {
     };
   },
   created() {
+    const { type: currentType } = this.$route.query;
+    console.log(currentType);
+    this.checkInitialType(currentType);
     const { id: userId } = this.$route.params;
-    this.fetchUser(userId)
+    this.fetchUser(userId);
   },
   methods: {
     setDataId(id) {
@@ -79,9 +82,9 @@ export default {
       try {
         let response = await userFollowAPI.getUserProfile(userId);
         const { data } = response;
-        this.user = {...data}
+        this.user = { ...data };
       } catch (e) {
-        console.log(e.response.data.message)
+        console.log(e.response.data.message);
         Toast.fire({
           icon: "warning",
           title: "無法取得使用者資料",
@@ -90,6 +93,13 @@ export default {
     },
     goPreviousPage() {
       this.$router.go(-1);
+    },
+    checkInitialType(type) {
+      if (type === "followers") {
+        this.dataId = 1;
+      } else if (type === "followings") {
+        this.dataId = 2;
+      }
     },
   },
 };
