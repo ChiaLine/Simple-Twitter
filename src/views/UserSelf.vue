@@ -1,6 +1,6 @@
 <template>
   <div class="user-self h-100">
-    <UserProfileCard :initialUser="currentUser" />
+    <UserProfileCard :initialUser="currentUser" @after-show-user-edit-modal="afterShowUserEditModal"/>
     <UserTweetListCard
       @after-show-reply-modal="afterShowReplyModal"
       :initialUser="currentUser"
