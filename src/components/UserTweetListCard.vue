@@ -3,12 +3,15 @@
     <!-- 按鈕區 -->
     <div class="self-buttons">
       <button class="self-button"
+      :class="{active: toggleButton === 'tweet'}"
       @click.stop.prevent="fetchUserTweets(user.id)"
       >推文</button>
       <button class="self-button"
+      :class="{active: toggleButton === 'reply'}"
       @click.stop.prevent="fetchUserReplyTweets(user.id)"
       >推文與回覆</button>
       <button class="self-button"
+      :class="{active: toggleButton === 'like'}"
       @click.stop.prevent="fetchUserLikeTweets(user.id)"
       >喜歡的內容</button>
     </div>
@@ -369,13 +372,13 @@ export default {
 @import "../assets/scss/tweet-cards.scss";
 
 .self-buttons {
-  padding-bottom: 10px;
   border-right: 1px solid #e6ecf0;
   border-left: 1px solid #e6ecf0;
   border-bottom: 1px solid #e6ecf0;
 }
 .self-button {
-  margin-left: 55px;
+  width: 130px;
+  padding-bottom: 13px;
   font-weight: 500;
   color: #657786;
 }
@@ -385,5 +388,9 @@ export default {
 .card-reply-name{
   color: #FF6600;
   margin-left: 5px;
+}
+.active{
+  color: #FF6600;
+  border-bottom: 1px solid #FF6600;
 }
 </style>
