@@ -5,18 +5,12 @@
       @after-show-reply-modal="afterShowReplyModal"
       :initialUser="currentUser"
     />
-    <!-- <ReplyModal
-      v-if="showReplyModal"
-      @after-hide-reply-modal="afterHideReplyModal"
-      :reply-user-id="replyUserId"
-    /> -->
   </div>
 </template>
 
 <script>
 import UserTweetListCard from "../components/UserTweetListCard.vue";
 import UserProfileCard from "../components/UserProfileCard.vue";
-// import ReplyModal from "../components/ReplyModal.vue";
 import { mapState } from "vuex";
 
 export default {
@@ -24,7 +18,6 @@ export default {
   components: {
     UserProfileCard,
     UserTweetListCard,
-    // ReplyModal,
   },
   data() {
     return {
@@ -45,7 +38,6 @@ export default {
         updatedAt: "",
       },
       userId: -1,
-      // showReplyModal: false,
     };
   },
   computed: {
@@ -55,13 +47,7 @@ export default {
     afterShowReplyModal(replyTweetId) {
       console.log("Reply--user", replyTweetId);
       this.$emit("after-show-reply-modal",replyTweetId)
-      // this.showReplyModal = true;
-      // this.replyUserId = replyUserId;
     },
-    // afterHideReplyModal() {
-    //   console.log("hide--user");
-    //   this.showReplyModal = false;
-    // },
     afterShowUserEditModal() {
       this.$emit("after-show-user-edit-modal");
     },
