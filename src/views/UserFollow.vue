@@ -31,7 +31,7 @@
       </div>
     </nav>
     <!-- FollowCards 列表 -->
-    <FollowCards :data-id="dataId" />
+    <FollowCards :data-id="dataId"/>
   </div>
 </template>
 
@@ -68,18 +68,17 @@ export default {
   },
   created() {
     const { id: userId } = this.$route.params;
-    console.log(userId);
     this.fetchUser(userId)
   },
   methods: {
     setDataId(id) {
       this.dataId = id;
     },
+    // TODO: isLoading
     async fetchUser(userId) {
       try {
         let response = await userFollowAPI.getUserProfile(userId);
         const { data } = response;
-        console.log(data);
         this.user = {...data}
       } catch (e) {
         console.log(e.response.data.message)
