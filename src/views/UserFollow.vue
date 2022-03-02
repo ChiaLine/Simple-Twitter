@@ -3,13 +3,13 @@
     <nav>
       <!-- 回上一頁區塊 -->
       <!-- 要再將連結修改成回到原使用者頁面，需要Id，要能判斷是self還是other -->
-      <router-link to="/User/UserSelf" class="wrapper d-flex">
+      <button @click.stop.prevent="goPreviousPage" class="wrapper d-flex">
         <img class="arrow" src="https://i.imgur.com/3y7W3fG.png" alt="" />
         <div class="m-2">
           <h5 class="userName">{{user.name}}</h5>
           <h5 class="tweetNumber">{{user.totalTweets}}</h5>
         </div>
-      </router-link>
+      </button>
       <!-- 卡片切換導覽列 -->
       <div class="card-buttons d-flex">
         <div v-for="type in dataType" :key="type.id">
@@ -87,6 +87,9 @@ export default {
           title: "無法取得使用者資料",
         });
       }
+    },
+    goPreviousPage() {
+      this.$router.go(-1);
     },
   },
 };
