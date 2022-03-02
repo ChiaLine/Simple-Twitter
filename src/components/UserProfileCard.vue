@@ -23,7 +23,7 @@
       />
     </div>
     <div class="profile position-relative ml-3">
-      <button v-if="isCurrentUser" class="editProfile btn position-absolute">
+      <button v-if="isCurrentUser" class="editProfile btn position-absolute" @click.stop.prevent="showUserEditModal">
         編輯個人資料
       </button>
       <div v-else class="followOther position-absolute d-flex">
@@ -109,6 +109,9 @@ export default {
     goBack() {
       this.$router.back();
     },
+    showUserEditModal() {
+      this.$emit("after-show-user-edit-modal")
+    }
   },
   watch: {
     initialUser(newValue) {
