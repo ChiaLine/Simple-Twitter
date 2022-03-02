@@ -24,6 +24,7 @@ $border-style: 1px solid #e6ecf0;
 .cover {
   max-width: 600px;
   max-height: 200px;
+  object-fit: cover;
   border-radius: 0%;
 }
 .avatar {
