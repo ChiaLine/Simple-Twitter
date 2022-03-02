@@ -145,7 +145,7 @@ export default {
         for (let [name, value] of formData.entries()) {
           console.log(name + ": " + value);
         }
-        // TODO: 串接API送出表單資料
+        // 串接API送出表單資料
         const userId = this.currentUser.id;
         const response = await userEditModalAPI.updateUserData({
           userId,
@@ -165,7 +165,8 @@ export default {
         });
         this.hideModal();
         this.isProcessing = false;
-        // 重整畫面？
+        // TODO: 強制重整畫面顯示新資料，未來可再優化。
+        this.$router.go(0);
       } catch (e) {
         Toast.fire({
           icon: "warning",
