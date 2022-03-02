@@ -23,6 +23,14 @@
           <span>{{ item.title }}</span>
         </router-link>
       </li>
+      <li class="nav-item" @click="logut">
+        <router-link
+          class="nav-link"
+          :to="{name: 'Login'}">
+          <img class="navbar-icon home" src="https://i.imgur.com/trtoBHw.png"/>
+          <span>登出</span>
+        </router-link>
+      </li>
     </ul>
     <button class="navbar-button" @click.stop.prevent="handleNavBarTweetButton">推文</button>
   </nav>
@@ -55,13 +63,6 @@ const dummyData = {
       to: 'Setting',
       active: false,
     },
-    {
-      id: 4,
-      title: "登出",
-      icon: 'https://i.imgur.com/trtoBHw.png',
-      to: 'Login',
-      active: false,
-    },
   ],
 };
 
@@ -74,7 +75,6 @@ export default {
   },
   created() {
     this.fetchNavItems();
-    // console.log(this.$route.name)
   },
   methods: {
     fetchNavItems() {
@@ -93,7 +93,6 @@ export default {
       })
     },
     toggleActive(itemId) {
-      // console.log('toggleActive', itemId)
       this.navItems = this.navItems.map( item => {
         if (item.id === itemId) {
           return {
@@ -111,6 +110,10 @@ export default {
     handleNavBarTweetButton() {
       console.log("NavBar show modal");
       this.$emit("after-show-tweet-modal");
+    },
+    logut(){
+      console.log('logut')
+      this.$store.commit("revokeAuthentication");
     }
   }
 }

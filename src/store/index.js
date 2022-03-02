@@ -37,9 +37,16 @@ export default new Vuex.Store({
       }
       // 將使用者的登入狀態改為 true
       state.isAuthenticated = true
-
       // 將使用者驗證用的 token 儲存在 state 中
       state.token = localStorage.getItem('token')
+    },
+    // 處理登出功能 透過 commit 呼叫 mutations 方法
+    revokeAuthentication (state) {
+      state.currentUser = {}
+      state.isAuthenticated = false
+      // 登出時一併將 state 內的 token 移除
+      state.token = ''
+      localStorage.removeItem('token')
     },
     setAdminUser(state) {
       // 將後台驗證用的 token 儲存在 state 中
@@ -56,8 +63,14 @@ export default new Vuex.Store({
         // 呼叫 usersAPI.getCurrentUser() 方法，並將 response 顯示出來
         const { data } = await currentUserAPI.getCurrentUser()
         commit('setCurrentUser', data)
+        // 使用者Token驗證成功 回傳..
+        return true
       } catch (error) {
         console.error(error.message)
+        // 驗證失敗的話一併觸發登出的行為，以清除 state 中的 token
+        commit('revokeAuthentication')
+        // 使用者Token驗證失敗 回傳..
+        return false
       }
     }
   },
