@@ -64,6 +64,7 @@
 
 <script>
 import { emptyImageFilter } from "../utils/mixins";
+import { mapState } from "vuex";
 
 export default {
   mixins: [emptyImageFilter],
@@ -94,6 +95,9 @@ export default {
       isCurrentUser: "",
     };
   },
+  computed: {
+    ...mapState(["currentUser"]),
+  },
   created() {
     this.checkCurrentPage();
   },
@@ -101,6 +105,10 @@ export default {
     checkCurrentPage() {
       const currentPage = this.$route.name;
       if (currentPage === "UserSelf") {
+        this.user = {
+          ...this.user,
+          ...this.currentUser
+        }
         this.isCurrentUser = true;
       } else if (currentPage === "UserOther") {
         this.isCurrentUser = false;

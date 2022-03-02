@@ -42,7 +42,22 @@ export default new Vuex.Store({
     },
     // 處理登出功能 透過 commit 呼叫 mutations 方法
     revokeAuthentication (state) {
-      state.currentUser = {}
+      state.currentUser = {
+        id: -1,
+        account: "",
+        email: "",
+        name: "",
+        avatar: "",
+        cover: null,
+        introduction: "",
+        role: "",
+        totalTweets: 0,
+        totalFollowings: 0,
+        totalFollowers: 0,
+        totalLiked: 0,
+        createdAt: "",
+        updatedAt: ""
+      }
       state.isAuthenticated = false
       // 登出時一併將 state 內的 token 移除
       state.token = ''

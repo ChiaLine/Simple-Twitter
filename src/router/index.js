@@ -111,6 +111,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach( async (to, from, next) => {
+  // 使用 dispatch 呼叫 Vuex 內的 actions
+  // store.dispatch('fetchCurrentUser')
+  // store.commit("setCurrentUser");
+
   // 新增 後台 token 驗證
   store.commit("setAdminUser");
 
@@ -126,6 +130,7 @@ router.beforeEach( async (to, from, next) => {
   // localStorage 有 token 才驗證 & 比較 store 中的 token 是否一樣
   if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
     // 使用 dispatch 呼叫 Vuex 內的 actions
+    console.log('OK')
     isAuthenticated = await store.dispatch('fetchCurrentUser')
   }
   

@@ -173,6 +173,7 @@ import { formatDateFilter } from "./../utils/mixins";
 import userTweetsAPI from "../apis/userTweets";
 import tweetAPI from "../apis/tweetCards";
 import { Toast } from "../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   name: "UserTweetListCard",
@@ -213,8 +214,12 @@ export default {
       currentPage: "",
     };
   },
+  computed: {
+    ...mapState(["currentUser"]),
+  },
   watch: {
     initialUser(newValue) {
+      console.log('111111111')
       this.user = {
         ...this.user,
         ...newValue,
@@ -228,8 +233,14 @@ export default {
   methods: {
     checkCurrentPage() {
       this.currentPage = this.$route.name;
+      // console.log(this.currentPage, this.user.id, this.currentUser.id)
       if (this.currentPage === "UserSelf") {
+        this.user = {
+          ...this.user,
+          ...this.currentUser
+        }
         this.isCurrentUser = true;
+        this.fetchUserTweets(this.user.id);
       } else if (this.currentPage === "UserOther") {
         this.isCurrentUser = false;
       }
