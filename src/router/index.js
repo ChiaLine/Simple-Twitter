@@ -51,7 +51,7 @@ const router = new VueRouter({
           component: () => import('../views/UserSelf.vue'),
         },
         {
-          path: 'UserFollow',
+          path: 'UserFollow/:id',
           name: 'UserFollow',
           component: () => import('../views/UserFollow.vue'),
         },
