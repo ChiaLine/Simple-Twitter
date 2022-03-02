@@ -16,6 +16,7 @@
             v-if="user.isFollowed"
             @click.stop.prevent="deleteIsFollow(user.id)"
             class="btn following-btn"
+            :disabled="isProcessing"
           >
             正在跟隨
           </button>
@@ -23,6 +24,7 @@
             v-else
             @click.stop.prevent="addIsFollow(user.id)"
             class="btn follow-btn"
+            :disabled="isProcessing"
           >
             跟隨
           </button>
@@ -50,6 +52,7 @@ export default {
   data() {
     return {
       currentCardUsers: [],
+      isProcessing: false,
     };
   },
   created() {
@@ -90,35 +93,41 @@ export default {
         });
       }
     },
-    addIsFollow(userId) {
-      console.log("addIsFollow", userId);
-      this.currentCardUsers = this.currentCardUsers.map((user) => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollowed: true,
-          };
-        } else {
-          return {
-            ...user,
-          };
-        }
-      });
+    async addIsFollow(userId) {
+      try {
+        this.isProcessing = true;
+        await userFollowAPI.addFollowed({ id: userId });
+        await this.fetchCardsData();
+        Toast.fire({
+          icon: "success",
+          title: "成功加入跟隨",
+        });
+        this.isProcessing = false;
+      } catch (e) {
+        Toast.fire({
+          icon: "error",
+          title: "無法加入追蹤，請稍後再試..",
+        });
+        this.isProcessing = false;
+      }
     },
-    deleteIsFollow(userId) {
-      console.log("deleteIsFollow", userId);
-      this.currentCardUsers = this.currentCardUsers.map((user) => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollowed: false,
-          };
-        } else {
-          return {
-            ...user,
-          };
-        }
-      });
+    async deleteIsFollow(userId) {
+      try {
+        this.isProcessing = true;
+        await userFollowAPI.DeleteFollowed(userId);
+        await this.fetchCardsData();
+        Toast.fire({
+          icon: "success",
+          title: "成功取消跟隨",
+        });
+        this.isProcessing = false;
+      } catch (e) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取消追蹤，請稍後再試..",
+        });
+        this.isProcessing = false;
+      }
     },
   },
   watch: {
