@@ -75,3 +75,12 @@
   background-color: $button-orange;
   color: $background;
 }
+
+// imput錯誤提示
+%input-error-message {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 15px;
+  color: #FC5A5A;
+}

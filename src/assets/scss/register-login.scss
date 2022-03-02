@@ -54,6 +54,12 @@
   background-color: $input-background;
   font-size: 19px;
   font-weight: 500;
+  &.error {
+    border-color: $warning-red;
+  }
+  &:hover, &focus {
+    border-color: $focus-blue;
+  }
 }
 .btn {
   height: 46px;
@@ -64,4 +70,9 @@
 }
 .save-btn {
   width: 116px;
+}
+.warning {
+  left: 0;
+  top: 3.4rem;
+  @extend %input-error-message;
 }
