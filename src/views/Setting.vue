@@ -4,7 +4,7 @@
     <div class="main">
       <h5 class="title p-3">帳戶設定</h5>
       <div class="setProfile">
-        <SetProfile class="p-3" />
+        <SetProfile class="p-3" @after-submit="handleAfterSubmit" />
       </div>
     </div>
     <div class="right"></div>
@@ -16,6 +16,8 @@
 import NavBar from "../components/NavBar.vue";
 import SetProfile from "../components/SetProfile.vue";
 import TweetModal from "../components/TweetModal.vue";
+import getUserDataAPI from "./../apis/getUserData";
+import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
@@ -38,6 +40,24 @@ export default {
     afterHideModal() {
       console.log("afterHideModal--Setting");
       this.showModal = false;
+    },
+    async handleAfterSubmit([account, name, email, password, checkPassword]) {
+      try {
+        const response = await getUserDataAPI.update(this.currentUser.id, {
+          account,
+          name,
+          email,
+          password,
+          checkPassword,
+        });
+        console.log(response);
+        this.$router.go(0);
+      } catch (e) {
+        Toast.fire({
+          icon: "error",
+          title: e.response.data.message,
+        });
+      }
     },
   },
   computed: {
