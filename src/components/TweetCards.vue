@@ -111,6 +111,12 @@ export default {
         console.log(id);
         await tweetAPI.addTweetLike(id);
         await this.fetchTweetCards();
+
+        Toast.fire({
+          icon: "success",
+          title: '成功加入喜歡的內容',
+        });
+
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;
@@ -122,9 +128,15 @@ export default {
     },
     async deleteTweetLike(id) {
       try {
-        console.log(id);
+        this.isCurrentUser = true;
         await tweetAPI.deleteTweetLike(id);
         await this.fetchTweetCards();
+
+        Toast.fire({
+          icon: "success",
+          title: '成功取消喜歡的內容',
+        });
+
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;

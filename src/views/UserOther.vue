@@ -1,23 +1,12 @@
 <template>
   <div class="other">
     <UserProfileCard :initialUser="user" />
-    <div class="other-buttons">
-      <a href="" class="other-button">
-        <span>推文</span>
-      </a>
-      <a href="" class="other-button">
-        <span>推文與回覆</span>
-      </a>
-      <a href="" class="other-button">
-        <span>喜歡的內容</span>
-      </a>
-    </div>
-    <TweetCards />
+    <UserTweetListCard :initialUser="user"/>
   </div>
 </template>
 
 <script>
-import TweetCards from "../components/TweetCards.vue";
+import UserTweetListCard from "../components/UserTweetListCard.vue";
 import UserProfileCard from "../components/UserProfileCard.vue";
 import getUserDataAPI from "./../apis/getUserData";
 import { Toast } from "./../utils/helpers";
@@ -25,7 +14,7 @@ import { Toast } from "./../utils/helpers";
 export default {
   name: "UserOther",
   components: {
-    TweetCards,
+    UserTweetListCard,
     UserProfileCard,
   },
   data() {
