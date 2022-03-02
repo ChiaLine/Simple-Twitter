@@ -60,6 +60,7 @@ export default {
         }
 
         localStorage.setItem("adminToken", data.token);
+        this.$store.commit("setAdminUser");
         this.$router.push("./Admin");
       } catch (e) {
         this.isProcessing = false;

@@ -23,6 +23,14 @@
           <span>{{ item.title }}</span>
         </router-link>
       </li>
+      <li class="nav-item" @click="logut">
+        <router-link
+          class="nav-link"
+          :to="{name: 'AdminLogin'}">
+          <img class="navbar-icon home" src="https://i.imgur.com/trtoBHw.png"/>
+          <span>登出</span>
+        </router-link>
+      </li>
     </ul>
   </nav>
 </template>
@@ -46,13 +54,6 @@ const dummyData = {
       to: 'UserList',
       active: false,
     },
-    {
-      id: 4,
-      title: "登出",
-      icon: 'https://i.imgur.com/trtoBHw.png',
-      to: 'AdminLogin',
-      active: false,
-    },
   ],
 };
 
@@ -64,7 +65,6 @@ export default {
   },
   created() {
     this.fetchNavItems();
-    // console.log(this.$route.name)
   },
   methods: {
     fetchNavItems() {
@@ -83,7 +83,6 @@ export default {
       })
     },
     toggleActive(itemId) {
-      // console.log('toggleActive', itemId)
       this.navItems = this.navItems.map( item => {
         if (item.id === itemId) {
           return {
@@ -98,6 +97,9 @@ export default {
         }
       })
     },
+    logut(){
+      this.$store.commit("revokeAdminUser");
+    }
   }
 }
 </script>
