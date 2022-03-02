@@ -22,7 +22,11 @@ export default new Vuex.Store({
       createdAt: "",
       updatedAt: ""
     },
-    isAuthenticated: false
+    // 登入狀態
+    isAuthenticated: false,
+    token: '',
+    // 新增後台 token
+    adminToken: '',
   },
   mutations: {
     setCurrentUser(state, currentUser) {
@@ -33,6 +37,17 @@ export default new Vuex.Store({
       }
       // 將使用者的登入狀態改為 true
       state.isAuthenticated = true
+
+      // 將使用者驗證用的 token 儲存在 state 中
+      state.token = localStorage.getItem('token')
+    },
+    setAdminUser(state) {
+      // 將後台驗證用的 token 儲存在 state 中
+      state.adminToken = localStorage.getItem('adminToken')
+    },
+    revokeAdminUser() {
+      // 登出時將 token 移除
+      localStorage.removeItem('adminToken')
     }
   },
   actions: {
