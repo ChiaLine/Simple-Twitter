@@ -68,6 +68,13 @@ export default {
         this.isProcessing = true
         await adminAPI.deleteTweet(tweetId)
         await this.fetchTweets()
+
+        Toast.fire({
+          icon: "success",
+          title: '成功刪除推文',
+        });
+
+
         this.isProcessing = false
       } catch (error) {
         this.isProcessing = false

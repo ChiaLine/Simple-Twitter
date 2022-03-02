@@ -87,6 +87,12 @@ export default {
         console.log("addIsFollow", userId);
         await popularListAPI.addFollowed({id: userId})
         await this.fetchUsers()
+
+        Toast.fire({
+          icon: "success",
+          title: '成功加入跟隨',
+        });
+
         this.isProcessing = false
       } catch (error) {
         this.isProcessing = false
@@ -102,6 +108,12 @@ export default {
         console.log("deleteIsFollowed", userId);
         await popularListAPI.DeleteFollowed(userId)
         await this.fetchUsers()
+
+        Toast.fire({
+          icon: "success",
+          title: '成功取消跟隨',
+        });
+
         this.isProcessing = false
       } catch (error) {
         this.isProcessing = false

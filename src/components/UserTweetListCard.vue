@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-100">
     <!-- 按鈕區 -->
     <div class="self-buttons">
       <button class="self-button"
@@ -310,6 +310,11 @@ export default {
           await this.fetchUserLikeTweets(this.user.id);
         }
 
+        Toast.fire({
+          icon: "success",
+          title: '成功加入喜歡的內容',
+        });
+
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;
@@ -333,6 +338,11 @@ export default {
             await this.fetchUserLikeTweets(this.user.id);
           }
         }
+
+        Toast.fire({
+          icon: "success",
+          title: '成功取消喜歡的內容',
+        });
 
         this.isProcessing = false;
       } catch (error) {
