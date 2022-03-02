@@ -49,14 +49,14 @@
         {{ user.introduction }}
       </p>
       <div class="follow d-flex">
-        <span class="record d-flex mr-4">
+        <router-link :to="{ name: 'UserFollow', params: { id: user.id }}" class="record d-flex mr-4">
           <p class="number">{{ user.totalFollowers }}個</p>
           <p class="text">跟隨中</p>
-        </span>
-        <span class="record d-flex">
+        </router-link>
+        <router-link :to="{ name: 'UserFollow', params: { id: user.id }}" class="record d-flex">
           <p class="number">{{ user.totalFollowings }}位</p>
           <p class="text">跟隨者</p>
-        </span>
+        </router-link>
       </div>
     </div>
   </div>

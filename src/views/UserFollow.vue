@@ -2,7 +2,7 @@
   <div class="user-follow">
     <nav>
       <!-- 回上一頁區塊 -->
-      <!-- 要再將連結修改成回到原使用者UserSelf頁面，需要Id -->
+      <!-- 要再將連結修改成回到原使用者頁面，需要Id，要能判斷是self還是other -->
       <router-link to="/User/UserSelf" class="wrapper d-flex">
         <img class="arrow" src="https://i.imgur.com/3y7W3fG.png" alt="" />
         <div class="m-2">
