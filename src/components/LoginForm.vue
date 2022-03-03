@@ -17,7 +17,7 @@
         v-model="form.data"
         :id="form.category"
         class="w-100 input"
-        type="text"
+        :type="form.category"
         required
       />
     </div>

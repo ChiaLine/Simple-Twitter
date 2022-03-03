@@ -23,7 +23,11 @@
       />
     </div>
     <div class="profile position-relative ml-3">
-      <button v-if="isCurrentUser" class="editProfile btn position-absolute" @click.stop.prevent="showUserEditModal">
+      <button
+        v-if="isCurrentUser"
+        class="editProfile btn position-absolute"
+        @click.stop.prevent="showUserEditModal"
+      >
         編輯個人資料
       </button>
       <div v-else class="followOther position-absolute d-flex">
@@ -49,12 +53,26 @@
         {{ user.introduction }}
       </p>
       <div class="follow d-flex">
-        <router-link :to="{ name: 'UserFollow', params: { id: user.id }, query: { type: 'followings' }}" class="record d-flex mr-4">
-          <p class="number">{{ user.totalFollowers }}個</p>
+        <router-link
+          :to="{
+            name: 'UserFollow',
+            params: { id: user.id },
+            query: { type: 'followings' },
+          }"
+          class="record d-flex mr-4"
+        >
+          <p class="number">{{ user.totalFollowings }}個</p>
           <p class="text">跟隨中</p>
         </router-link>
-        <router-link :to="{ name: 'UserFollow', params: { id: user.id }, query: { type: 'followers' }}" class="record d-flex">
-          <p class="number">{{ user.totalFollowings }}位</p>
+        <router-link
+          :to="{
+            name: 'UserFollow',
+            params: { id: user.id },
+            query: { type: 'followers' },
+          }"
+          class="record d-flex"
+        >
+          <p class="number">{{ user.totalFollowers }}位</p>
           <p class="text">跟隨者</p>
         </router-link>
       </div>
@@ -107,8 +125,8 @@ export default {
       if (currentPage === "UserSelf") {
         this.user = {
           ...this.user,
-          ...this.currentUser
-        }
+          ...this.currentUser,
+        };
         this.isCurrentUser = true;
       } else if (currentPage === "UserOther") {
         this.isCurrentUser = false;
@@ -118,8 +136,8 @@ export default {
       this.$router.back();
     },
     showUserEditModal() {
-      this.$emit("after-show-user-edit-modal")
-    }
+      this.$emit("after-show-user-edit-modal");
+    },
   },
   watch: {
     initialUser(newValue) {

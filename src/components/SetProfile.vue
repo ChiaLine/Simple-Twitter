@@ -73,14 +73,14 @@ export default {
         },
         {
           label: "密碼",
-          category: "passwordd",
+          category: "password",
           type: "password",
           id: 4,
           data: "",
         },
         {
           label: "密碼確認",
-          category: "passwordd",
+          category: "password",
           type: "password-check",
           id: 5,
           data: "",
