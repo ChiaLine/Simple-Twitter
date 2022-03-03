@@ -22,7 +22,7 @@
             }}</span>
             <span :data-cardId="card.id" class="tweet-card-account">
               @{{ card.tweetedUser.account }}．{{
-                card.tweetedUser.createdAt | formatDate
+                card.createdAt | formatDate
               }}
             </span>
             <p :data-cardId="card.id" class="tweet-card-description">
@@ -128,7 +128,7 @@ export default {
     },
     async deleteTweetLike(id) {
       try {
-        this.isCurrentUser = true;
+        this.isProcessing = true;
         await tweetAPI.deleteTweetLike(id);
         await this.fetchTweetCards();
 

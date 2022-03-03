@@ -90,8 +90,14 @@ export default {
       isNameWarning: false,
     };
   },
-  watch: {
-    currentUser(newValue) {
+  computed: {
+    ...mapState(["currentUser"]),
+  },
+  created() {
+    this.getcurrentUser();
+  },
+  methods: {
+    getcurrentUser(){
       if (this.$route.name === "Regist") {
         this.user = {
           ...this.user,
@@ -99,12 +105,10 @@ export default {
       } else if (this.$route.name === "Setting") {
         this.user = {
           ...this.user,
-          ...newValue,
+          ...this.currentUser,
         };
       }
     },
-  },
-  methods: {
     isRegistered() {
       if (this.$route.name === "Regist") {
         return false;
@@ -131,9 +135,6 @@ export default {
       }
       this.$emit("after-submit", userData);
     },
-  },
-  computed: {
-    ...mapState(["currentUser"]),
   },
 };
 </script>

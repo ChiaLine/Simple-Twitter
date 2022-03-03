@@ -126,7 +126,7 @@
               }}</span>
               <span class="tweet-card-account">
                 @{{ tweet.likedTweet.tweetedUser.account }}・{{
-                  tweet.likedTweet.tweetedUser.createdAt | formatDate
+                  tweet.likedTweet.createdAt | formatDate
                 }}
               </span>
               <p class="tweet-card-description">
