@@ -40,7 +40,7 @@
 
 // .modal-container共用樣式
 %modal-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 2;
