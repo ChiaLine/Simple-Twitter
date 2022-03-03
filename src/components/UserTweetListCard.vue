@@ -29,11 +29,11 @@
       <div class="tweet-card" v-for="tweet in userTweets" :key="tweet.id">
         <div class="tweet-card-top">
           <div class="tweet-card-avatar">
-            <div>
+            <div @click.stop.prevent="toUserPage(tweet.UserId)">
               <img class="tweet-card-img" :src="user.avatar | emptyImage" />
             </div>
           </div>
-          <div class="tweet-card-content" @click.stop.prevent="toReplyList()">
+          <div class="tweet-card-content" @click.stop.prevent="toReplyList(tweet.id)">
             <div>
               <span class="tweet-card-name">{{ user.name }}</span>
               <span class="tweet-card-account">
@@ -83,11 +83,11 @@
       >
         <div class="tweet-card-top">
           <div class="tweet-card-avatar">
-            <div>
+            <div @click.stop.prevent="toUserPage(tweet.UserId)">
               <img class="tweet-card-img" :src="user.avatar | emptyImage" />
             </div>
           </div>
-          <div class="tweet-card-content" @click.stop.prevent="toReplyList">
+          <div class="tweet-card-content">
             <div>
               <span class="tweet-card-name">{{ user.name }}</span>
               <span class="tweet-card-account">
@@ -112,14 +112,14 @@
       <div class="tweet-card" v-for="tweet in userLikeTweets" :key="tweet.id">
         <div class="tweet-card-top">
           <div class="tweet-card-avatar">
-            <div>
+            <div @click.stop.prevent="toUserPage(tweet.likedTweet.UserId)">
               <img
                 class="tweet-card-img"
                 :src="tweet.likedTweet.tweetedUser.avatar | emptyImage"
               />
             </div>
           </div>
-          <div class="tweet-card-content" @click.stop.prevent="toReplyList">
+          <div class="tweet-card-content" @click.stop.prevent="toReplyList(tweet.likedTweet.id)">
             <div>
               <span class="tweet-card-name">{{
                 tweet.likedTweet.tweetedUser.name
@@ -219,7 +219,6 @@ export default {
   },
   watch: {
     initialUser(newValue) {
-      console.log('111111111')
       this.user = {
         ...this.user,
         ...newValue,
@@ -233,12 +232,11 @@ export default {
   methods: {
     checkCurrentPage() {
       this.currentPage = this.$route.name;
-      // console.log(this.currentPage, this.user.id, this.currentUser.id)
       if (this.currentPage === "UserSelf") {
         this.user = {
           ...this.user,
-          ...this.currentUser
-        }
+          ...this.currentUser,
+        };
         this.isCurrentUser = true;
         this.fetchUserTweets(this.user.id);
       } else if (this.currentPage === "UserOther") {
@@ -247,7 +245,6 @@ export default {
     },
     async fetchUserTweets(userId) {
       try {
-        console.log("fetchUserTweets", userId);
         const { data } = await userTweetsAPI.getUserTweets(userId);
         this.userTweets = data;
 
@@ -290,7 +287,6 @@ export default {
     },
     async fetchUserLikeTweets(userId) {
       try {
-        console.log("UserLikeTweets", userId);
         const { data } = await userTweetsAPI.getUserLikeTweets(userId);
         this.userLikeTweets = data;
 
@@ -365,12 +361,48 @@ export default {
       }
     },
     afterShowReplyModal(replyTweetId) {
-      console.log("ShowReplyModal----UserTweetListCard", replyTweetId);
       this.$emit("after-show-reply-modal", replyTweetId);
     },
-    toReplyList() {
+    toUserPage(userID) {
+      // 判斷
+      if (userID === this.currentUser.id && this.$route.name !== "UserSelf") {
+        console.log("egg");
+        this.$router.push({ name: "UserSelf" });
+        return;
+      }
+
+      if (userID === this.currentUser.id) {
+        return;
+      }
+      
+      if (
+        this.$route.name === "UserOther" &&
+        Number(this.$route.params.id) === userID
+      ) {
+        console.log("跳出");
+        return;
+      }
+      
+      if (this.$route.name === "UserSelf") {
+        this.$router.push({ name: 'UserOther', params: { id: userID } });
+      } else {
+        // 拿下路由 陣列
+        let urlAry = window.location.href.split("/");
+        // 改下路由 陣列最後id
+        urlAry[urlAry.length - 1] = userID;
+        // 把陣列合併用/分開
+        let newUrl = urlAry.join("/");
+        // 換成url重新整理
+        window.location.href = newUrl;
+        // 強制重整
+        window.location.reload();
+      }
+    },
+    toReplyList(tweetId) {
       // 點選區塊後轉址到 未處理
-      console.log("to轉址到未處理???");
+      console.log("toReplyList",tweetId);
+      this.$router.push({ name: 'ReplyList', params: { id: tweetId } });
+
     },
   },
 };
