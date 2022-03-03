@@ -9,7 +9,7 @@
         :class="{ active: isActive }"
       >
         <div class="card-left">
-          <div class="card-img">
+          <div class="card-img" @click.stop.prevent="toUserPage(user.id)">
             <img :src="user.avatar | emptyImage" />
           </div>
           <div class="card-text">
@@ -69,12 +69,10 @@ export default {
     async fetchUsers() {
       try {
         const { data } = await popularListAPI.getPopularList();
-        console.log("fetchUsers");
         this.users = data;
         this.sixUser = data.slice(0, 6);
         this.showCardUsers = this.isActive ? this.users : this.sixUser;
       } catch (error) {
-        console.error(error.response);
         Toast.fire({
           icon: "error",
           title: "無法取得熱門用戶資料，請稍後再試..",
@@ -84,7 +82,6 @@ export default {
     async addIsFollowed(userId) {
       try {
         this.isProcessing = true;
-        console.log("addIsFollow", userId);
         await popularListAPI.addFollowed({ id: userId });
         await this.fetchUsers();
 
@@ -106,7 +103,6 @@ export default {
     async deleteIsFollowed(userId) {
       try {
         this.isProcessing = true;
-        console.log("deleteIsFollowed", userId);
         await popularListAPI.DeleteFollowed(userId);
         await this.fetchUsers();
 
@@ -126,9 +122,28 @@ export default {
       }
     },
     addCards() {
-      console.log("addCards");
       this.isActive = true;
       this.showCardUsers = this.isActive ? this.users : this.sixUser;
+    },
+    toUserPage(userID) {
+      // 取卡片使用者id
+      if (this.$route.name !== "UserOther") {
+        this.$router.push({ name: 'UserOther', params: { id: userID } });
+        return
+      }
+
+      if (this.$route.name === "UserOther") {
+        // 拿下路由 陣列
+        let urlAry = window.location.href.split("/");
+        // 改下路由 陣列最後id
+        urlAry[urlAry.length - 1] = userID;
+        // 把陣列合併用/分開
+        let newUrl = urlAry.join("/");
+        // 換成url重新整理
+        window.location.href = newUrl;
+        // 強制重整
+        window.location.reload();
+      }
     },
   },
 };

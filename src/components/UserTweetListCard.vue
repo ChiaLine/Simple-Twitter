@@ -219,7 +219,6 @@ export default {
   },
   watch: {
     initialUser(newValue) {
-      console.log("111111111");
       this.user = {
         ...this.user,
         ...newValue,
@@ -233,7 +232,6 @@ export default {
   methods: {
     checkCurrentPage() {
       this.currentPage = this.$route.name;
-      // console.log(this.currentPage, this.user.id, this.currentUser.id)
       if (this.currentPage === "UserSelf") {
         this.user = {
           ...this.user,
@@ -247,7 +245,6 @@ export default {
     },
     async fetchUserTweets(userId) {
       try {
-        // console.log("fetchUserTweets", userId);
         const { data } = await userTweetsAPI.getUserTweets(userId);
         this.userTweets = data;
 
@@ -290,7 +287,6 @@ export default {
     },
     async fetchUserLikeTweets(userId) {
       try {
-        // console.log("UserLikeTweets", userId);
         const { data } = await userTweetsAPI.getUserLikeTweets(userId);
         this.userLikeTweets = data;
 
@@ -365,14 +361,9 @@ export default {
       }
     },
     afterShowReplyModal(replyTweetId) {
-      // console.log("ShowReplyModal----UserTweetListCard", replyTweetId);
       this.$emit("after-show-reply-modal", replyTweetId);
     },
     toUserPage(userID) {
-      // 取卡片使用者id
-      // console.log("toUserPage", userID);
-      // 取得當前使用者id
-      // console.log("currentUser", this.currentUser.id);
       // 判斷
       if (userID === this.currentUser.id && this.$route.name !== "UserSelf") {
         console.log("egg");
@@ -383,8 +374,6 @@ export default {
       if (userID === this.currentUser.id) {
         return;
       }
-
-      // console.log(this.$route.params.id);
       
       if (
         this.$route.name === "UserOther" &&
@@ -394,8 +383,6 @@ export default {
         return;
       }
       
-      // console.log("aaaaa", userID);
-
       if (this.$route.name === "UserSelf") {
         this.$router.push({ name: 'UserOther', params: { id: userID } });
       } else {
