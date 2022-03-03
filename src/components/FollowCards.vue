@@ -103,6 +103,7 @@ export default {
           title: "成功加入跟隨",
         });
         this.isProcessing = false;
+        this.$router.go(0);
       } catch (e) {
         Toast.fire({
           icon: "error",
@@ -121,6 +122,7 @@ export default {
           title: "成功取消跟隨",
         });
         this.isProcessing = false;
+        this.$router.go(0);
       } catch (e) {
         Toast.fire({
           icon: "error",

@@ -94,6 +94,7 @@ export default {
         });
 
         this.isProcessing = false
+        this.$router.go(0);
       } catch (error) {
         this.isProcessing = false
         Toast.fire({
@@ -115,6 +116,7 @@ export default {
         });
 
         this.isProcessing = false
+        this.$router.go(0);
       } catch (error) {
         this.isProcessing = false
         Toast.fire({

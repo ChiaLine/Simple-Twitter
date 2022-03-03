@@ -7,7 +7,7 @@
         <img class="arrow" src="https://i.imgur.com/3y7W3fG.png" alt="" />
         <div class="m-2">
           <h5 class="userName">{{ user.name }}</h5>
-          <h5 class="tweetNumber">{{ user.totalTweets }}</h5>
+          <h5 class="tweetNumber">{{ user.totalTweets }} 推文</h5>
         </div>
       </button>
       <!-- 卡片切換導覽列 -->
