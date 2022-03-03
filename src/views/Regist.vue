@@ -3,7 +3,7 @@
   <div class="container d-flex flex-column align-items-center">
     <img class="logo" src="https://i.imgur.com/WwFWS1D.png" alt="" />
     <h1 class="title">建立你的帳號</h1>
-    <SetProfile @after-submit="handleAfterSubmit"/>
+    <SetProfile @after-submit="handleAfterSubmit" />
     <div class="link-group">
       <router-link
         v-for="tab in tabs"
@@ -41,14 +41,13 @@ export default {
   methods: {
     async handleAfterSubmit([account, name, email, password, checkPassword]) {
       try {
-        const response = await registerAPI.register({
+        await registerAPI.register({
           account,
           name,
           email,
           password,
           checkPassword,
         });
-        console.log(response);
         this.$router.push("/");
       } catch (e) {
         Toast.fire({
