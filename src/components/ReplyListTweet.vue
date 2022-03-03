@@ -49,8 +49,20 @@
     </div>
     <div class="wrapper">
       <div class="d-flex justify-content-between p-3 w-50">
-        <img @click.stop.prevent="afterShowReplyModal(tweet.id)" class="icon" src="https://i.imgur.com/0KluE5j.png" alt="" />
-        <img class="icon" src="https://i.imgur.com/5UnPtv0.png" alt="" />
+        <img
+          @click.stop.prevent="afterShowReplyModal(tweet.id)"
+          class="icon"
+          :src="iconReply"
+          alt=""
+        />
+        <button :disabled="isProcessing">
+          <img
+            class="icon"
+            @click.stop.prevent="clickLikeBtn(tweet.isLiked, tweet.id)"
+            :src="tweet.isLiked === false ? iconUnLike : iconIsLike"
+            alt=""
+          />
+        </button>
       </div>
     </div>
   </div>
@@ -59,7 +71,7 @@
 <script>
 import { formatDateFilter } from "./../utils/mixins";
 import { emptyImageFilter } from "../utils/mixins";
-import replyListAPI from "./../apis/replyList";
+import tweetAPI from "../apis/tweetCards";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
@@ -71,15 +83,66 @@ export default {
       require: true,
     },
   },
+  data() {
+    return {
+      iconUnLike: "https://i.imgur.com/fWY8yOj.png",
+      iconIsLike: "https://i.imgur.com/LQTMNI0.png",
+      likeIcon: "",
+      iconReply: "https://i.imgur.com/EwJRYkP.png",
+      isProcessing: false,
+    };
+  },
   computed: {
     ...mapState(["currentUser"]),
   },
   methods: {
-    async addLike(tweetId) {
+    clickLikeBtn(status, tweetId) {
+      if (status === false) {
+        this.isProcessing = true;
+        this.addTweetCardLike(tweetId);
+        event.target.src = this.iconIsLike;
+        this.tweet.isLiked = true;
+        this.tweet.totalLikes += 1;
+      } else {
+        this.isProcessing = true;
+        this.deleteTweetLike(tweetId);
+        event.target.src = this.iconUnLike;
+        this.tweet.isLiked = false;
+        this.tweet.totalLikes -= 1;
+      }
+    },
+    async addTweetCardLike(id) {
       try {
-        let { data } = await replyListAPI.addLike(tweetId);
-        console.log(data);
+        this.isProcessing = true;
+        await tweetAPI.addTweetLike(id);
+
+        Toast.fire({
+          icon: "success",
+          title: "成功加入喜歡的內容",
+        });
+
+        this.isProcessing = false;
       } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      }
+    },
+    async deleteTweetLike(id) {
+      try {
+        this.isProcessing = true;
+        await tweetAPI.deleteTweetLike(id);
+
+        Toast.fire({
+          icon: "success",
+          title: "成功取消喜歡的內容",
+        });
+
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title: error.response.data.message,
@@ -90,7 +153,6 @@ export default {
       this.$router.back();
     },
     toUserPage(e) {
-      console.log(e.target);
       const avatarUserId = Number(e.target.dataset.userid);
       const currentUserId = this.currentUser.id;
       if (avatarUserId === currentUserId) {
