@@ -50,11 +50,11 @@
       </p>
       <div class="follow d-flex">
         <router-link :to="{ name: 'UserFollow', params: { id: user.id }, query: { type: 'followings' }}" class="record d-flex mr-4">
-          <p class="number">{{ user.totalFollowers }}個</p>
+          <p class="number">{{ user.totalFollowings }}個</p>
           <p class="text">跟隨中</p>
         </router-link>
         <router-link :to="{ name: 'UserFollow', params: { id: user.id }, query: { type: 'followers' }}" class="record d-flex">
-          <p class="number">{{ user.totalFollowings }}位</p>
+          <p class="number">{{ user.totalFollowers }}位</p>
           <p class="text">跟隨者</p>
         </router-link>
       </div>

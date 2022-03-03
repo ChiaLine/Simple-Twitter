@@ -5,7 +5,7 @@ import moment from 'moment'
 export const formatDateFilter = {
   filters: {
     formatDate(datetime) {
-      return datetime ? moment(datetime).locale('zh_cn').format('a h:mm．LL') : '-'
+      return datetime ? moment(datetime).locale('zh_tw').format('a h:mm．LL') : '-'
     }
   }
 }
@@ -13,7 +13,7 @@ export const formatDateFilter = {
 export const fromNowFilter = {
   filters: {
     fromNow(datetime) {
-      return datetime ? moment(datetime).locale('zh_cn').fromNow() : '-'
+      return datetime ? moment(datetime).locale('zh_tw').fromNow() : '-'
     }
   }
 }
