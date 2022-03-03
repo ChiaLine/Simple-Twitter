@@ -1,7 +1,10 @@
 <template>
   <div class="other">
     <UserProfileCard :initialUser="user" />
-    <UserTweetListCard :initialUser="user" @after-show-reply-modal="afterShowReplyModal"/>
+    <UserTweetListCard
+      :initialUser="user"
+      @after-show-reply-modal="afterShowReplyModal"
+    />
   </div>
 </template>
 
@@ -38,9 +41,9 @@ export default {
       userIsLoading: true,
     };
   },
-  beforeRouteUpdate() {
-    console.log(this.$route.params.id);
-    this.fetchData(this.$route.params.id);
+  async beforeRouteUpdate() {
+    console.log("????", this.$route.params.id);
+    await this.fetchData(this.$route.params.id);
   },
   created() {
     console.log(this.$route.params.id);
@@ -63,7 +66,7 @@ export default {
       }
     },
     afterShowReplyModal(replyTweetId) {
-      this.$emit("after-show-reply-modal",replyTweetId)
+      this.$emit("after-show-reply-modal", replyTweetId);
     },
   },
 };
