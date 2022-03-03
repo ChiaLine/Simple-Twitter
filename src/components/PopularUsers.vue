@@ -4,13 +4,13 @@
     <div class="popular-card">
       <div
         class="card-body"
-        v-for="(user) in showCardUsers"
+        v-for="user in showCardUsers"
         :key="user.id"
         :class="{ active: isActive }"
       >
         <div class="card-left">
           <div class="card-img">
-            <img :src="user.img | emptyImage" />
+            <img :src="user.avatar | emptyImage" />
           </div>
           <div class="card-text">
             <p class="text-top">{{ user.name }}</p>
@@ -48,18 +48,18 @@
 <script>
 import popularListAPI from "../apis/popularList";
 import { Toast } from "../utils/helpers";
-import { emptyImageFilter } from '../utils/mixins'
+import { emptyImageFilter } from "../utils/mixins";
 
 export default {
   name: "PopularUsers",
-  mixins: [ emptyImageFilter ],
+  mixins: [emptyImageFilter],
   data() {
     return {
       users: [],
       sixUser: [],
       showCardUsers: [],
       isActive: false,
-      isProcessing: false
+      isProcessing: false,
     };
   },
   created() {
@@ -68,61 +68,61 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const { data } = await popularListAPI.getPopularList()
-        console.log('fetchUsers')
+        const { data } = await popularListAPI.getPopularList();
+        console.log("fetchUsers");
         this.users = data;
         this.sixUser = data.slice(0, 6);
         this.showCardUsers = this.isActive ? this.users : this.sixUser;
       } catch (error) {
-        console.error(error.response)
+        console.error(error.response);
         Toast.fire({
-          icon: 'error',
-          title: '無法取得熱門用戶資料，請稍後再試..'
-        })
+          icon: "error",
+          title: "無法取得熱門用戶資料，請稍後再試..",
+        });
       }
     },
     async addIsFollowed(userId) {
       try {
-        this.isProcessing = true
+        this.isProcessing = true;
         console.log("addIsFollow", userId);
-        await popularListAPI.addFollowed({id: userId})
-        await this.fetchUsers()
+        await popularListAPI.addFollowed({ id: userId });
+        await this.fetchUsers();
 
         Toast.fire({
           icon: "success",
-          title: '成功加入跟隨',
+          title: "成功加入跟隨",
         });
 
-        this.isProcessing = false
+        this.isProcessing = false;
         this.$router.go(0);
       } catch (error) {
-        this.isProcessing = false
+        this.isProcessing = false;
         Toast.fire({
-          icon: 'error',
-          title: '無法加入追蹤，請稍後再試..'
-        })
+          icon: "error",
+          title: "無法加入追蹤，請稍後再試..",
+        });
       }
     },
     async deleteIsFollowed(userId) {
       try {
-        this.isProcessing = true
+        this.isProcessing = true;
         console.log("deleteIsFollowed", userId);
-        await popularListAPI.DeleteFollowed(userId)
-        await this.fetchUsers()
+        await popularListAPI.DeleteFollowed(userId);
+        await this.fetchUsers();
 
         Toast.fire({
           icon: "success",
-          title: '成功取消跟隨',
+          title: "成功取消跟隨",
         });
 
-        this.isProcessing = false
+        this.isProcessing = false;
         this.$router.go(0);
       } catch (error) {
-        this.isProcessing = false
+        this.isProcessing = false;
         Toast.fire({
-          icon: 'error',
-          title: '無法取消追蹤，請稍後再試..'
-        })
+          icon: "error",
+          title: "無法取消追蹤，請稍後再試..",
+        });
       }
     },
     addCards() {
