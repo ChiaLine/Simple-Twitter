@@ -1,8 +1,6 @@
 body {
   font-family: $body-font;
   background-color: $background;
-  // 新增鎖住可視窗卷軸
-  overflow-y: hidden;
 }
 
 html, body, #app{
