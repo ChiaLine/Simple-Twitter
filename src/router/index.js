@@ -15,6 +15,43 @@ const authorizeIsAdmin = (to, from, next) => {
   if (adminToken === null) {
     next('/notfound')
     return
+  } 
+
+  next()
+}
+
+const authorizeIsUser = async (to, from, next) => {
+
+  // 從 localStorage 取出 token
+  const tokenInLocalStorage = localStorage.getItem('token')
+
+  // 從 state 取出 token
+  const tokenInStore = store.state.token
+
+  // 預設 是未驗證
+  let isAuthenticated = store.state.isAuthenticated
+
+  // localStorage 有 token 才驗證 & 比較 store 中的 token 是否一樣
+  if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
+    // 使用 dispatch 呼叫 Vuex 內的 actions
+    console.log('OK')
+    isAuthenticated = await store.dispatch('fetchCurrentUser')
+  }
+  
+  // 不需要驗證 token 的頁面
+  // const pathsWithoutAuthentication = ['Regist', 'Login', 'AdminLogin']
+  const pathsWithoutAuthentication = ['Regist', 'Login']
+
+  // 如果 token 無效且進入需要驗證的頁面則轉址到登入頁 & 避免出現無窮迴圈
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+    next('/Login')
+    return
+  }
+
+  // 如果 token 有效且進入不需要驗證到頁面則轉址到首頁 & 避免出現無窮迴圈
+  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+    next('/User')
+    return
   }
 
   next()
@@ -40,6 +77,7 @@ const router = new VueRouter({
     {
       path: '/Setting',
       name: 'Setting',
+      beforeEnter: authorizeIsUser,
       component: () => import('../views/Setting.vue')
     },
     {
@@ -47,6 +85,7 @@ const router = new VueRouter({
       name: 'User',
       redirect: '/User/Main',
       component: User,
+      beforeEnter: authorizeIsUser,
       children: [
         {
           path: 'Main',
@@ -110,44 +149,12 @@ const router = new VueRouter({
   ]
 })
 
-router.beforeEach( async (to, from, next) => {
+router.beforeEach( (to, from, next) => {
   // 使用 dispatch 呼叫 Vuex 內的 actions
   // store.dispatch('fetchCurrentUser')
-  // store.commit("setCurrentUser");
 
   // 新增 後台 token 驗證
   store.commit("setAdminUser");
-
-  // 從 localStorage 取出 token
-  const tokenInLocalStorage = localStorage.getItem('token')
-
-  // 從 state 取出 token
-  const tokenInStore = store.state.token
-
-  // 預設 是未驗證
-  let isAuthenticated = store.state.isAuthenticated
-
-  // localStorage 有 token 才驗證 & 比較 store 中的 token 是否一樣
-  if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
-    // 使用 dispatch 呼叫 Vuex 內的 actions
-    console.log('OK')
-    isAuthenticated = await store.dispatch('fetchCurrentUser')
-  }
-  
-  // 不需要驗證 token 的頁面
-  const pathsWithoutAuthentication = ['Regist', 'Login', 'AdminLogin']
-
-  // 如果 token 無效且進入需要驗證的頁面則轉址到登入頁 & 避免出現無窮迴圈
-  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
-    next('/Login')
-    return
-  }
-
-  // 如果 token 有效且進入不需要驗證到頁面則轉址到首頁 & 避免出現無窮迴圈
-  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
-    next('/User')
-    return
-  }
 
   next()
 })
