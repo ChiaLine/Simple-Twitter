@@ -14,7 +14,7 @@
           </div>
           <div class="card-text">
             <p class="text-top">{{ user.name }}</p>
-            <p class="text-bottom">@{{ user.name2 }}</p>
+            <p class="text-bottom">@{{ user.account }}</p>
           </div>
         </div>
         <button

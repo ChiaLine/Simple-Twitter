@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     toUserPage(e) {
-      console.log(e.target);
       const avatarUserId = Number(e.target.dataset.userid);
       const currentUserId = this.currentUser.id;
       if (avatarUserId === currentUserId) {
