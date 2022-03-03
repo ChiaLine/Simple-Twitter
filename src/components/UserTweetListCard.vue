@@ -29,7 +29,7 @@
       <div class="tweet-card" v-for="tweet in userTweets" :key="tweet.id">
         <div class="tweet-card-top">
           <div class="tweet-card-avatar">
-            <div>
+            <div @click.stop.prevent="toUserPage(tweet.UserId)">
               <img class="tweet-card-img" :src="user.avatar | emptyImage" />
             </div>
           </div>
@@ -83,7 +83,7 @@
       >
         <div class="tweet-card-top">
           <div class="tweet-card-avatar">
-            <div>
+            <div @click.stop.prevent="toUserPage(tweet.UserId)">
               <img class="tweet-card-img" :src="user.avatar | emptyImage" />
             </div>
           </div>
@@ -112,7 +112,7 @@
       <div class="tweet-card" v-for="tweet in userLikeTweets" :key="tweet.id">
         <div class="tweet-card-top">
           <div class="tweet-card-avatar">
-            <div>
+            <div @click.stop.prevent="toUserPage(tweet.likedTweet.UserId)">
               <img
                 class="tweet-card-img"
                 :src="tweet.likedTweet.tweetedUser.avatar | emptyImage"
@@ -247,7 +247,7 @@ export default {
     },
     async fetchUserTweets(userId) {
       try {
-        console.log("fetchUserTweets", userId);
+        // console.log("fetchUserTweets", userId);
         const { data } = await userTweetsAPI.getUserTweets(userId);
         this.userTweets = data;
 
@@ -367,6 +367,27 @@ export default {
     afterShowReplyModal(replyTweetId) {
       console.log("ShowReplyModal----UserTweetListCard", replyTweetId);
       this.$emit("after-show-reply-modal", replyTweetId);
+    },
+    toUserPage(userID) {
+      // 點選區塊後轉址到 未處理
+      console.log("toUserPage", userID);
+      console.log('currentUser', this.currentUser.id);
+      // console.log("toUserPage", this.$route.name);
+      if (userID === this.currentUser.id && this.$route.name !== 'UserSelf') {
+        console.log('egg');
+        this.$router.push({ name: "UserSelf" });
+      } else if (userID !== this.currentUser.id) {
+        console.log(this.$route.params.id)
+        if (this.$route.name === 'UserOther' && Number(this.$route.params.id) === userID) {
+          console.log('跳出')
+          return
+        } else {
+          console.log(userID)
+
+          // this.$router.push(`/User/UserOther/${userID}`);
+          // this.$router.push({ name: "UserOther", params: { id: userID } });
+        }
+      }
     },
     toReplyList() {
       // 點選區塊後轉址到 未處理

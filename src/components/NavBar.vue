@@ -71,10 +71,21 @@ export default {
   data() {
     return {
       navItems: [],
+      new: '',
     }
   },
   created() {
     this.fetchNavItems();
+    this.new = this.$route.name
+    console.log('created',this.$route.params)
+    console.log(this.$route.name)
+  },
+  watch: {
+    new(newValue) {
+      console.log('watch',this.$route.params)
+      console.log(newValue)
+      console.log(this.$route.name)
+    }
   },
   methods: {
     fetchNavItems() {
@@ -108,11 +119,9 @@ export default {
       })
     },
     handleNavBarTweetButton() {
-      console.log("NavBar show modal");
       this.$emit("after-show-tweet-modal");
     },
     logut(){
-      console.log('logut')
       this.$store.commit("revokeAuthentication");
     }
   }
