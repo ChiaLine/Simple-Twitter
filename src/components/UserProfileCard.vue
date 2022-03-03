@@ -45,7 +45,22 @@
             alt=""
           />
         </button>
-        <button class="editProfile btn">正在跟隨</button>
+        <button
+          v-if="user.isFollowed"
+          @click.stop.prevent="deleteIsFollow(user.id)"
+          class="following btn"
+          :disabled="isProcessing"
+        >
+          正在跟隨
+        </button>
+        <button
+          v-else
+          @click.stop.prevent="addIsFollow(user.id)"
+          class="editProfile btn"
+          :disabled="isProcessing"
+        >
+          跟隨
+        </button>
       </div>
       <h2 class="name">{{ user.name }}</h2>
       <h5 class="account">@{{ user.account }}</h5>
@@ -53,11 +68,25 @@
         {{ user.introduction }}
       </p>
       <div class="follow d-flex">
-        <router-link :to="{ name: 'UserFollow', params: { id: user.id }, query: { type: 'followings' }}" class="record d-flex mr-4">
+        <router-link
+          :to="{
+            name: 'UserFollow',
+            params: { id: user.id },
+            query: { type: 'followings' },
+          }"
+          class="record d-flex mr-4"
+        >
           <p class="number">{{ user.totalFollowings }}個</p>
           <p class="text">跟隨中</p>
         </router-link>
-        <router-link :to="{ name: 'UserFollow', params: { id: user.id }, query: { type: 'followers' }}" class="record d-flex">
+        <router-link
+          :to="{
+            name: 'UserFollow',
+            params: { id: user.id },
+            query: { type: 'followers' },
+          }"
+          class="record d-flex"
+        >
           <p class="number">{{ user.totalFollowers }}位</p>
           <p class="text">跟隨者</p>
         </router-link>
@@ -69,6 +98,8 @@
 <script>
 import { emptyImageFilter } from "../utils/mixins";
 import { mapState } from "vuex";
+import userFollowAPI from "./../apis/userFollow";
+import { Toast } from "./../utils/helpers";
 
 export default {
   mixins: [emptyImageFilter],
@@ -97,6 +128,7 @@ export default {
         updatedAt: "",
       },
       isCurrentUser: "",
+      isProcessing: false,
     };
   },
   computed: {
@@ -123,6 +155,44 @@ export default {
     },
     showUserEditModal() {
       this.$emit("after-show-user-edit-modal");
+    },
+    // 加入追隨其他使用者
+    async addIsFollow(userId) {
+      try {
+        this.isProcessing = true;
+        await userFollowAPI.addFollowed({ id: userId });
+        Toast.fire({
+          icon: "success",
+          title: "成功加入跟隨",
+        });
+        this.isProcessing = false;
+        this.$router.go(0);
+      } catch (e) {
+        Toast.fire({
+          icon: "error",
+          title: "無法加入追蹤，請稍後再試..",
+        });
+        this.isProcessing = false;
+      }
+    },
+    // 取消追隨其他使用者
+    async deleteIsFollow(userId) {
+      try {
+        this.isProcessing = true;
+        await userFollowAPI.DeleteFollowed(userId);
+        Toast.fire({
+          icon: "success",
+          title: "成功取消跟隨",
+        });
+        this.isProcessing = false;
+        this.$router.go(0);
+      } catch (e) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取消追蹤，請稍後再試..",
+        });
+        this.isProcessing = false;
+      }
     },
   },
   watch: {

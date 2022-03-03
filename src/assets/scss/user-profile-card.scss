@@ -45,6 +45,21 @@ $border-style: 1px solid #e6ecf0;
   border-radius: 30px;
   margin-left: 0.4rem;
 }
+.following {
+  right: 0.1rem;
+  transform: translate(-7%, -155%);
+  width: 130px;
+  height: 35px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 15px;
+  border: none;
+  border-radius: 30px;
+  margin-left: 0.4rem;
+  background-color: $button-orange;
+  color: $background;
+}
 .iconWrapper {
   transform: translate(-7%, -155%);
   width: 35px;
