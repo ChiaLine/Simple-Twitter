@@ -45,7 +45,7 @@
             ></textarea>
             <div>
               <span class="warning">{{ warningContent }}</span>
-              <button @click.stop.prevent="handleSubmit">回覆</button>
+              <button @click.stop.prevent="handleSubmit" :disabled="isProcessing">回覆</button>
             </div>
           </div>
         </div>
@@ -77,6 +77,7 @@ export default {
       warningContent: "",
       // render和請求被回覆的tweet有秒差，加入isLoading
       isLoading: true,
+      isProcessing: false,
     };
   },
   computed: {
@@ -124,6 +125,7 @@ export default {
         }
         this.warningContent = "";
         // 發送推文內容至後端伺服器
+        this.isProcessing = true;
         let response = await replyModalAPI.postTweetReply({ tweetId, comment });
         const { data } = response;
 
@@ -136,6 +138,7 @@ export default {
           icon: "success",
           title: "成功發送回覆！",
         });
+        this.isProcessing = false;
         this.hideModal();
         // TODO: 強制重整畫面顯示新推文，未來可再優化。
         this.$router.go(0);
@@ -144,6 +147,7 @@ export default {
           icon: "warning",
           title: e.response.data.message,
         });
+        this.isProcessing = false;
       }
     },
   },
